@@ -3,12 +3,12 @@ const secrets = require('../secrets')
 
 // -- // -- // -- // Firebase Config // -- // -- // -- //
 const config = {
-  apiKey: env.APIKEY,
-  authDomain: env.AUTHDOMAIN,
-  databaseURL: env.DATABASEURL,
-  projectId: env.PROJECTID,
-  storageBucket: env.STORAGEBUCKET,
-  messagingSenderId: env.MESSAGINGSENDERID
+  apiKey: process.env.APIKEY,
+  authDomain: process.env.AUTHDOMAIN,
+  databaseURL: process.env.DATABASEURL,
+  projectId: process.env.PROJECTID,
+  storageBucket: process.env.STORAGEBUCKET,
+  messagingSenderId: process.env.MESSAGINGSENDERID
 }
 
 // -- // -- // -- // -- // -- // -- // -- // -- // -- //
