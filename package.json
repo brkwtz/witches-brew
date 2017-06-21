@@ -1,7 +1,7 @@
 {
-  "name": "__BONES_NEEDS_A_NAME__",
+  "name": "witches_brew",
   "version": "0.0.1",
-  "description": "A happy little burning skeleton.",
+  "description": "A party game for bad witches.",
   "main": "index.js",
   "engines": {
     "node": ">= 7.0.0"
