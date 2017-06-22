@@ -15,7 +15,6 @@ npm-debug.log
 firebase-debug.log
 
 # Secrets
-secrets.js
 
 .idea/codeStyleSettings.xml
 .idea/inspectionProfiles
@@ -24,3 +23,5 @@ secrets.js
 .idea/workspace.xml
 .idea/vcs.xml
 .idea/witches-brew.iml
+
+witches_brew.env.js
