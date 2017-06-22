@@ -1,5 +1,5 @@
 const firebase = require('firebase')
-const secrets = require('../secrets')
+const secrets = require('../witches_brew.env')
 
 // -- // -- // -- // Firebase Config // -- // -- // -- //
 const config = {
