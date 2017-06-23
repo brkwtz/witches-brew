@@ -1,0 +1,6 @@
+process.env.APIKEY = 'AIzaSyC9Q6ihfYCgkCvmX1dNy5fKCai0yofMkvw'
+process.env.AUTHDOMAIN = 'witchs-brew.firebaseapp.com'
+process.env.DATABASEURL = 'https://witchs-brew.firebaseio.com'
+process.env.PROJECTID = 'witchs-brew'
+process.env.STORAGEBUCKET = 'witchs-brew.appspot.com'
+process.env.MESSAGINGSENDERID = '1053935316719'

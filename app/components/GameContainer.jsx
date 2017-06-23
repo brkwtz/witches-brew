@@ -22,11 +22,11 @@ import PlayInterface from './PlayInterface'
 export default class GameContainer extends React.Component {
   constructor(props) {
     super(props)
-    const ref = db.ref('gamerooms').child(this.props.params.title)
+    this.state = {ref: db.ref('gamerooms').child(this.props.params.title)}
   }
 
-    componentDidMount() {
-    this.mountStoreAtRef(this.ref)
+  componentDidMount() {
+    this.mountStoreAtRef(this.state.ref)
   }
 
   componentWillReceiveProps(incoming, outgoing) {
@@ -38,7 +38,6 @@ export default class GameContainer extends React.Component {
   }
 
   mountStoreAtRef(ref) {
-
     if (this.state && this.state.store) {
       // If we already have a store, let's destroy it.
 
@@ -87,7 +86,10 @@ export default class GameContainer extends React.Component {
           store => next => {
             // Whenever an action is pushed into Firebase, dispatch it
             // to the reducer (or the next middleware).
-            const listener = ref.on('child_added', snapshot => next(snapshot.val()))
+            const listener = ref.on('child_added', snapshot => {
+              console.log('>>>>>>>>>>>>>>', snapshot.val())
+              next(snapshot.val())
+            })
             this.unsubscribe = () => ref.off('child_added', listener)
 
             // Our new dispatch function is super simple—it pushes actions to Firebase,
@@ -107,10 +109,8 @@ export default class GameContainer extends React.Component {
     this.setState({store})
   }
 
-  render()
-  {
-    console.log('ref:', this.ref)
-    console.log('props:', this.props)
+  render() {
+    console.log('GemeContainer props:', this.props)
     const {store} = this.state || {},
       {children} = this.props
     if (!store) return null
@@ -120,9 +120,9 @@ export default class GameContainer extends React.Component {
         <div>
           <h1>{title}</h1>
           {/* Here, we're passing in a Firebase reference to
-              /whiteboards/$whiteboardTitle. This is where the whiteboard is
-              stored in Firebase. Each whiteboard is an array of actions that
-              users have dispatched into the whiteboard. */}
+           /whiteboards/$whiteboardTitle. This is where the whiteboard is
+           stored in Firebase. Each whiteboard is an array of actions that
+           users have dispatched into the whiteboard. */}
           <PlayInterface fireRef={db.ref('gamerooms').child(title)}/>
         </div>
       </Provider>
