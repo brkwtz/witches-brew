@@ -6,16 +6,26 @@ import Cauldron from './Cauldron'
 import Command from './Command'
 import Ingredients from './Ingredients'
 
-// import {} from './reducers'
+import {playerJoin, startGame, addIngredient, commandExpired, updateScore, stageOver} from './reducers'
 
-export default (props) => {
-  props.fireRef.push('insert game data here')
-  return (
-    <div>
-      <h1> Witches Brew </h1>
-      <Cauldron />
-      <Command />
-      <Ingredients />
-    </div>
-  )
+export class PlayInterface extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    this.props.fireRef.push('insert game data here')
+    return (
+      <div>
+        <h1> Witches Brew </h1>
+        <Cauldron />
+        <Command />
+        <Ingredients />
+      </div>
+    )
+  }
 }
+
+export default connect(
+  ({gameStarted, players, ingredients, commands, score, level}) => ({gameStarted, players, ingredients, commands, score, level}),
+  {playerJoin, startGame, addIngredient, commandExpired, updateScore, stageOver},
+)(PlayInterface)
