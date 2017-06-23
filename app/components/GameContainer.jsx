@@ -87,7 +87,6 @@ export default class GameContainer extends React.Component {
             // Whenever an action is pushed into Firebase, dispatch it
             // to the reducer (or the next middleware).
             const listener = ref.on('child_added', snapshot => {
-              console.log('>>>>>>>>>>>>>>', snapshot.val())
               next(snapshot.val())
             })
             this.unsubscribe = () => ref.off('child_added', listener)

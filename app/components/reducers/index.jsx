@@ -45,6 +45,8 @@ export default function reducer(state = initialState, action) {
 
   switch (action.type) {
     case PLAYER_JOIN:
+      if(state.players.find(player => player.uid === action.player.uid))
+        return state
       newState.players = [...state.players, action.player]
       break
 

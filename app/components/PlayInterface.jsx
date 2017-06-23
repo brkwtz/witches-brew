@@ -9,21 +9,26 @@ import lodash from 'lodash'
 
 // import ingredientsJson from '../assets/ingredients.json'
 import ingredientCommands from '../assets/commands.json'
-
-
 import {playerJoin, startGame, addRightIngredient, commandExpired, updateScore, stageOver} from './reducers'
 
 export class PlayInterface extends React.Component {
   constructor(props) {
     super(props)
     this.clickToStart = this.clickToStart.bind(this)
-    // this.generateComandsIngredients = this.generateComandsIngredients.bind(this)
+  }
+
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user) return
+      let player = {uid: user.uid, ingredients: [], commands: []}
+      this.props.playerJoin(player)
+    })
   }
 
   clickToStart() {
     let commands = []
     let ingredients = []
-    let playerNum = 4
+    let playerNum = this.props.players.length
 
     lodash.shuffle(Object.keys(ingredientCommands)).slice(0, playerNum*4).forEach(ingredient => {
       ingredients.push(ingredient)
@@ -34,21 +39,23 @@ export class PlayInterface extends React.Component {
   }
 
   render() {
+    console.log('>>>>>players', this.props.players)
     return (
       <div>
         <h1> Witches Brew </h1>
         {
           (this.props.gameStarted)
-          ? (
-              <h1>Game Started</h1>
-
+            ? (
+            <h1>game started</h1>
           )
-            : <button onClick={this.clickToStart}>Start</button>
+            : (
+            <button onClick={this.clickToStart}>Start</button>
+          )
         }
-        <Cauldron />
-        <Command />
-        <Ingredients />
-      </div>
+    <Cauldron />
+    <Command />
+    <Ingredients />
+    </div>
     )
   }
 }
