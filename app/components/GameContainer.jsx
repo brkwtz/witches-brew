@@ -86,7 +86,10 @@ export default class GameContainer extends React.Component {
           store => next => {
             // Whenever an action is pushed into Firebase, dispatch it
             // to the reducer (or the next middleware).
-            const listener = ref.on('child_added', snapshot => next(snapshot.val()))
+            const listener = ref.on('child_added', snapshot => {
+              console.log('>>>>>>>>>>>>>>', snapshot.val())
+              next(snapshot.val())
+            })
             this.unsubscribe = () => ref.off('child_added', listener)
 
             // Our new dispatch function is super simple—it pushes actions to Firebase,
@@ -107,8 +110,7 @@ export default class GameContainer extends React.Component {
   }
 
   render() {
-    console.log('ref:', this.ref)
-    console.log('props:', this.props)
+    console.log('GemeContainer props:', this.props)
     const {store} = this.state || {},
       {children} = this.props
     if (!store) return null
