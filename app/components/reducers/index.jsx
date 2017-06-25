@@ -17,7 +17,7 @@ export const startGame = (gameStarted, commands, ingredients) => ({type: GAME_ST
 // triggered when all players press start
 // >> triggers function that populates all game commands (spells) in master queue (List) and ingredients and assigns 4 ingredients to each player
 
-export const addRightIngredient = (commands, score) => ({type: ADD_RIGHT_INGREDIENT, commands: commands, score: score})
+export const addRightIngredient = (currentPlayer) => ({type: ADD_RIGHT_INGREDIENT, currentPlayer})
 // triggered only if correct ingredient is added
 // >> triggers restart of timer and pushing next command in master queue (List) to player
 // >> triggers add +1 to score
@@ -27,58 +27,74 @@ export const commandExpired = (commands) => ({type: COMMAND_EXPIRED, commands})
 // >> triggers restart of timer and sends next command in master queue (List) to player
 // NB does not affect score
 export const updateScore = (score) => ({type: UPDATE_SCORE, score})
-export const stageOver = (level, score) => ({type: STAGE_OVER, level: level, score: score})
+export const stageOver = () => ({type: STAGE_OVER})
 
 // ======reducer ======//
 
 let initialState = {
   gameStarted: false,
   players: [],
-  ingredients: [],
+  // ingredients: [],
   commands: [],
   score: 0,
-  level: 1
+  level: 1,
+  win: false
 }
 
 export default function reducer(state = initialState, action) {
   let newState = Object.assign({}, state)
 
   switch (action.type) {
-    case PLAYER_JOIN:
-      if(state.players.find(player => player.uid === action.player.uid))
-        return state
-      newState.players = [...state.players, action.player]
-      break
-
-    case GAME_START:
-      newState.gameStarted = action.gameStarted
-      newState.commands = action.commands
-      newState.ingredients = action.ingredients.slice(state.players.length)
-      newState.players = state.players.map((player, index) => {
-        let num = action.ingredients.length/state.players.length
-        return {...player,
-                ingredients: action.ingredients.slice(index*num, (index+1)*num),
-                currentCommand: action.commands[index]}
-      })
-      break
-
-    case ADD_RIGHT_INGREDIENT:
-      newState.commands = action.commands
-      break
-
-    case COMMAND_EXPIRED:
-      newState.commands = action.commands
-      break
-
-    case UPDATE_SCORE:
-      newState.score = action.score
-      break
-
-    case STAGE_OVER:
-      newState.payload = action.payload
-
-    default:
+  case PLAYER_JOIN:
+    if (state.players.find(player => player.uid === action.player.uid)) {
       return state
+    }
+    newState.players = [...state.players, action.player]
+    break
+
+  case GAME_START:
+    newState.gameStarted = action.gameStarted
+    newState.commands = action.commands
+    // newState.ingredients = action.ingredients.slice(state.players.length)
+    newState.players = state.players.map((player, index) => {
+      let num = action.ingredients.length/state.players.length
+      return {...player,
+        ingredients: action.ingredients.slice(index*num, (index+1)*num),
+        currentCommand: action.commands.shift()}
+    })
+    break
+
+  case ADD_RIGHT_INGREDIENT:
+    newState.score = state.score + 1
+    // if there's still command in the queue, fetch the next command to current player
+    if (state.commands.length > 0) {
+      newState.players.forEach(player => {
+        if (player.uid === action.currentPlayer.uid) {
+          player.currentCommand = state.commands[0]
+          newState.commands = state.commands.slice(1)
+        }
+      })
+    }
+    break
+
+  case COMMAND_EXPIRED:
+    newState.commands = action.commands
+    break
+
+  case UPDATE_SCORE:
+    newState.score = action.score
+    break
+
+  case STAGE_OVER:
+    if (state.score / state.players.length * 4 >= 0.7) {
+      newState.win = true
+    } else {
+      newState.win = false
+    }
+    break
+
+  default:
+    return state
   }
   return newState
 }

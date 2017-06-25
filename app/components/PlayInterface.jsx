@@ -1,14 +1,13 @@
 import React from 'react'
 import firebase from 'APP/fire'
 import {connect} from 'react-redux'
-// import command component(includes timer), ingredients component
+
 import Cauldron from './Cauldron'
 import Command from './Command'
 import Ingredients from './Ingredients'
 import lodash from 'lodash'
 
-// import ingredientsJson from '../assets/ingredients.json'
-import ingredientCommands from '../assets/commands.json'
+import ingredientsCommands from '../assets/commands.json'
 import {playerJoin, startGame, addRightIngredient, commandExpired, updateScore, stageOver} from './reducers'
 
 export class PlayInterface extends React.Component {
@@ -20,7 +19,7 @@ export class PlayInterface extends React.Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (!user) return
-      let player = {uid: user.uid, ingredients: [], commands: []}
+      let player = {uid: user.uid, ingredients: [], currentCommand: ''}
       this.props.playerJoin(player)
     })
   }
@@ -30,9 +29,9 @@ export class PlayInterface extends React.Component {
     let ingredients = []
     let playerNum = this.props.players.length
 
-    lodash.shuffle(Object.keys(ingredientCommands)).slice(0, playerNum*4).forEach(ingredient => {
+    lodash.shuffle(Object.keys(ingredientsCommands)).slice(0, playerNum*4).forEach(ingredient => {
       ingredients.push(ingredient)
-      commands.push(ingredientCommands[ingredient])
+      commands.push(ingredientsCommands[ingredient])
     })
 
     this.props.startGame(true, commands, ingredients)
@@ -40,21 +39,31 @@ export class PlayInterface extends React.Component {
 
   render() {
     console.log('>>>>>players', this.props.players)
+    let currentPlayer
+    this.props.players && this.props.players.forEach(player => {
+      if (player.uid === firebase.auth().currentUser.uid) {
+        currentPlayer = player
+      }
+    })
+    console.log('>>>>>current players', currentPlayer)
+
     return (
       <div>
-        <h1> Witches Brew </h1>
+        <h3>Welcome to the coven of {this.props.params.title}!</h3>
+        <Cauldron />
         {
-          (this.props.gameStarted)
+          (currentPlayer && this.props.gameStarted)
             ? (
-            <h1>game started</h1>
+              <div>
+                <Ingredients
+                  IngredientsCommands={ingredientsCommands}
+                  currentPlayer={currentPlayer}/>
+              </div>
           )
             : (
             <button onClick={this.clickToStart}>Start</button>
           )
         }
-    <Cauldron />
-    <Command />
-    <Ingredients />
     </div>
     )
   }

@@ -1,24 +1,18 @@
-import {Route} from 'react-router'
-import firebase from 'APP/fire'
-
 import React from 'react'
+import {Router, Route, IndexRedirect, browserHistory} from 'react-router'
 
 import {createStore, applyMiddleware} from 'redux'
-import {composeWithDevTools} from 'redux-devtools-extension'
 import {Provider} from 'react-redux'
-
+import {composeWithDevTools} from 'redux-devtools-extension'
 import createLogger from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
-
 import reducer from './reducers'
 
+import firebase from 'APP/fire'
 const db = firebase.database()
 
 import PlayInterface from './PlayInterface'
 
-// This component is a little piece of glue between React router
-// and our whiteboard component. It takes in props.params.title, and
-// shows the whiteboard along with that title.
 export default class GameContainer extends React.Component {
   constructor(props) {
     super(props)
@@ -116,16 +110,8 @@ export default class GameContainer extends React.Component {
     let title = this.props.params.title
     return (
       <Provider store={store}>
-        <div>
-          <h1>{title}</h1>
-          {/* Here, we're passing in a Firebase reference to
-           /whiteboards/$whiteboardTitle. This is where the whiteboard is
-           stored in Firebase. Each whiteboard is an array of actions that
-           users have dispatched into the whiteboard. */}
-          <PlayInterface fireRef={db.ref('gamerooms').child(title)}/>
-        </div>
+        {this.props.children}
       </Provider>
     )
   }
-
 }
