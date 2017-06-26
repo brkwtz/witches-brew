@@ -8,6 +8,7 @@ import {connect} from 'react-redux'
 export default () => {
         return (
             <div>
+            <h1> test </h1>
                 {/* display 4 random ingredients */}
             </div>
         )
