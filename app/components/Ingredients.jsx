@@ -30,10 +30,6 @@ export class Ingredients extends React.Component {
     }
   }
 
-  countDown() {
-    setInterval(() => { this.setState({timer: this.state.timer--}) }, 1000)
-  }
-
   selectIngredient(ingredient) {
     this.props.addIngredient(ingredient)
   }
@@ -42,8 +38,6 @@ export class Ingredients extends React.Component {
     const ingredients = this.props.currentPlayer.ingredients
     return (
       <div>
-        <h1>Timer: {}</h1>
-        <hr />
         <h1>{this.state.currentCommand}</h1>
 
         <hr />
