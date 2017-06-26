@@ -92,8 +92,8 @@ export default class extends React.Component {
         <div>
             <h1> Join a Coven </h1>
             <select onChange={this.goToRoom}>
-                {this.state.allCovens && this.state.allCovens.map(coven => {
-                    return (<option value={coven}>{coven}</option>)
+                {this.state.allCovens && this.state.allCovens.map((coven, index) => {
+                    return (<option value={coven} key={index}>{coven.split('-').join(' ')}</option>)
                 })}
             </select>
             <h1> Create a Coven </h1>
