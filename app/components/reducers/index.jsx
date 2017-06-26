@@ -82,7 +82,20 @@ export default function reducer(state = initialState, action) {
     break
 
   case COMMAND_EXPIRED:
-    newState.commands = action.commands
+    Object.keys(state.players).forEach(uid => {
+      
+        // if there's still command in the queue, fetch the next command to player whose command is completed
+        // no points are lost
+        if (state.commands.length > 0) {
+          console.log('resetting the commands')
+          newState.players = {...state.players,
+            [uid]: {...state.players[uid], currentCommand: state.commands[0]}}
+          newState.commands = state.commands.slice(1)
+        } else {
+          // dispatch next level
+          console.log('no more commands')
+        }
+      })
     break
 
   case UPDATE_SCORE:

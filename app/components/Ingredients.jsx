@@ -12,10 +12,42 @@ export class Ingredients extends React.Component {
       players: this.props.players,
       currentCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand,
       resultMsg: '',
-      win: this.props.win
+      win: this.props.win,
+      timer: null,
+      counter: 0
     }
-
     this.selectIngredient = this.selectIngredient.bind(this)
+    this.tick = this.tick.bind(this)
+  }
+
+  componentDidMount() {
+    //reliant on the level
+    let sec = 0;
+    if(this.props.level <= 2){sec = 600}
+    else {sec = 400}
+    let timer = setInterval(this.tick, sec)
+    this.setState({timer})
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.state.timer)
+  }
+
+  tick() {
+    this.setState({
+      counter: this.state.counter + 10
+    })
+    let purpleBar = document.getElementById("purpleBar")
+    purpleBar.style.width = this.state.counter + '%'
+    if(this.state.counter >= 100){
+      clearInterval(this.state.timer)
+      this.setState({
+        counter: 0
+      })
+      purpleBar.style.width = 0 + '%'
+      console.log('now expired')
+      this.props.commandExpired(this.props.commands)
+    }
   }
 
   componentWillReceiveProps(newProps) {
@@ -26,6 +58,11 @@ export class Ingredients extends React.Component {
 
   selectIngredient(ingredient) {
     this.props.addIngredient(ingredient)
+    let sec = 0;
+    if(this.props.level <= 2){sec = 600}
+    else {sec = 400}
+    let timer = setInterval(this.tick, sec)
+    this.setState({timer})
   }
 
   render() {
@@ -37,6 +74,8 @@ export class Ingredients extends React.Component {
         <hr />
         <h2>{this.state.resultMsg}</h2>
         <hr />
+        <div id="greyBar">
+        <div id="purpleBar"></div></div>
         <h3>Ingredients</h3>
         {
           ingredients && ingredients.map((ingredient, idx) => (
@@ -45,6 +84,7 @@ export class Ingredients extends React.Component {
               </div>
             ))
         }
+        <div> Loading {this.state.counter}</div>
       </div>
     )
   }
@@ -54,3 +94,4 @@ export default connect(
   ({gameStarted, players, ingredients, commands, score, level, win}) => ({gameStarted, players, ingredients, commands, score, level, win}),
   {playerJoin, startGame, addIngredient, commandExpired, updateScore, stageOver},
 )(Ingredients)
+

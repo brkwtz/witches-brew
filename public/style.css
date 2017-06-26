@@ -1,0 +1,10 @@
+#greyBar {
+  width: 40%;
+  background-color: #ddd;
+}
+
+#purpleBar {
+  width: 1%;
+  height: 30px;
+  background-color: #730187;
+}
