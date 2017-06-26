@@ -8,7 +8,7 @@ import Ingredients from './Ingredients'
 import lodash from 'lodash'
 
 import ingredientsCommands from '../assets/commands.json'
-import {playerJoin, startGame, addIngredient, commandExpired, updateScore, stageOver} from './reducers'
+import {playerJoin, playerReady, startRound, addIngredient, commandExpired, updateScore, stageOver} from './reducers'
 
 export class PlayInterface extends React.Component {
   state = {user: null}
@@ -24,17 +24,15 @@ export class PlayInterface extends React.Component {
     })
   }
 
+  componentWillReceiveProps(newProps) {
+    if (!this.state.user) return
+    if (newProps.players[this.state.user.uid].master && lodash.every(newProps.players, player => player.ready) && !newProps.gameStarted) {
+      this.props.startRound()
+    }
+  }
+
   clickToStart = () => {
-    let commands = []
-    let ingredients = []
-    let playerNum = Object.keys(this.props.players).length
-
-    lodash.shuffle(Object.keys(ingredientsCommands)).slice(0, playerNum*4).forEach(ingredient => {
-      ingredients.push(ingredient)
-      commands.push(ingredientsCommands[ingredient])
-    })
-
-    this.props.startGame(true, commands, ingredients)
+    this.props.playerReady(this.state.user.uid)
   }
 
   render() {
@@ -64,5 +62,5 @@ export class PlayInterface extends React.Component {
 
 export default connect(
   ({gameStarted, players, ingredients, commands, score, level}) => ({gameStarted, players, ingredients, commands, score, level}),
-  {playerJoin, startGame, addIngredient, commandExpired, updateScore, stageOver},
+  {playerJoin, playerReady, startRound, addIngredient, commandExpired, updateScore, stageOver},
 )(PlayInterface)

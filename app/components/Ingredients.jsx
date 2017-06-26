@@ -25,7 +25,7 @@ export class Ingredients extends React.Component {
     // if no witch has command, dispatch stageOver
     if (Object.keys(newProps.players).every(uid => !newProps.players[uid].currentCommand)) {
       this.props.stageOver()
-      if (this.)
+      // if (this.)
     }
   }
 
