@@ -9,7 +9,7 @@ import Ingredients from './Ingredients'
 // import {} from './reducers'
 
 export default (props) => {
-props.fireRef.push('insert game data here')
+// props.fireRef.push('insert game data here')
     return (
         <div>
             <h1> Witches Brew </h1>
