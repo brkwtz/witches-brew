@@ -75,7 +75,10 @@ export default function reducer(state = initialState, action) {
             [uid]: {...state.players[uid], currentCommand: state.commands[0]}}
           newState.commands = state.commands.slice(1)
         } else {
-          // dispatch next level
+          console.log('no more command')
+          // if no more command in queue, set the currentCommand to null for the player whose command is completed
+          newState.players = {...state.players,
+            [uid]: {...state.players[uid], currentCommand: null}}
         }
       }
     })
@@ -90,7 +93,7 @@ export default function reducer(state = initialState, action) {
     break
 
   case STAGE_OVER:
-    if (state.score / state.players.length * 4 >= 0.7) {
+    if (state.score / (Object.keys(state.players).length * 4) >= 0.7) {
       newState.win = true
     } else {
       newState.win = false

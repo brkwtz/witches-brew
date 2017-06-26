@@ -59,13 +59,14 @@ const App = ({children}) =>
 render(
   <Router history={browserHistory}>
     <Route path="/" component={App}>
-      <IndexRedirect to="demos"/>
-    {Demos /* Put all the demos and a description page at /demos */}
+      <IndexRedirect to="/coven"/>
       <Route path="/play/" component={GameContainer}>
         <Route path="/play/:title" components={PlayInterface} />
-      </ Route>  
+        <Route path="/play/:title/levelup" component={LevelUp} />
+      </Route>
       <Route path="/instructions" component={Instructions}/>
       <Route path ="/coven" component={Home}></Route>
+
     </Route>
     <Route path='*' component={NotFound}/>
   </Router>,

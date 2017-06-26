@@ -9,33 +9,45 @@ export class Ingredients extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      players: this.props.players,
       currentCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand,
-      resultMsg: '',
-      win: this.props.win
+      win: this.props.win,
+      timer: 5000
     }
 
     this.selectIngredient = this.selectIngredient.bind(this)
+    this.countDown = this.countDown.bind(this)
   }
 
   componentWillReceiveProps(newProps) {
-    this.setState({players: newProps.players})
     this.setState({currentCommand: newProps.players[firebase.auth().currentUser.uid].currentCommand})
     this.setState({win: newProps.win})
+
+    // if no witch has command, dispatch stageOver
+    if (Object.keys(newProps.players).every(uid => !newProps.players[uid].currentCommand)) {
+      this.props.stageOver()
+      if (this.)
+    }
+  }
+
+  countDown() {
+    setInterval(() => { this.setState({timer: this.state.timer--}) }, 1000)
   }
 
   selectIngredient(ingredient) {
     this.props.addIngredient(ingredient)
+    //TO:DO
+    // if this.state.win redirect to => levelUp page, and go to next level by redirect by to the game again
+    // else (lose) => gameOver => delete the room from firebase
   }
 
   render() {
     const ingredients = this.props.currentPlayer.ingredients
     return (
       <div>
+        <h1>Timer: {}</h1>
         <hr />
         <h1>{this.state.currentCommand}</h1>
-        <hr />
-        <h2>{this.state.resultMsg}</h2>
+
         <hr />
         <h3>Ingredients</h3>
         {
