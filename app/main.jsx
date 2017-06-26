@@ -10,9 +10,10 @@ import firebase from 'APP/fire'
 
 import Demos from 'APP/demos'
 import GameContainer from './components/GameContainer.jsx'
+import PlayInterface from './components/PlayInterface'
+import LevelUp from './components/LevelUp'
 import Instructions from './components/Instructions'
 import Home from './components/Home.jsx'
-
 
 // Get the auth API from Firebase.
 const auth = firebase.auth()
@@ -60,7 +61,9 @@ render(
     <Route path="/" component={App}>
       <IndexRedirect to="demos"/>
     {Demos /* Put all the demos and a description page at /demos */}
-      <Route path="/play/:title" component={GameContainer}></Route>
+      <Route path="/play/" component={GameContainer}>
+        <Route path="/play/:title" components={PlayInterface} />
+      </ Route>  
       <Route path="/instructions" component={Instructions}/>
       <Route path ="/coven" component={Home}></Route>
     </Route>
