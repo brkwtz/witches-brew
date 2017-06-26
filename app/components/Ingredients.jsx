@@ -9,9 +9,7 @@ export class Ingredients extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      players: this.props.players,
       currentCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand,
-      resultMsg: '',
       win: this.props.win
     }
 
@@ -19,9 +17,16 @@ export class Ingredients extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    this.setState({players: newProps.players})
     this.setState({currentCommand: newProps.players[firebase.auth().currentUser.uid].currentCommand})
     this.setState({win: newProps.win})
+
+    // if no witch has command, dispatch stageOver
+    if (Object.keys(newProps.players).every(uid => !newProps.players[uid].currentCommand)) {
+      this.props.stageOver()
+      // TO:DO
+      // if this.state.win redirect to => levelUp page, and go to next level by redirect by to the game again
+      // else (lose) => gameOver => delete the room from firebase
+    }
   }
 
   selectIngredient(ingredient) {
@@ -32,10 +37,8 @@ export class Ingredients extends React.Component {
     const ingredients = this.props.currentPlayer.ingredients
     return (
       <div>
-        <hr />
         <h1>{this.state.currentCommand}</h1>
-        <hr />
-        <h2>{this.state.resultMsg}</h2>
+
         <hr />
         <h3>Ingredients</h3>
         {

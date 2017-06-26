@@ -1,9 +1,11 @@
 import {combineReducers} from 'redux'
 import {List} from 'immutable'
 import ingredientsCommands from '../../assets/commands.json'
+import lodash from 'lodash'
 
 // =====actions=====//
 const PLAYER_JOIN = 'PLAYER_JOIN'
+const PLAYER_READY = 'PLAYER_READY'
 const GAME_START = 'GAME_START'
 const ADD_INGREDIENT = 'ADD_INGREDIENT'
 const COMMAND_EXPIRED = 'COMMAND_EXPIRED'
@@ -14,7 +16,10 @@ const STAGE_OVER = 'STAGE_OVER'
 
 export const playerJoin = (player) => ({type: PLAYER_JOIN, player})
 // triggered when player joins game room
-export const startGame = (gameStarted, commands, ingredients) => ({type: GAME_START, gameStarted, commands, ingredients})
+
+export const playerReady = (uid) => ({type: PLAYER_READY, uid})
+
+export const startGame = (commands, ingredients) => ({type: GAME_START, commands, ingredients})
 // triggered when all players press start
 // >> triggers function that populates all game commands (spells) in master queue (List) and ingredients and assigns 4 ingredients to each player
 
@@ -33,7 +38,7 @@ export const stageOver = () => ({type: STAGE_OVER})
 let initialState = {
   gameStarted: false,
   players: {},
-  // ingredients: [],
+  ingredientsPerPlayer: 4,
   commands: [],
   score: 0,
   level: 1,
@@ -51,8 +56,11 @@ export default function reducer(state = initialState, action) {
     newState.players = {...state.players, [action.player.uid]: action.player}
     break
 
+  case PLAYER_READY:
+    return {...state, players: {...state.players, [action.uid]: {...state.players[action.uid], ready: true}}}
+
   case GAME_START:
-    newState.gameStarted = action.gameStarted
+    newState.gameStarted = true
     newState.commands = action.commands
     const uids = Object.keys(state.players)
 
@@ -60,7 +68,8 @@ export default function reducer(state = initialState, action) {
       let num = action.ingredients.length/uids.length
       return {...state.players[uid],
         ingredients: action.ingredients.slice(index*num, (index+1)*num),
-        currentCommand: action.commands.shift()}
+        currentCommand: action.commands.shift(),
+        master: index === 0}
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
     break
 
@@ -75,7 +84,9 @@ export default function reducer(state = initialState, action) {
             [uid]: {...state.players[uid], currentCommand: state.commands[0]}}
           newState.commands = state.commands.slice(1)
         } else {
-          // dispatch next level
+          // if no more command in queue, set the currentCommand to null for the player whose command is completed
+          newState.players = {...state.players,
+            [uid]: {...state.players[uid], currentCommand: null}}
         }
       }
     })
@@ -90,7 +101,7 @@ export default function reducer(state = initialState, action) {
     break
 
   case STAGE_OVER:
-    if (state.score / state.players.length * 4 >= 0.7) {
+    if (state.score / (Object.keys(state.players).length * state.ingredientsPerPlayer) >= 0.7) {
       newState.win = true
     } else {
       newState.win = false
@@ -101,4 +112,17 @@ export default function reducer(state = initialState, action) {
     return state
   }
   return newState
+}
+
+export const startRound = () => (dispatch, getState) => {
+  let commands = []
+  let ingredients = []
+  let playerNum = Object.keys(this.props.players).length
+
+  lodash.shuffle(Object.keys(ingredientsCommands)).slice(0, playerNum * getState().ingredientsPerPlayer).forEach(ingredient => {
+    ingredients.push(ingredient)
+    commands.push(ingredientsCommands[ingredient])
+  })
+
+  dispatch(startGame(commands, ingredients))
 }
