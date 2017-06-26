@@ -8,26 +8,26 @@ import Ingredients from './Ingredients'
 import lodash from 'lodash'
 
 import ingredientsCommands from '../assets/commands.json'
-import {playerJoin, startGame, addRightIngredient, commandExpired, updateScore, stageOver} from './reducers'
+import {playerJoin, startGame, addIngredient, commandExpired, updateScore, stageOver} from './reducers'
 
 export class PlayInterface extends React.Component {
-  constructor(props) {
-    super(props)
-    this.clickToStart = this.clickToStart.bind(this)
-  }
+  state = {user: null}
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
+      this.setState({user})
       if (!user) return
-      let player = {uid: user.uid, ingredients: [], currentCommand: ''}
-      this.props.playerJoin(player)
+      if (!this.props.players[user.uid]) {
+        let player = {uid: user.uid, ingredients: [], currentCommand: ''}
+        this.props.playerJoin(player)
+      }
     })
   }
 
-  clickToStart() {
+  clickToStart = () => {
     let commands = []
     let ingredients = []
-    let playerNum = this.props.players.length
+    let playerNum = Object.keys(this.props.players).length
 
     lodash.shuffle(Object.keys(ingredientsCommands)).slice(0, playerNum*4).forEach(ingredient => {
       ingredients.push(ingredient)
@@ -39,12 +39,9 @@ export class PlayInterface extends React.Component {
 
   render() {
     console.log('>>>>>players', this.props.players)
-    let currentPlayer
-    this.props.players && this.props.players.forEach(player => {
-      if (player.uid === firebase.auth().currentUser.uid) {
-        currentPlayer = player
-      }
-    })
+    if (!this.state.user) return null
+    const currentPlayer = this.props.players[this.state.user.uid]
+
     console.log('>>>>>current players', currentPlayer)
 
     return (
@@ -71,5 +68,5 @@ export class PlayInterface extends React.Component {
 
 export default connect(
   ({gameStarted, players, ingredients, commands, score, level}) => ({gameStarted, players, ingredients, commands, score, level}),
-  {playerJoin, startGame, addRightIngredient, commandExpired, updateScore, stageOver},
+  {playerJoin, startGame, addIngredient, commandExpired, updateScore, stageOver},
 )(PlayInterface)
