@@ -10,8 +10,7 @@ export class Ingredients extends React.Component {
     super(props)
     this.state = {
       currentCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand,
-      win: this.props.win,
-      timer: 5000
+      win: this.props.win
     }
 
     this.selectIngredient = this.selectIngredient.bind(this)
