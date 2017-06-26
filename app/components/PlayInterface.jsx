@@ -38,11 +38,8 @@ export class PlayInterface extends React.Component {
   }
 
   render() {
-    console.log('>>>>>players', this.props.players)
     if (!this.state.user) return null
     const currentPlayer = this.props.players[this.state.user.uid]
-
-    console.log('>>>>>current players', currentPlayer)
 
     return (
       <div>

@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ee5cd549-d8a5-4477-8515-841a5280e51c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/components/GameContainer.jsx" afterPath="$PROJECT_DIR$/app/components/GameContainer.jsx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/components/Ingredients.jsx" afterPath="$PROJECT_DIR$/app/components/Ingredients.jsx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/components/PlayInterface.jsx" afterPath="$PROJECT_DIR$/app/components/PlayInterface.jsx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/components/reducers/index.jsx" afterPath="$PROJECT_DIR$/app/components/reducers/index.jsx" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -32,11 +31,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GameContainer.jsx" pinned="false" current-in-tab="false">
+      <file leaf-file-name="GameContainer.jsx" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/components/GameContainer.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1831">
-              <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+            <state relative-caret-position="818">
+              <caret line="104" column="12" lean-forward="false" selection-start-line="104" selection-start-column="12" selection-end-line="104" selection-end-column="12" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
@@ -47,9 +46,11 @@
       <file leaf-file-name="PlayInterface.jsx" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/components/PlayInterface.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="28">
-              <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="31" />
-              <folding />
+            <state relative-caret-position="-31">
+              <caret line="41" column="65" lean-forward="false" selection-start-line="41" selection-start-column="65" selection-end-line="41" selection-end-column="65" />
+              <folding>
+                <element signature="e#0#25#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -81,8 +82,8 @@
       <file leaf-file-name="Ingredients.jsx" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/components/Ingredients.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="31" column="75" lean-forward="true" selection-start-line="31" selection-start-column="75" selection-end-line="31" selection-end-column="75" />
+            <state relative-caret-position="690">
+              <caret line="30" column="12" lean-forward="false" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="12" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
@@ -100,11 +101,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.jsx" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.jsx" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/components/reducers/index.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
-              <caret line="68" column="37" lean-forward="false" selection-start-line="68" selection-start-column="37" selection-end-line="68" selection-end-column="37" />
+            <state relative-caret-position="485">
+              <caret line="80" column="6" lean-forward="true" selection-start-line="80" selection-start-column="6" selection-end-line="80" selection-end-column="6" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
               </folding>
@@ -134,11 +135,11 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/app/assets/commands.json" />
         <option value="$PROJECT_DIR$/app/components/LevelUp.jsx" />
-        <option value="$PROJECT_DIR$/app/components/GameContainer.jsx" />
         <option value="$PROJECT_DIR$/app/main.jsx" />
-        <option value="$PROJECT_DIR$/app/components/PlayInterface.jsx" />
-        <option value="$PROJECT_DIR$/app/components/Ingredients.jsx" />
         <option value="$PROJECT_DIR$/app/components/reducers/index.jsx" />
+        <option value="$PROJECT_DIR$/app/components/Ingredients.jsx" />
+        <option value="$PROJECT_DIR$/app/components/PlayInterface.jsx" />
+        <option value="$PROJECT_DIR$/app/components/GameContainer.jsx" />
       </list>
     </option>
   </component>
@@ -509,7 +510,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="49377000" />
+    <option name="totallyTimeSpent" value="49441000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-256" y="-1051" width="1701" height="1041" extended-state="0" />
@@ -569,7 +570,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="9" column="24" lean-forward="false" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
-          <folding />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -902,12 +905,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/components/GameContainer.jsx">
+    <entry file="file://$PROJECT_DIR$/app/components/reducers/index.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1831">
-          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+        <state relative-caret-position="485">
+          <caret line="80" column="6" lean-forward="true" selection-start-line="80" selection-start-column="6" selection-end-line="80" selection-end-column="6" />
           <folding>
-            <element signature="e#0#25#0" expanded="true" />
+            <element signature="e#0#37#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -920,30 +923,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/components/PlayInterface.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="28">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/components/Ingredients.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="31" column="75" lean-forward="true" selection-start-line="31" selection-start-column="75" selection-end-line="31" selection-end-column="75" />
+        <state relative-caret-position="690">
+          <caret line="30" column="12" lean-forward="false" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="12" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/components/reducers/index.jsx">
+    <entry file="file://$PROJECT_DIR$/app/components/PlayInterface.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="68" column="37" lean-forward="false" selection-start-line="68" selection-start-column="37" selection-end-line="68" selection-end-column="37" />
+        <state relative-caret-position="-31">
+          <caret line="41" column="65" lean-forward="false" selection-start-line="41" selection-start-column="65" selection-end-line="41" selection-end-column="65" />
           <folding>
-            <element signature="e#0#37#0" expanded="true" />
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/components/GameContainer.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="818">
+          <caret line="104" column="12" lean-forward="false" selection-start-line="104" selection-start-column="12" selection-end-line="104" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
           </folding>
         </state>
       </provider>

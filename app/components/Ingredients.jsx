@@ -26,26 +26,9 @@ export class Ingredients extends React.Component {
 
   selectIngredient(ingredient) {
     this.props.addIngredient(ingredient)
-
-    // this.setState({resultMsg: ''})
-    //
-    // if (ingredientsCommands[ingredient] === this.state.currentCommand) {
-    //   this.props.addIngredient(this.props.currentPlayer)
-    //
-    //   this.setState({resultMsg: 'You Got It!!!'})
-    //   if (this.props.commands.length <= 1) {
-    //     this.props.stageOver()
-    //     if (this.state.win) {
-    //       this.setState({resultMsg: 'Congrats, you successfully brewed the posion!!!'})
-    //     }
-    //   }
-    // } else {
-    //   this.setState({resultMsg: 'Sorry, Wrong Ingredient!!!'})
-    // }
   }
 
   render() {
-    console.log('ingredient props', this.props)
     const ingredients = this.props.currentPlayer.ingredients
     return (
       <div>
