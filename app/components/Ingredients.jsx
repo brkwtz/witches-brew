@@ -25,7 +25,9 @@ export class Ingredients extends React.Component {
     // if no witch has command, dispatch stageOver
     if (Object.keys(newProps.players).every(uid => !newProps.players[uid].currentCommand)) {
       this.props.stageOver()
-      // if (this.)
+      // TO:DO
+      // if this.state.win redirect to => levelUp page, and go to next level by redirect by to the game again
+      // else (lose) => gameOver => delete the room from firebase
     }
   }
 
@@ -35,9 +37,6 @@ export class Ingredients extends React.Component {
 
   selectIngredient(ingredient) {
     this.props.addIngredient(ingredient)
-    //TO:DO
-    // if this.state.win redirect to => levelUp page, and go to next level by redirect by to the game again
-    // else (lose) => gameOver => delete the room from firebase
   }
 
   render() {
