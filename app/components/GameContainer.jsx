@@ -12,6 +12,7 @@ import firebase from 'APP/fire'
 const db = firebase.database()
 
 import PlayInterface from './PlayInterface'
+import Home from './Home'
 
 export default class GameContainer extends React.Component {
   constructor(props) {
@@ -101,6 +102,7 @@ export default class GameContainer extends React.Component {
     )
     this.setState({store})
   }
+
 
   render() {
     const {store} = this.state || {},
