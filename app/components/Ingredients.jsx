@@ -14,7 +14,6 @@ export class Ingredients extends React.Component {
     }
 
     this.selectIngredient = this.selectIngredient.bind(this)
-    this.countDown = this.countDown.bind(this)
   }
 
   componentWillReceiveProps(newProps) {
