@@ -4,10 +4,12 @@ import {connect} from 'react-redux'
 
 // import {} from './reducers'
 
+
 export default () => {
-  return (
-    <div>
-      INGREDIENTS
-    </div>
-  )
-}
+        return (
+            <div>
+            <h1> test </h1>
+                {/* display 4 random ingredients */}
+            </div>
+        )
+    }
