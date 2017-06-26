@@ -58,7 +58,9 @@ export default function reducer(state = initialState, action) {
         let num = action.ingredients.length/state.players.length
         return {...player,
                 ingredients: action.ingredients.slice(index*num, (index+1)*num),
-                currentCommand: action.commands[index]}
+                currentCommand: action.commands[index],
+                currentCommandTimer: 7
+              }
       })
       break
 

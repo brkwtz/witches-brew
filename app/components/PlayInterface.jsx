@@ -3,7 +3,7 @@ import firebase from 'APP/fire'
 import {connect} from 'react-redux'
 // import command component(includes timer), ingredients component
 import Cauldron from './Cauldron'
-import Command from './Command'
+import CommandContainer from './CommandContainer'
 import Ingredients from './Ingredients'
 import lodash from 'lodash'
 
@@ -40,6 +40,7 @@ export class PlayInterface extends React.Component {
 
   render() {
     console.log('>>>>>players', this.props.players)
+    console.log('>>>>>props', this.props)
     return (
       <div>
         <h1> Witches Brew </h1>
@@ -53,7 +54,7 @@ export class PlayInterface extends React.Component {
           )
         }
     <Cauldron />
-    <Command />
+    <CommandContainer props={this.props} />
     <Ingredients />
     </div>
     )
