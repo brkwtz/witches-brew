@@ -40,7 +40,6 @@ export class PlayInterface extends React.Component {
   render() {
     if (!this.state.user) return null
     const currentPlayer = this.props.players[this.state.user.uid]
-
     return (
       <div>
         <h3>Welcome to the coven of {this.props.params.title}!</h3>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { withRouter } from 'react-router'
+import { withRouter, Link } from 'react-router'
 import firebase from 'APP/fire'
 import {connect} from 'react-redux'
 // import command component(includes timer), ingredients component
@@ -98,6 +98,7 @@ export default class extends React.Component {
             </select>
             <h1> Create a Coven </h1>
             <button onClick={this.createNewRoom}>Live Deliciously</button>
+            <Link to='/instructions'>How to play</Link>
         </div>
     )
   }
