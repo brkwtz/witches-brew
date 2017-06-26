@@ -15,6 +15,7 @@ import reducer from './reducers'
 const db = firebase.database()
 
 import PlayInterface from './PlayInterface'
+import Home from './Home'
 
 // This component is a little piece of glue between React router
 // and our whiteboard component. It takes in props.params.title, and
@@ -107,9 +108,9 @@ export default class GameContainer extends React.Component {
     )
     this.setState({store})
   }
-
-  render() {
-    console.log('GemeContainer props:', this.props)
+  
+  render()
+  {
     const {store} = this.state || {},
       {children} = this.props
     if (!store) return null
@@ -119,13 +120,13 @@ export default class GameContainer extends React.Component {
         <div>
           <h1>{title}</h1>
           {/* Here, we're passing in a Firebase reference to
-           /whiteboards/$whiteboardTitle. This is where the whiteboard is
-           stored in Firebase. Each whiteboard is an array of actions that
-           users have dispatched into the whiteboard. */}
+              /whiteboards/$whiteboardTitle. This is where the whiteboard is
+              stored in Firebase. Each whiteboard is an array of actions that
+            users have dispatched into the whiteboard. */}
           <PlayInterface fireRef={db.ref('gamerooms').child(title)}/>
         </div>
       </Provider>
     )
   }
-
+ 
 }
