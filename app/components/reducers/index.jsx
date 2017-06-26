@@ -84,7 +84,6 @@ export default function reducer(state = initialState, action) {
             [uid]: {...state.players[uid], currentCommand: state.commands[0]}}
           newState.commands = state.commands.slice(1)
         } else {
-          console.log('no more command')
           // if no more command in queue, set the currentCommand to null for the player whose command is completed
           newState.players = {...state.players,
             [uid]: {...state.players[uid], currentCommand: null}}
