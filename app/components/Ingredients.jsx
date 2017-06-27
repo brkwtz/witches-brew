@@ -27,6 +27,7 @@ export class Ingredients extends React.Component {
     this.props.addIngredient(ingredient)
   }
 
+console.log('delete')
   render() {
     const ingredients = this.props.currentPlayer.ingredients
     return (
