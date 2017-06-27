@@ -21,61 +21,66 @@ export class Ingredients extends React.Component {
   }
 
   componentDidMount() {
-    //reliant on the level
-    let sec = 0;
-    if(this.props.level <= 2){sec = 600}
-    else {sec = 400}
-    let timer = setInterval(this.tick, sec)
+    // reliant on the level
+    let sec = 0
+    if (this.props.level <= 2) {
+      sec = 600
+    } else { sec = 400 }
+    const timer = setInterval(this.tick, sec)
     this.setState({timer})
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     clearInterval(this.state.timer)
   }
 
   tick() {
-    if(this.props.commands.length >= 0){
-    this.setState({
-      counter: this.state.counter + 10
-    })
-    let purpleBar = document.getElementById("purpleBar")
-    purpleBar.style.width = this.state.counter + '%'
-
-    if(this.state.counter >= 100){
-      
-      //reset the interval, and the bar style, and the state counter
-      clearInterval(this.state.timer)
+    let numLoops = this.props.commands.length + 1
+    if (numLoops >= 0) {
       this.setState({
-        counter: 0
+        counter: this.state.counter + 10
       })
-      purpleBar.style.width = 0 + '%'
 
-      console.log('now expired')
+      const purpleBar = document.getElementById('purpleBar')
+      purpleBar.style.width = this.state.counter + '%'
 
-      //get a new command
-      this.props.commandExpired(this.props.commands)
+      if (this.state.counter >= 100) {
+        // reset the interval, and the bar style, and the state counter
+        clearInterval(this.state.timer)
 
-      //if there's another command, restart the timer
-      if(this.props.commands.length >= 0){
-        let sec = 0;
-        if(this.props.level <= 2){sec = 600}
-        else {sec = 400}
-        let timer = setInterval(this.tick, sec)
-        this.setState({timer: timer})
-        console.log(this.props.commands)
+        this.setState({
+          counter: 0
+        })
+
+        purpleBar.style.width = 0 + '%'
+
+        console.log('now expired')
+
+        // get a new command
+        this.props.commandExpired(this.props.commands)
+
+        // if there's another command, restart the timer
+        if (numLoops >= 0) {
+          let sec = 0
+
+          if (this.props.level <= 2) {
+            sec = 600
+          } else {
+            sec = 400
+          }
+
+          const timer = setInterval(this.tick, sec)
+          this.setState({timer: timer})
+          console.log(this.props.commands)
+          numLoops--
+        }
+
+        if (numLoops === 0) {
+          console.log('commands go down to 0!!!!!!')
+          clearInterval(this.state.timer)
+          this.setState({timer: null})
+        }
       }
-
-      console.log('commands go down to 0!!!!!!')
-      clearInterval(this.state.timer)
-      this.setState({timer: null})
-
-    }
-
-    // if(this.props.commands.length === 0){
-    //       console.log('commands go down to 0!!!!!!')
-    //       clearInterval(this.state.timer)
-    //       this.setState({timer: null})
-    //   }
     }
   }
 
@@ -87,10 +92,13 @@ export class Ingredients extends React.Component {
 
   selectIngredient(ingredient) {
     this.props.addIngredient(ingredient)
-    let sec = 0;
-    if(this.props.level <= 2){sec = 600}
-    else {sec = 400}
-    let timer = setInterval(this.tick, sec)
+    let sec = 0
+    if (this.props.level <= 2) {
+      sec = 600
+    } else {
+      sec = 400
+    }
+    const timer = setInterval(this.tick, sec)
     this.setState({timer})
   }
 
@@ -123,4 +131,3 @@ export default connect(
   ({gameStarted, players, ingredients, commands, score, level, win}) => ({gameStarted, players, ingredients, commands, score, level, win}),
   {playerJoin, startGame, addIngredient, commandExpired, updateScore, stageOver},
 )(Ingredients)
-
