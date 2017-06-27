@@ -8,7 +8,7 @@ import Ingredients from './Ingredients'
 import lodash from 'lodash'
 
 import ingredientsCommands from '../assets/commands.json'
-import {playerJoin, playerReady, startRound, addIngredient, commandExpired, updateScore, stageOver} from './reducers'
+import {playerJoin, playerReady, startRound, addIngredient, commandExpired} from './reducers'
 
 export class PlayInterface extends React.Component {
   state = {user: null}
@@ -62,5 +62,5 @@ export class PlayInterface extends React.Component {
 
 export default connect(
   ({gameStarted, players, ingredients, commands, score, level}) => ({gameStarted, players, ingredients, commands, score, level}),
-  {playerJoin, playerReady, startRound, addIngredient, commandExpired, updateScore, stageOver},
+  {playerJoin, playerReady, startRound, addIngredient, commandExpired},
 )(PlayInterface)
