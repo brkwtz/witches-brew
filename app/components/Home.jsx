@@ -73,21 +73,20 @@ export default class extends React.Component {
     let query = firebase.database().ref("gamerooms").orderByKey()
     query.once("value")
     .then(snapshot => {
-        snapshot.forEach(function(childSnapshot) {
+        snapshot.forEach(childSnapshot => {
         let coven = childSnapshot.key;
         covens.push(coven)
         })
     })
     .then(() => { 
         this.setState({allCovens: covens})
-        console.log(covens)
     })
   }
 
 
   render() {
-      console.log('state covens:', this.state.allCovens)
-      let openCovens = this.state.allCovens
+    
+    let openCovens = this.state.allCovens
     return (
         <div>
             <h1> Join a Coven </h1>

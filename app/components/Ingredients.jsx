@@ -26,7 +26,6 @@ export class Ingredients extends React.Component {
   selectIngredient = (ingredient) => () => {
     this.props.addIngredient(ingredient)
   }
-
   render() {
     const ingredients = this.props.currentPlayer.ingredients
     return (

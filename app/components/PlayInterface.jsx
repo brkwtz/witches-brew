@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import Cauldron from './Cauldron'
 import Command from './Command'
 import Ingredients from './Ingredients'
+import Timer from './Timer'
 import lodash from 'lodash'
 
 import ingredientsCommands from '../assets/commands.json'
@@ -49,6 +50,7 @@ export class PlayInterface extends React.Component {
                 <Ingredients
                   IngredientsCommands={ingredientsCommands}
                   currentPlayer={currentPlayer}/>
+                  <Timer currentPlayer={currentPlayer}/>
               </div>
           )
             : (
