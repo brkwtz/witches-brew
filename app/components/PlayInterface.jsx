@@ -35,6 +35,9 @@ export class PlayInterface extends React.Component {
     this.props.playerReady(this.state.user.uid)
   }
 
+    //redirect to game over page
+
+
   render() {
     if (!this.state.user) return null
     const currentPlayer = this.props.players[this.state.user.uid]

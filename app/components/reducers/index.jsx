@@ -31,7 +31,7 @@ export const commandExpired = (uid) => ({type: COMMAND_EXPIRED, uid})
 
 // ======reducer ======//
 
-let initialState = {
+const initialState = {
   gameStarted: false,
   players: {},
   ingredientsPerPlayer: 4,
@@ -65,13 +65,14 @@ export default function reducer(state = initialState, action) {
     const uids = Object.keys(state.players)
 
     newState.players = uids.sort().map((uid, index) => {
-      let num = action.ingredients.length/uids.length
+      const num = action.ingredients.length / uids.length
       return {...state.players[uid],
         ingredients: action.ingredients.slice(index*num, (index+1)*num),
         currentCommand: action.commands.shift()}
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
     break
 
+//just for if you add ingredient
   case ADD_INGREDIENT:
     Object.keys(state.players).forEach(uid => {
       // if right ingredient is added
@@ -87,18 +88,23 @@ export default function reducer(state = initialState, action) {
           newState.players = {...state.players,
             [uid]: {...state.players[uid], currentCommand: null}}
         }
-        if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
-          newState.levelEnd = true
-          if (state.score / (Object.keys(state.players).length * state.ingredientsPerPlayer) >= 0.7) {
-            newState.win = true
-          } else {
-            newState.win = false
-          }
+
+      if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
+        newState.levelEnd = true
+        if (state.score / (Object.keys(state.players).length * state.ingredientsPerPlayer) >= 0.7) {
+          newState.win = true
+          newState.level += 1
+          newState.ingredientsPerPlayer += 1
+        } else {
+          newState.win = false
+          newState = initialState
         }
       }
-    })
+    }
+  })
     break
 
+//just for if the timer runs out
   case COMMAND_EXPIRED:
     // if there's still command in the queue, fetch the next command to player whose command is completed
     if (state.commands.length > 0) {
