@@ -98,8 +98,6 @@ export class Ingredients extends React.Component {
     const timer = setInterval(this.tick, sec)
     this.setState({timer})
   }
-
-console.log('delete')
   render() {
     const ingredients = this.props.currentPlayer.ingredients
     return (
