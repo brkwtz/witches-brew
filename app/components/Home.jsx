@@ -38,7 +38,7 @@ let secondTitle = ['sisters',
 const db = firebase.database()
 
 export default class extends React.Component {
-  
+
     constructor(props) {
         super(props)
         this.state = {
@@ -78,16 +78,14 @@ export default class extends React.Component {
         covens.push(coven)
         })
     })
-    .then(() => { 
+    .then(() => {
         this.setState({allCovens: covens})
-        console.log(covens)
     })
   }
 
 
   render() {
-      console.log('state covens:', this.state.allCovens)
-      let openCovens = this.state.allCovens
+    let openCovens = this.state.allCovens
     return (
         <div>
             <h1> Join a Coven </h1>

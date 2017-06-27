@@ -38,7 +38,7 @@ const initialState = {
   commands: [],
   score: 0,
   level: 1,
-  win: false,
+  win: null,
   levelEnd: false
 }
 
@@ -63,7 +63,6 @@ export default function reducer(state = initialState, action) {
     newState.gameStarted = true
     newState.commands = action.commands
     const uids = Object.keys(state.players)
-
     newState.players = uids.sort().map((uid, index) => {
       const num = action.ingredients.length / uids.length
       return {...state.players[uid],
@@ -91,13 +90,22 @@ export default function reducer(state = initialState, action) {
 
       if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
         newState.levelEnd = true
-        if (state.score / (Object.keys(state.players).length * state.ingredientsPerPlayer) >= 0.7) {
+        if (state.score / (Object.keys(state.players).length * state.ingredientsPerPlayer) <= 0.7) {
           newState.win = true
-          newState.level += 1
-          newState.ingredientsPerPlayer += 1
+          newState.level = state.level + 1
+          newState.ingredientsPerPlayer = state.ingredientsPerPlayer + 1
+          newState.score = 0
         } else {
-          newState.win = false
-          newState = initialState
+          newState = {
+            gameStarted: false,
+            players: state.players,
+            ingredientsPerPlayer: 4,
+            commands: [],
+            score: 0,
+            level: 1,
+            win: false,
+            levelEnd: false
+          }
         }
       }
     }
@@ -118,7 +126,7 @@ export default function reducer(state = initialState, action) {
     }
     if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
       newState.levelEnd = true
-      if (state.score / (Object.keys(state.players).length * state.ingredientsPerPlayer) >= 0.7) {
+      if (state.score / (Object.keys(state.players).length * state.ingredientsPerPlayer) <= 0.7) {
         newState.win = true
       } else {
         newState.win = false
