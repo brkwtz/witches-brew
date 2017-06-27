@@ -1,7 +1,6 @@
 import React from 'react'
 import firebase from 'APP/fire'
 import {connect} from 'react-redux'
-
 import {stageOver} from './reducers'
 
 export const LevelUp = (props) => {

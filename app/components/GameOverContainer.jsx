@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import lodash from 'lodash'
 import {browserHistory} from 'react-router'
 
-import {playerJoin, playerReady, startRound, addIngredient, commandExpired} from './reducers'
+import reducer from './reducers'
 
     //on game over page, replay button
       //on replay, reset game state
@@ -32,5 +32,5 @@ export class GameOverContainer extends React.Component {
 
 export default connect(
   ({gameStarted, players, ingredients, commands, score, level}) => ({gameStarted, players, ingredients, commands, score, level}),
-  {playerJoin, playerReady, startRound, addIngredient, commandExpired},
+  reducer,
 )(GameOverContainer)

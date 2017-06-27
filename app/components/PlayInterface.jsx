@@ -5,12 +5,11 @@ import {connect} from 'react-redux'
 import Cauldron from './Cauldron'
 import Command from './Command'
 import Ingredients from './Ingredients'
-import lodash from 'lodash'
+import _ from 'lodash'
 import {browserHistory} from 'react-router'
 
-
 import ingredientsCommands from '../assets/commands.json'
-import {playerJoin, playerReady, startRound, addIngredient, commandExpired} from './reducers'
+import reducer from './reducers'
 
 export class PlayInterface extends React.Component {
   state = {user: null}
@@ -20,7 +19,7 @@ export class PlayInterface extends React.Component {
       this.setState({user})
       if (!user) return
       if (!this.props.players[user.uid]) {
-        let player = {uid: user.uid, ingredients: [], currentCommand: ''}
+        const player = {uid: user.uid, ingredients: [], currentCommand: ''}
         this.props.playerJoin(player)
       }
     })
@@ -28,10 +27,9 @@ export class PlayInterface extends React.Component {
 
   componentWillReceiveProps(newProps) {
     if (!this.state.user) return
-    if (newProps.players[this.state.user.uid].master && lodash.every(newProps.players, player => player.ready) && !newProps.gameStarted) {
+    if (newProps.players[this.state.user.uid].master && _.every(newProps.players, player => player.ready) && !newProps.gameStarted) {
       this.props.startRound()
     }
-    console.log('newProps', newProps)
     if (newProps.win === false) {
       browserHistory.push(`/play/${this.props.params.title}/gameover`)
     }
@@ -75,5 +73,5 @@ export class PlayInterface extends React.Component {
 
 export default connect(
   ({gameStarted, players, ingredients, commands, score, level, win}) => ({gameStarted, players, ingredients, commands, score, level, win}),
-  {playerJoin, playerReady, startRound, addIngredient, commandExpired},
+  reducer,
 )(PlayInterface)

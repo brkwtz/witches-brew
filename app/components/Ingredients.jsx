@@ -3,7 +3,7 @@ import firebase from 'APP/fire'
 import {connect} from 'react-redux'
 
 import ingredientsCommands from '../assets/commands.json'
-import {playerJoin, startGame, addIngredient, commandExpired} from './reducers'
+import reducer from './reducers'
 
 export class Ingredients extends React.Component {
   constructor(props) {
@@ -49,5 +49,5 @@ export class Ingredients extends React.Component {
 
 export default connect(
   ({gameStarted, players, ingredients, commands, score, level, win, levelEnd}) => ({gameStarted, players, ingredients, commands, score, level, win, levelEnd}),
-  {playerJoin, startGame, addIngredient, commandExpired},
+  reducer,
 )(Ingredients)
