@@ -1,7 +1,6 @@
 import React from 'react'
 import firebase from 'APP/fire'
 import {connect} from 'react-redux'
-import raf from 'raf'
 
 import {commandExpired} from './reducers'
 
