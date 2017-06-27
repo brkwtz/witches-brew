@@ -9,8 +9,6 @@ const PLAYER_READY = 'PLAYER_READY'
 const GAME_START = 'GAME_START'
 const ADD_INGREDIENT = 'ADD_INGREDIENT'
 const COMMAND_EXPIRED = 'COMMAND_EXPIRED'
-const UPDATE_SCORE = 'UPDATE_SCORE'
-const STAGE_OVER = 'STAGE_OVER'
 
 // === ACTION CREATOR =======//
 
@@ -25,13 +23,11 @@ export const startGame = (commands, ingredients) => ({type: GAME_START, commands
 
 export const addIngredient = (ingredient) => ({type: ADD_INGREDIENT, ingredient})
 
-export const commandExpired = (commands) => ({type: COMMAND_EXPIRED, commands})
+export const commandExpired = (uid) => ({type: COMMAND_EXPIRED, uid})
 // triggered when timer for current task runs out
 // >> triggers pushing failed command off of queue
 // >> triggers restart of timer and sends next command in master queue (List) to player
 // NB does not affect score
-export const updateScore = (score) => ({type: UPDATE_SCORE, score})
-export const stageOver = () => ({type: STAGE_OVER})
 
 // ======reducer ======//
 
@@ -42,7 +38,8 @@ let initialState = {
   commands: [],
   score: 0,
   level: 1,
-  win: false
+  win: false,
+  levelEnd: false
 }
 
 export default function reducer(state = initialState, action) {
@@ -90,23 +87,36 @@ export default function reducer(state = initialState, action) {
           newState.players = {...state.players,
             [uid]: {...state.players[uid], currentCommand: null}}
         }
+        if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
+          newState.levelEnd = true
+          if (state.score / (Object.keys(state.players).length * state.ingredientsPerPlayer) >= 0.7) {
+            newState.win = true
+          } else {
+            newState.win = false
+          }
+        }
       }
     })
     break
 
   case COMMAND_EXPIRED:
-    newState.commands = action.commands
-    break
-
-  case UPDATE_SCORE:
-    newState.score = action.score
-    break
-
-  case STAGE_OVER:
-    if (state.score / (Object.keys(state.players).length * state.ingredientsPerPlayer) >= 0.7) {
-      newState.win = true
+    // if there's still command in the queue, fetch the next command to player whose command is completed
+    if (state.commands.length > 0) {
+      newState.players = {...state.players,
+        [action.uid]: {...state.players[action.uid], currentCommand: state.commands[0]}}
+      newState.commands = state.commands.slice(1)
     } else {
-      newState.win = false
+      // if no more command in queue, set the currentCommand to null for the player whose command is completed
+      newState.players = {...state.players,
+        [action.uid]: {...state.players[action.uid], currentCommand: null}}
+    }
+    if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
+      newState.levelEnd = true
+      if (state.score / (Object.keys(state.players).length * state.ingredientsPerPlayer) >= 0.7) {
+        newState.win = true
+      } else {
+        newState.win = false
+      }
     }
     break
 

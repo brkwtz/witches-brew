@@ -3,14 +3,15 @@ import firebase from 'APP/fire'
 import {connect} from 'react-redux'
 
 import ingredientsCommands from '../assets/commands.json'
-import {playerJoin, startGame, addIngredient, commandExpired, updateScore, stageOver} from './reducers'
+import {playerJoin, startGame, addIngredient, commandExpired} from './reducers'
 
 export class Ingredients extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       currentCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand,
-      win: this.props.win
+      win: this.props.win,
+      levelEnd: this.props.levelEnd
     }
 
     this.selectIngredient = this.selectIngredient.bind(this)
@@ -19,17 +20,10 @@ export class Ingredients extends React.Component {
   componentWillReceiveProps(newProps) {
     this.setState({currentCommand: newProps.players[firebase.auth().currentUser.uid].currentCommand})
     this.setState({win: newProps.win})
-
-    // if no witch has command, dispatch stageOver
-    if (Object.keys(newProps.players).every(uid => !newProps.players[uid].currentCommand)) {
-      this.props.stageOver()
-      // TO:DO
-      // if this.state.win redirect to => levelUp page, and go to next level by redirect by to the game again
-      // else (lose) => gameOver => delete the room from firebase
-    }
+    this.setState({levelEnd: newProps.levelEnd})
   }
 
-  selectIngredient(ingredient) {
+  selectIngredient = (ingredient) => () => {
     this.props.addIngredient(ingredient)
   }
 
@@ -44,7 +38,7 @@ export class Ingredients extends React.Component {
         {
           ingredients && ingredients.map((ingredient, idx) => (
               <div key={idx}>
-                <button onClick={() => this.selectIngredient(ingredient)}> {ingredient} </button>
+                <button onClick={this.selectIngredient(ingredient)}> {ingredient} </button>
               </div>
             ))
         }
@@ -54,6 +48,6 @@ export class Ingredients extends React.Component {
 }
 
 export default connect(
-  ({gameStarted, players, ingredients, commands, score, level, win}) => ({gameStarted, players, ingredients, commands, score, level, win}),
-  {playerJoin, startGame, addIngredient, commandExpired, updateScore, stageOver},
+  ({gameStarted, players, ingredients, commands, score, level, win, levelEnd}) => ({gameStarted, players, ingredients, commands, score, level, win, levelEnd}),
+  {playerJoin, startGame, addIngredient, commandExpired},
 )(Ingredients)
