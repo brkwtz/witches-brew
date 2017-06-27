@@ -56,6 +56,7 @@ export default function reducer(state = initialState, action) {
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
 
     Object.keys(newState.players).map(uid => {
+      console.log('new player is...', newState.players[uid])
       return newState.players[uid].timerCycle = 0
     })
 
@@ -77,7 +78,7 @@ export default function reducer(state = initialState, action) {
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player, timerCycle: 0}), {})
     break
 
-  case ADD_INGREDIENT:
+  case ADD_INGREDIENT: //this works...
     Object.keys(state.players).forEach(uid => {
       // if right ingredient is added
       if (state.players[uid].currentCommand === ingredientsCommands[action.ingredient]) {
@@ -115,6 +116,7 @@ export default function reducer(state = initialState, action) {
         console.log('but its updating in command expired? ', state.players.timerCycle) /////////////////////////
      
       newState.commands = state.commands.slice(1)
+
     } else {
       // if no more command in queue, set the currentCommand to null for the player whose command is completed
       newState.players = {...state.players,

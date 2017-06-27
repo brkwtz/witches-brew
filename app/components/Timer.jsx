@@ -33,9 +33,9 @@ export class Timer extends React.Component {
     } else if (this.stopTime - now <= 0) {
       this.setState({time: 0})
       clearInterval(this.time)
-      console.log('is the local state updating?', this.state.cycle)
+      // console.log('is the local state updating?', this.state.cycle)
       this.props.commandExpired(currentPlayer.uid)
-      console.log('current player, and the thing is updating:', currentPlayer)
+      console.log('current player, cycle is updating in timer component:', currentPlayer.timerCycle)
       this.setState({
         time: 7000,
       })
