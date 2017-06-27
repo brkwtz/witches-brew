@@ -54,6 +54,9 @@ export default function reducer(state = initialState, action) {
       return state
     }
     newState.players = {...state.players, [action.player.uid]: action.player}
+    newState.players = Object.keys(newState.players).sort().map((uid, index) => {
+      return {...newState.players[uid], master: index === 0}
+    }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
     break
 
   case PLAYER_READY:
@@ -68,8 +71,7 @@ export default function reducer(state = initialState, action) {
       let num = action.ingredients.length/uids.length
       return {...state.players[uid],
         ingredients: action.ingredients.slice(index*num, (index+1)*num),
-        currentCommand: action.commands.shift(),
-        master: index === 0}
+        currentCommand: action.commands.shift()}
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
     break
 
@@ -117,7 +119,7 @@ export default function reducer(state = initialState, action) {
 export const startRound = () => (dispatch, getState) => {
   let commands = []
   let ingredients = []
-  let playerNum = Object.keys(this.props.players).length
+  let playerNum = Object.keys(getState().players).length
 
   lodash.shuffle(Object.keys(ingredientsCommands)).slice(0, playerNum * getState().ingredientsPerPlayer).forEach(ingredient => {
     ingredients.push(ingredient)
