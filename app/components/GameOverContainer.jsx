@@ -6,13 +6,12 @@ import {browserHistory} from 'react-router'
 
 import {playerJoin, playerReady, startRound, addIngredient, commandExpired} from './reducers'
 
-    //on game over page, replay button
-      //on replay, reset game state
-    //on game over page, show score and animation
-    //on firebase disconnect, delete the room
+    // on game over page, replay button
+      // on replay, reset game state
+    // on game over page, show score and animation
+    // on firebase disconnect, delete the room
 
 export class GameOverContainer extends React.Component {
-
   clickToRestart = () => {
     this.props.startRound()
     browserHistory.push(`/`)

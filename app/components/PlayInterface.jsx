@@ -31,7 +31,6 @@ export class PlayInterface extends React.Component {
     if (newProps.players[this.state.user.uid].master && lodash.every(newProps.players, player => player.ready) && !newProps.gameStarted) {
       this.props.startRound()
     }
-    console.log('newProps', newProps)
     if (newProps.win === false) {
       browserHistory.push(`/play/${this.props.params.title}/gameover`)
     }

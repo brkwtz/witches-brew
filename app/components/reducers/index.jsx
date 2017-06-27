@@ -92,7 +92,8 @@ export default function reducer(state = initialState, action) {
 
         if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
           newState.levelEnd = true
-          if (state.score / (Object.keys(state.players).length * state.ingredientsPerPlayer) <= 0.7) {
+          if (state.score / (Object.keys(state.players).length * state.ingredientsPerPlayer) >= 0.7) {
+            newState.gameStarted = false
             newState.win = true
             newState.level = state.level + 1
             newState.ingredientsPerPlayer = state.ingredientsPerPlayer + 1
@@ -128,7 +129,7 @@ export default function reducer(state = initialState, action) {
     }
     if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
       newState.levelEnd = true
-      if (state.score / (Object.keys(state.players).length * state.ingredientsPerPlayer) <= 0.7) {
+      if (state.score / (Object.keys(state.players).length * state.ingredientsPerPlayer) >= 0.7) {
         newState.win = true
       } else {
         newState.win = false
