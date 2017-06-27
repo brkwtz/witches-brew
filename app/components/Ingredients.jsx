@@ -10,15 +10,8 @@ export class Ingredients extends React.Component {
     super(props)
     this.state = {
       currentCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand,
-<<<<<<< HEAD
-      resultMsg: '',
-      win: this.props.win,
-      timer: null,
-      counter: 0
-=======
       win: this.props.win,
       levelEnd: this.props.levelEnd
->>>>>>> f6ec0d0961d94e232bcdfea9161011d5facf6bd9
     }
     this.selectIngredient = this.selectIngredient.bind(this)
     this.tick = this.tick.bind(this)
@@ -106,6 +99,7 @@ export class Ingredients extends React.Component {
     this.setState({timer})
   }
 
+console.log('delete')
   render() {
     const ingredients = this.props.currentPlayer.ingredients
     return (
