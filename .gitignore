@@ -18,11 +18,5 @@ firebase-debug.log
 witches_brew.env.js
 
 # Systems Files
-.idea/codeStyleSettings.xml
-.idea/inspectionProfiles
-.idea/misc.xml\
-.idea/modules.xml
-.idea/workspace.xml
-.idea/vcs.xml
-.idea/witches-brew.iml
+.idea/*
 .DS_Store

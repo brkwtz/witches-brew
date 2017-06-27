@@ -3,18 +3,22 @@ import firebase from 'APP/fire'
 import {connect} from 'react-redux'
 
 import ingredientsCommands from '../assets/commands.json'
-import {playerJoin, startGame, addIngredient, commandExpired, updateScore, stageOver} from './reducers'
+import {playerJoin, startGame, addIngredient, commandExpired} from './reducers'
 
 export class Ingredients extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      players: this.props.players,
       currentCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand,
+<<<<<<< HEAD
       resultMsg: '',
       win: this.props.win,
       timer: null,
       counter: 0
+=======
+      win: this.props.win,
+      levelEnd: this.props.levelEnd
+>>>>>>> f6ec0d0961d94e232bcdfea9161011d5facf6bd9
     }
     this.selectIngredient = this.selectIngredient.bind(this)
     this.tick = this.tick.bind(this)
@@ -85,12 +89,12 @@ export class Ingredients extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    this.setState({players: newProps.players})
     this.setState({currentCommand: newProps.players[firebase.auth().currentUser.uid].currentCommand})
     this.setState({win: newProps.win})
+    this.setState({levelEnd: newProps.levelEnd})
   }
 
-  selectIngredient(ingredient) {
+  selectIngredient = (ingredient) => () => {
     this.props.addIngredient(ingredient)
     let sec = 0
     if (this.props.level <= 2) {
@@ -106,10 +110,8 @@ export class Ingredients extends React.Component {
     const ingredients = this.props.currentPlayer.ingredients
     return (
       <div>
-        <hr />
         <h1>{this.state.currentCommand}</h1>
-        <hr />
-        <h2>{this.state.resultMsg}</h2>
+
         <hr />
         <div id="greyBar">
         <div id="purpleBar"></div></div>
@@ -117,7 +119,7 @@ export class Ingredients extends React.Component {
         {
           ingredients && ingredients.map((ingredient, idx) => (
               <div key={idx}>
-                <button onClick={() => this.selectIngredient(ingredient)}> {ingredient} </button>
+                <button onClick={this.selectIngredient(ingredient)}> {ingredient} </button>
               </div>
             ))
         }
@@ -128,6 +130,6 @@ export class Ingredients extends React.Component {
 }
 
 export default connect(
-  ({gameStarted, players, ingredients, commands, score, level, win}) => ({gameStarted, players, ingredients, commands, score, level, win}),
-  {playerJoin, startGame, addIngredient, commandExpired, updateScore, stageOver},
+  ({gameStarted, players, ingredients, commands, score, level, win, levelEnd}) => ({gameStarted, players, ingredients, commands, score, level, win, levelEnd}),
+  {playerJoin, startGame, addIngredient, commandExpired},
 )(Ingredients)
