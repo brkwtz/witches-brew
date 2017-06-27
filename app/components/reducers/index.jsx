@@ -61,6 +61,8 @@ export default function reducer(state = initialState, action) {
 
   case GAME_START:
     newState.gameStarted = true
+    newState.levelEnd = false
+    newState.win = null
     newState.commands = action.commands
     const uids = Object.keys(state.players)
     newState.players = uids.sort().map((uid, index) => {
@@ -71,7 +73,7 @@ export default function reducer(state = initialState, action) {
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
     break
 
-//just for if you add ingredient
+  // just for if you add ingredient
   case ADD_INGREDIENT:
     Object.keys(state.players).forEach(uid => {
       // if right ingredient is added
@@ -88,31 +90,31 @@ export default function reducer(state = initialState, action) {
             [uid]: {...state.players[uid], currentCommand: null}}
         }
 
-      if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
-        newState.levelEnd = true
-        if (state.score / (Object.keys(state.players).length * state.ingredientsPerPlayer) <= 0.7) {
-          newState.win = true
-          newState.level = state.level + 1
-          newState.ingredientsPerPlayer = state.ingredientsPerPlayer + 1
-          newState.score = 0
-        } else {
-          newState = {
-            gameStarted: false,
-            players: state.players,
-            ingredientsPerPlayer: 4,
-            commands: [],
-            score: 0,
-            level: 1,
-            win: false,
-            levelEnd: false
+        if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
+          newState.levelEnd = true
+          if (state.score / (Object.keys(state.players).length * state.ingredientsPerPlayer) <= 0.7) {
+            newState.win = true
+            newState.level = state.level + 1
+            newState.ingredientsPerPlayer = state.ingredientsPerPlayer + 1
+            newState.score = 0
+          } else {
+            newState = {
+              gameStarted: false,
+              players: state.players,
+              ingredientsPerPlayer: 4,
+              commands: [],
+              score: 0,
+              level: 1,
+              win: false,
+              levelEnd: false
+            }
           }
         }
       }
-    }
-  })
+    })
     break
 
-//just for if the timer runs out
+// just for if the timer runs out
   case COMMAND_EXPIRED:
     // if there's still command in the queue, fetch the next command to player whose command is completed
     if (state.commands.length > 0) {

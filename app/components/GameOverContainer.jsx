@@ -15,7 +15,7 @@ export class GameOverContainer extends React.Component {
 
   clickToRestart = () => {
     this.props.startRound()
-    browserHistory.push(`/play/${this.props.params.title}/`)
+    browserHistory.push(`/`)
   }
 
   render() {

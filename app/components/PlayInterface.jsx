@@ -41,12 +41,6 @@ export class PlayInterface extends React.Component {
     this.props.playerReady(this.state.user.uid)
   }
 
-  clickToRestart = () => {
-    this.props.startRound()
-    browserHistory.push(`/play/${this.props.params.title}/`)
-  }
-
-
   render() {
     if (!this.state.user) return null
     const currentPlayer = this.props.players[this.state.user.uid]
