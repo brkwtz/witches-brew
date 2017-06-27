@@ -9,6 +9,7 @@ export class Timer extends React.Component {
     super(props)
     this.state = {
       time: 7000, // timer start in milliseconds
+      currentUserId: this.props.currentPlayer.uid,
       cycle: 0
     }
     this.tick = this.tick.bind(this)
@@ -24,24 +25,26 @@ export class Timer extends React.Component {
   }
 
   tick() {
+
+    let currentPlayer = this.props.currentPlayer
     let now = Date.now()
     if (this.state.cycle === 4) {
       clearInterval(this.time)
     } else if (this.stopTime - now <= 0) {
-      console.log('PROOOOPS', this.props)
       this.setState({time: 0})
       clearInterval(this.time)
-
-      this.props.commandExpired(this.props.currentPlayer.uid)
+      console.log('is the local state updating?', this.state.cycle)
+      this.props.commandExpired(currentPlayer.uid)
+      console.log('current player, and the thing is updating:', currentPlayer)
       this.setState({
         time: 7000,
-        cycle: this.state.cycle + 1
       })
       this.stopTime = Date.now() + this.state.time
       this.time = setInterval(this.tick, 1000)
     } else {
       this.setState({
-        time: this.stopTime - now
+        time: this.stopTime - now,
+        cycle: this.props.players[this.state.currentUserId].timerCycle // this.state.cycle + 1
       })
     }
   }

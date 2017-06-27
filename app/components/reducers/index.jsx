@@ -54,6 +54,11 @@ export default function reducer(state = initialState, action) {
     newState.players = Object.keys(newState.players).sort().map((uid, index) => {
       return {...newState.players[uid], master: index === 0}
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
+
+    Object.keys(newState.players).map(uid => {
+      return newState.players[uid].timerCycle = 0
+    })
+
     break
 
   case PLAYER_READY:
@@ -69,7 +74,7 @@ export default function reducer(state = initialState, action) {
       return {...state.players[uid],
         ingredients: action.ingredients.slice(index*num, (index+1)*num),
         currentCommand: action.commands.shift()}
-    }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
+    }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player, timerCycle: 0}), {})
     break
 
   case ADD_INGREDIENT:
@@ -81,6 +86,8 @@ export default function reducer(state = initialState, action) {
         if (state.commands.length > 0) {
           newState.players = {...state.players,
             [uid]: {...state.players[uid], currentCommand: state.commands[0]}}
+            newState.players[uid].timerCycle = newState.players[uid].timerCycle + 1
+            console.log('in ADD_INGREDIENT, player timer cycle:', newState.players[uid].timerCycle) //yikes!!!!
           newState.commands = state.commands.slice(1)
         } else {
           // if no more command in queue, set the currentCommand to null for the player whose command is completed
@@ -104,6 +111,9 @@ export default function reducer(state = initialState, action) {
     if (state.commands.length > 0) {
       newState.players = {...state.players,
         [action.uid]: {...state.players[action.uid], currentCommand: state.commands[0]}}
+        newState.players.timerCycle = state.players.timerCycle + 1
+        console.log('but its updating in command expired? ', state.players.timerCycle) /////////////////////////
+     
       newState.commands = state.commands.slice(1)
     } else {
       // if no more command in queue, set the currentCommand to null for the player whose command is completed
