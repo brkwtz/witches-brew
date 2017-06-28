@@ -38,7 +38,7 @@ export class Ingredients extends React.Component {
         <h3>Ingredients</h3>
         {
           ingredients && ingredients.map((ingredient, idx) => (
-              <p key="idx"> {ingredient}
+              <p key={idx}> {ingredient}
                 <img key={idx} id={ingredient} draggable="true" onDragStart={this.drag} src="/gifs/dummyIngredient.png" />
               </p>
             ))
