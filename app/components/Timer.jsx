@@ -9,8 +9,9 @@ import {commandExpired} from './reducers'
 export class Timer extends React.Component {
   constructor(props) {
     super(props)
+    this.timeForLevel = this.timeForLevel.bind(this)
     this.state = {
-      startTime: 30
+      startTime: this.timeForLevel()
     }
     this.tick = this.tick.bind(this)
   }
@@ -24,18 +25,28 @@ export class Timer extends React.Component {
     clearInterval(this.time)
   }
 
+  timeForLevel() {
+    let level = this.props.level
+    if(level <= 2){
+      return 7
+    } else {
+      return 5
+    }
+  }
+
   tick() {
+    let defaultTime = this.timeForLevel()
     // Timer reached 0 (command expired)
     if(this.state.startTime <= 0){
       this.props.commandExpired(this.props.currentPlayer.uid)
-      this.setState({startTime: 30})
+      this.setState({startTime: defaultTime})
     }
 
     // Player did correct command 
     else if(this.props.currentPlayer.currentCommand && this.props.currentPlayer.currentCommand !== this.currCommand){
       // when the command changes, reset the timer, then reset the local "currCommand"
       this.currCommand = this.props.currentPlayer.currentCommand
-      this.setState({startTime: 30})
+      this.setState({startTime: defaultTime})
     }
 
     // The ticking:
@@ -49,7 +60,8 @@ export class Timer extends React.Component {
 
   render() {
     const time = this.state.startTime
-    const percent = Math.floor((time/30) * 100)
+    const totalTime = this.timeForLevel()
+    const percent = Math.floor((time/totalTime) * 100)
     return (
       <div>
       <Progress
