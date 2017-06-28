@@ -87,13 +87,14 @@ export default function reducer(state = initialState, action) {
         if (state.commands.length > 0) {
           newState.players = {...state.players,
             [uid]: {...state.players[uid], currentCommand: state.commands[0]}}
-            newState.players[uid].timerCycle = newState.players[uid].timerCycle + 1
-            console.log('in ADD_INGREDIENT, player timer cycle:', newState.players[uid].timerCycle) //yikes!!!!
+            newState.players.timerCycle = newState.players.timerCycle + 1
+            console.log('in ADD_INGREDIENT, player timer cycle:', newState.players.timerCycle) //yikes!!!!
           newState.commands = state.commands.slice(1)
         } else {
           // if no more command in queue, set the currentCommand to null for the player whose command is completed
           newState.players = {...state.players,
             [uid]: {...state.players[uid], currentCommand: null}}
+          newState.players.timerCycle = newState.players.timerCycle + 1
         }
         if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
           newState.levelEnd = true
