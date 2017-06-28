@@ -50,7 +50,7 @@ export default function reducer(state = initialState, action) {
     if (action.player.uid in state.players) {
       return state
     }
-    
+
     newState.players = {...state.players, [action.player.uid]: action.player}
     newState.players = Object.keys(newState.players).sort().map((uid, index) => {
       return {...newState.players[uid], master: index === 0}
@@ -100,7 +100,16 @@ export default function reducer(state = initialState, action) {
             newState.ingredientsPerPlayer = state.ingredientsPerPlayer + 1
             newState.score = 0
           } else {
-            newState = initialState
+            newState = {
+              gameStarted: false,
+              players: state.players,
+              ingredientsPerPlayer: 4,
+              commands: [],
+              score: 0,
+              level: 1,
+              win: false,
+              levelEnd: true
+            }
           }
         }
       }

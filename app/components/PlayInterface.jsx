@@ -1,3 +1,5 @@
+'use strict'
+
 import React from 'react'
 import firebase from 'APP/fire'
 import {connect} from 'react-redux'
@@ -7,7 +9,6 @@ import Command from './Command'
 import Ingredients from './Ingredients'
 import lodash from 'lodash'
 import {browserHistory} from 'react-router'
-
 
 import ingredientsCommands from '../assets/commands.json'
 import {playerJoin, playerReady, startRound, addIngredient, commandExpired} from './reducers'
@@ -33,7 +34,8 @@ export class PlayInterface extends React.Component {
       this.props.startRound()
     }
     if (newProps.win === false) {
-      browserHistory.push(`/play/${this.props.params.title}/gameover`)
+      window.alert('GAME OVER')
+      browserHistory.push(`/`)
     }
   }
 

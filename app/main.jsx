@@ -42,10 +42,11 @@ render(
       <Route path="/play/" component={GameContainer}>
         <Route path="/play/:title" components={PlayInterface} />
         <Route path="/play/:title/levelup" component={LevelUp} />
-        <Route path="/play/:title/gameover" component={GameOverContainer} />
+        {/*<Route path="/play/:title/gameover" component={GameOverContainer} />*/}
       </Route>
       <Route path="/instructions" component={Instructions}/>
       <Route path ="/coven" component={Home}></Route>
+      <Route path="/gameover" component={GameOverContainer} />
 
     </Route>
     <Route path='*' component={NotFound}/>
