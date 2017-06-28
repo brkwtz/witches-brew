@@ -26,12 +26,6 @@ auth.onAuthStateChanged(user => user || auth.signInAnonymously())
 
 const App = ({children}) =>
   <div>
-    <nav>
-      {/* WhoAmI takes a firebase auth API and renders either a
-          greeting and a logout button, or sign in buttons, depending
-          on if anyone's logged in */}
-      <WhoAmI auth={auth}/>
-    </nav>
     {/* Render our children (whatever the router gives us) */}
     {children}
   </div>
