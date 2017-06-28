@@ -48,6 +48,7 @@
     "check-node-version": "^1.1.2",
     "concurrently": "^3.1.0",
     "cookie-session": "^2.0.0-alpha.1",
+    "css-loader": "^0.28.4",
     "enzyme": "^2.5.1",
     "express": "^4.14.0",
     "finalhandler": "^1.0.0",
@@ -66,13 +67,15 @@
     "react-dom": "^15.3.2",
     "react-redux": "^4.4.5",
     "react-router": "^3.0.0",
+    "react-sweet-progress": "^1.1.0",
     "redux": "^3.6.0",
     "redux-devtools-extension": "^2.13.0",
     "redux-logger": "^2.7.0",
     "redux-thunk": "^2.1.0",
     "sequelize": "^3.24.6",
     "sinon": "^1.17.6",
-    "sinon-chai": "^2.8.0"
+    "sinon-chai": "^2.8.0",
+    "style-loader": "^0.18.2"
   },
   "devDependencies": {
     "babel": "^6.5.2",
