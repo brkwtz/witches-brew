@@ -31,7 +31,9 @@ export class PlayInterface extends React.Component {
 
   componentWillReceiveProps(newProps) {
     if (!this.state.user) return
-    if (newProps.players[this.state.user.uid].master && lodash.every(newProps.players, player => player.ready) && !newProps.gameStarted) {
+    const currentPlayer = this.props.players[this.state.user.uid]
+    if (!currentPlayer) return
+    if (currentPlayer.master && lodash.every(newProps.players, player => player.ready) && !newProps.gameStarted) {
       this.props.startRound()
     }
     if (newProps.win === false) {
@@ -47,6 +49,9 @@ export class PlayInterface extends React.Component {
   render() {
     if (!this.state.user) return null
     const currentPlayer = this.props.players[this.state.user.uid]
+    if (!currentPlayer) {
+      return <h1>This coven is full</h1>
+    }
     return (
       <div>
         <h3>Welcome to the coven of {this.props.params.title}!</h3>

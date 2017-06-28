@@ -51,6 +51,10 @@ export default function reducer(state = initialState, action) {
       return state
     }
 
+    if (state.gameStarted || Object.keys(state.players).length >=4) {
+      return state
+    }
+
     newState.players = {...state.players, [action.player.uid]: action.player}
     newState.players = Object.keys(newState.players).sort().map((uid, index) => {
       return {...newState.players[uid], master: index === 0}
@@ -90,26 +94,26 @@ export default function reducer(state = initialState, action) {
           // if no more command in queue, set the currentCommand to null for the player whose command is completed
           newState.players = {...state.players,
             [uid]: {...state.players[uid], currentCommand: null}}
-        }
 
-        if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
-          newState.levelEnd = true
-          if (state.score / (Object.keys(state.players).length * state.ingredientsPerPlayer) >= 0.7) {
-            newState.gameStarted = false
-            newState.win = true
-            newState.level = state.level + 1
-            newState.ingredientsPerPlayer = state.ingredientsPerPlayer + 1
-            newState.score = 0
-          } else {
-            newState = {
-              gameStarted: false,
-              players: state.players,
-              ingredientsPerPlayer: 4,
-              commands: [],
-              score: 0,
-              level: 1,
-              win: false,
-              levelEnd: true
+          if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
+            newState.levelEnd = true
+            if (state.score / (Object.keys(state.players).length * state.ingredientsPerPlayer) >= 0.7) {
+              newState.gameStarted = false
+              newState.win = true
+              newState.level = state.level + 1
+              newState.ingredientsPerPlayer = state.ingredientsPerPlayer + 1
+              newState.score = 0
+            } else {
+              newState = {
+                gameStarted: false,
+                players: state.players,
+                ingredientsPerPlayer: 4,
+                commands: [],
+                score: 0,
+                level: 1,
+                win: false,
+                levelEnd: true
+              }
             }
           }
         }
@@ -128,25 +132,25 @@ export default function reducer(state = initialState, action) {
       // if no more command in queue, set the currentCommand to null for the player whose command is completed
       newState.players = {...state.players,
         [action.uid]: {...state.players[action.uid], currentCommand: null}}
-    }
-    if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
-      newState.levelEnd = true
-      if (state.score / (Object.keys(state.players).length * state.ingredientsPerPlayer) >= 0.7) {
-        newState.gameStarted = false
-        newState.win = true
-        newState.level = state.level + 1
-        newState.ingredientsPerPlayer = state.ingredientsPerPlayer + 1
-        newState.score = 0
-      } else {
-        newState = {
-          gameStarted: false,
-          players: state.players,
-          ingredientsPerPlayer: 4,
-          commands: [],
-          score: 0,
-          level: 1,
-          win: false,
-          levelEnd: true
+      if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
+        newState.levelEnd = true
+        if (state.score / (Object.keys(state.players).length * state.ingredientsPerPlayer) >= 0.7) {
+          newState.gameStarted = false
+          newState.win = true
+          newState.level = state.level + 1
+          newState.ingredientsPerPlayer = state.ingredientsPerPlayer + 1
+          newState.score = 0
+        } else {
+          newState = {
+            gameStarted: false,
+            players: state.players,
+            ingredientsPerPlayer: 4,
+            commands: [],
+            score: 0,
+            level: 1,
+            win: false,
+            levelEnd: true
+          }
         }
       }
     }

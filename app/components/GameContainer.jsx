@@ -14,14 +14,9 @@ const db = firebase.database()
 import PlayInterface from './PlayInterface'
 import Home from './Home'
 
-export default class GameContainer extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {ref: db.ref('gamerooms').child(this.props.params.title)}
-  }
-
+export class GameContainer extends React.Component {
   componentDidMount() {
-    this.mountStoreAtRef(this.state.ref)
+    this.mountStoreAtRef(this.props.fireRef)
   }
 
   componentWillReceiveProps(incoming, outgoing) {
@@ -50,11 +45,27 @@ export default class GameContainer extends React.Component {
             const listener = ref.on('child_added', snapshot => {
               next(snapshot.val())
             })
-            this.unsubscribe = () => ref.off('child_added', listener)
+
+            const onceListener = ref.once('value', () => {
+              while (queue.length) {
+                next(queue.shift())
+              }
+              ready = true
+              this.setState({ready: true})
+            })
+
+            this.unsubscribe = () => {
+              ref.off('child_added', listener)
+              ready || ref.off('value', onceListener)
+            }
+
+            let ready = false
+            const queue = []
+            const pushWhenReady = (action) => ready ? ref.push(action) : queue.push(action)
 
             return action => {
               if (action.doNotSync) { return next(action) }
-              return ref.push(action)
+              return pushWhenReady(action)
             }
           }
         )
@@ -64,12 +75,10 @@ export default class GameContainer extends React.Component {
   }
 
   render() {
-    console.log('gamecontainer props', this.props)
-    console.log('ref', this.state.ref)
-    const {store} = this.state || {},
-      {children} = this.props
+    const {store, ready} = this.state || {},
+      {children, loading=<h1>Loading...</h1>} = this.props
     if (!store) return null
-    let title = this.props.params.title
+    if (!ready) return loading
     return (
       <Provider store={store}>
         {this.props.children}
@@ -77,3 +86,15 @@ export default class GameContainer extends React.Component {
     )
   }
 }
+
+export default ({params: {title}, children}) =>
+  <div>
+    <h1>{title}</h1>
+    {/* Here, we're passing in a Firebase reference to
+     /whiteboards/$whiteboardTitle. This is where the whiteboard is
+     stored in Firebase. Each whiteboard is an array of actions that
+     users have dispatched into the whiteboard. */}
+    <GameContainer fireRef={db.ref('gamerooms').child(title)}>
+      {children}
+    </GameContainer>
+  </div>
