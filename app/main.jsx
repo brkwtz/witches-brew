@@ -8,7 +8,7 @@ import NotFound from './components/NotFound'
 
 import firebase from 'APP/fire'
 
-import Demos from 'APP/demos'
+//import Demos from 'APP/demos'
 import GameContainer from './components/GameContainer'
 import PlayInterface from './components/PlayInterface'
 import LevelUp from './components/LevelUp'
