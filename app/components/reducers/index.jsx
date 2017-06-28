@@ -54,6 +54,8 @@ export default function reducer(state = initialState, action) {
     newState.players = Object.keys(newState.players).sort().map((uid, index) => {
       return {...newState.players[uid], master: index === 0}
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
+
+
     break
 
   case PLAYER_READY:
@@ -72,7 +74,7 @@ export default function reducer(state = initialState, action) {
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
     break
 
-  case ADD_INGREDIENT:
+  case ADD_INGREDIENT: //this works...
     Object.keys(state.players).forEach(uid => {
       // if right ingredient is added
       if (state.players[uid].currentCommand === ingredientsCommands[action.ingredient]) {
@@ -81,11 +83,14 @@ export default function reducer(state = initialState, action) {
         if (state.commands.length > 0) {
           newState.players = {...state.players,
             [uid]: {...state.players[uid], currentCommand: state.commands[0]}}
+           
+           
           newState.commands = state.commands.slice(1)
         } else {
           // if no more command in queue, set the currentCommand to null for the player whose command is completed
           newState.players = {...state.players,
             [uid]: {...state.players[uid], currentCommand: null}}
+
         }
         if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
           newState.levelEnd = true
@@ -104,7 +109,9 @@ export default function reducer(state = initialState, action) {
     if (state.commands.length > 0) {
       newState.players = {...state.players,
         [action.uid]: {...state.players[action.uid], currentCommand: state.commands[0]}}
+
       newState.commands = state.commands.slice(1)
+
     } else {
       // if no more command in queue, set the currentCommand to null for the player whose command is completed
       newState.players = {...state.players,

@@ -14,6 +14,7 @@ import PlayInterface from './components/PlayInterface'
 import LevelUp from './components/LevelUp'
 import Instructions from './components/Instructions'
 import Home from './components/Home.jsx'
+import Timer from './components/Timer'
 
 // Get the auth API from Firebase.
 const auth = firebase.auth()
