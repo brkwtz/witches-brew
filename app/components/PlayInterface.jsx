@@ -8,7 +8,7 @@ import Cauldron from './Cauldron'
 import Command from './Command'
 import Ingredients from './Ingredients'
 import Timer from './Timer'
-import lodash from 'lodash'
+import _ from 'lodash'
 import {browserHistory} from 'react-router'
 
 import ingredientsCommands from '../assets/commands.json'
@@ -31,7 +31,7 @@ export class PlayInterface extends React.Component {
 
   componentWillReceiveProps(newProps) {
     if (!this.state.user) return
-    if (newProps.players[this.state.user.uid].master && lodash.every(newProps.players, player => player.ready) && !newProps.gameStarted) {
+    if (newProps.players[this.state.user.uid] && newProps.players[this.state.user.uid].master && _.every(newProps.players, player => player.ready) && !newProps.gameStarted) {
       this.props.startRound()
     }
     if (newProps.win === false) {
