@@ -7,7 +7,8 @@ import Cauldron from './Cauldron'
 import Command from './Command'
 import Ingredients from './Ingredients'
 
-let firstTitle = ['owl',
+let firstTitle = [
+'owl',
 'lunar',
 'enchantments',
 'elder-flame',
@@ -18,13 +19,30 @@ let firstTitle = ['owl',
 'the-divine',
 'the-eternal-light',
 'the-ember',
-'dark-crystal',]
-
-let secondTitle = ['sisters',
+'dark-crystal',
+'the-skulls',
+'evergreen',
+'sisters',
 'coven',
-'wives',
-'circle',
 'nest',
+'secrets',
+'raven-wing',
+'the-cauldron',
+'sacred-circle',
+'moonrise',
+'dragons',
+'the-totem',
+'sriracha',
+'elder-bones',
+'fire-bones',
+'nocturnal-souls',
+'the-secret-sisterhood',
+'dead-daughters',
+'the-thorny-briar',
+'black-briar',
+]
+
+let secondTitle = [
 'of-twilight',
 'gathering',
 'of-the-willow',
@@ -32,7 +50,25 @@ let secondTitle = ['sisters',
 'of-the-night',
 'of-the-mirror',
 'of-patience',
+'of-poison',
+'of-the-reaper',
 'of-nightshade',
+'of-the-stars',
+'of-the-witches-moon',
+'wives',
+'of-the-graveyard',
+'circle',
+'guild',
+'of-dusk',
+'of-dawn',
+'of-salem',
+'of-brooklyn',
+'of-shadow',
+'in-ashes',
+'fellowship',
+'of-the-bramble',
+'of-the-devil',
+'of-the-pentagram'
 ]
 
 const db = firebase.database()
