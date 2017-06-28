@@ -13,8 +13,7 @@ export class Ingredients extends React.Component {
       win: this.props.win,
       levelEnd: this.props.levelEnd
     }
-
-    this.selectIngredient = this.selectIngredient.bind(this)
+    this.drag = this.drag.bind(this)
   }
 
   componentWillReceiveProps(newProps) {
@@ -23,9 +22,12 @@ export class Ingredients extends React.Component {
     this.setState({levelEnd: newProps.levelEnd})
   }
 
-  selectIngredient = (ingredient) => () => {
-    this.props.addIngredient(ingredient)
+  drag(e){
+    console.log('dragging')
+    console.log('ingredient being dragged is:', e.target.id)
+    e.dataTransfer.setData("ingredient", e.target.id)
   }
+
   render() {
     const ingredients = this.props.currentPlayer.ingredients
     return (
@@ -36,15 +38,17 @@ export class Ingredients extends React.Component {
         <h3>Ingredients</h3>
         {
           ingredients && ingredients.map((ingredient, idx) => (
-              <div key={idx}>
-                <button onClick={this.selectIngredient(ingredient)}> {ingredient} </button>
-              </div>
+              <p> {ingredient}
+                <img key={idx} id={ingredient} draggable="true" onDragStart={this.drag} src="/gifs/dummyIngredient.png" />
+              </p>
             ))
         }
       </div>
     )
   }
 }
+
+//<button onClick={this.selectIngredient(ingredient)}>
 
 export default connect(
   ({gameStarted, players, ingredients, commands, score, level, win, levelEnd}) => ({gameStarted, players, ingredients, commands, score, level, win, levelEnd}),

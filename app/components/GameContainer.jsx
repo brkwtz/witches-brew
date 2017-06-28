@@ -64,8 +64,6 @@ export default class GameContainer extends React.Component {
   }
 
   render() {
-    console.log('gamecontainer props', this.props)
-    console.log('ref', this.state.ref)
     const {store} = this.state || {},
       {children} = this.props
     if (!store) return null
