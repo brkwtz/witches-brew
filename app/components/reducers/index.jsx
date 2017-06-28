@@ -55,10 +55,10 @@ export default function reducer(state = initialState, action) {
       return {...newState.players[uid], master: index === 0}
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
 
-    Object.keys(newState.players).map(uid => {
-      console.log('new player is...', newState.players[uid])
-      return newState.players[uid].timerCycle = 0
-    })
+    // Object.keys(newState.players).map(uid => {
+    //   console.log('new player is...', newState.players[uid])
+    //   return newState.players[uid].timerCycle = 99
+    // })
 
     break
 
@@ -113,14 +113,15 @@ export default function reducer(state = initialState, action) {
       newState.players = {...state.players,
         [action.uid]: {...state.players[action.uid], currentCommand: state.commands[0]}}
         newState.players.timerCycle = state.players.timerCycle + 1
-        console.log('but its updating in command expired? ', state.players.timerCycle) /////////////////////////
-     
+        //console.log('but its updating in command expired? ', state.players.timerCycle) /////////////////////////
+
       newState.commands = state.commands.slice(1)
 
     } else {
       // if no more command in queue, set the currentCommand to null for the player whose command is completed
       newState.players = {...state.players,
         [action.uid]: {...state.players[action.uid], currentCommand: null}}
+        newState.players.timerCycle = state.players.timerCycle + 1 // trying this here
     }
     if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
       newState.levelEnd = true

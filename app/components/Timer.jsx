@@ -10,7 +10,7 @@ export class Timer extends React.Component {
     this.state = {
       time: 7000, // timer start in milliseconds
       currentUserId: this.props.currentPlayer.uid,
-      cycle: 0
+      //cycle: 0
     }
     this.tick = this.tick.bind(this)
     this.stopTime = Date.now() + this.state.time
@@ -25,23 +25,24 @@ export class Timer extends React.Component {
   }
 
   tick() {
-
     let currentPlayer = this.props.currentPlayer
     let now = Date.now()
-    if (this.state.cycle === 4) {
+
+    console.log('THIS IS THE [PROPS] TIMER CYCLE: ', this.props.players.timerCycle)
+    if (this.props.players.timerCycle === 4) {
       clearInterval(this.time)
-    } else if (this.stopTime - now <= 0) {
+    } else if (this.stopTime - now <= 0) { // if state timerCycle != 4, & timer expired -> restart timer
       this.setState({time: 0})
       clearInterval(this.time)
       // console.log('is the local state updating?', this.state.cycle)
       this.props.commandExpired(currentPlayer.uid)
-      console.log('current player, cycle is updating in timer component:', currentPlayer.timerCycle)
-      this.setState({
-        time: 7000,
+      // console.log('current player, cycle is updating in timer component:', currentPlayer.timerCycle)
+      this.setState({ // reset timer start to 7 seconds
+        time: 7000
       })
-      this.stopTime = Date.now() + this.state.time
-      this.time = setInterval(this.tick, 1000)
-    } else {
+      this.stopTime = Date.now() + this.state.time // reset stop time
+      this.time = setInterval(this.tick, 1000) // restart interval
+    } else { // if state timerCycle != 4, continue ticking down
       this.setState({
         time: this.stopTime - now,
         cycle: this.props.players[this.state.currentUserId].timerCycle // this.state.cycle + 1
