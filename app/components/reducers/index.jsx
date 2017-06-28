@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux'
 import {List} from 'immutable'
 import ingredientsCommands from '../../assets/commands.json'
-import lodash from 'lodash'
+import _ from 'lodash'
 
 // =====actions=====//
 const PLAYER_JOIN = 'PLAYER_JOIN'
@@ -35,33 +35,34 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   let newState = Object.assign({}, state)
+  const uids = Object.keys(state.players)
 
   // helper functions
   function updatePlayerState() {
     if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
-    newState.levelEnd = true
-    if (state.score / (Object.keys(state.players).length * state.ingredientsPerPlayer) >= 0.7) {
-      newState.gameStarted = false
-      newState.win = true
-      newState.level = state.level + 1
-      newState.ingredientsPerPlayer = state.ingredientsPerPlayer + 1
-      newState.score = 0
-    } else {
-        newState = {
-          gameStarted: false,
-          players: state.players,
-          ingredientsPerPlayer: 4,
-          commands: [],
-          score: 0,
-          level: 1,
-          win: false,
-          levelEnd: true
-        }
+      newState.levelEnd = true
+      if (state.score / (uids.length * state.ingredientsPerPlayer) >= 0.7) {
+        newState.gameStarted = false
+        newState.win = true
+        newState.level = state.level + 1
+        newState.ingredientsPerPlayer = state.ingredientsPerPlayer + 1
+        newState.score = 0
+      } else {
+          newState = {
+            gameStarted: false,
+            players: state.players,
+            ingredientsPerPlayer: 4,
+            commands: [],
+            score: 0,
+            level: 1,
+            win: false,
+            levelEnd: true
+          }
       }
     }
   }
 
-  //reducer
+  // reducer
   switch (action.type) {
 
   case PLAYER_JOIN:
@@ -82,7 +83,6 @@ export default function reducer(state = initialState, action) {
     newState.levelEnd = false
     newState.win = null
     newState.commands = action.commands
-    const uids = Object.keys(state.players)
     newState.players = uids.sort().map((uid, index) => {
       const num = action.ingredients.length / uids.length
       return {...state.players[uid],
@@ -92,7 +92,7 @@ export default function reducer(state = initialState, action) {
     break
 
   case ADD_INGREDIENT:
-    Object.keys(state.players).forEach(uid => {
+    uids.forEach(uid => {
       // if correct ingredient is added
       if (state.players[uid].currentCommand === ingredientsCommands[action.ingredient]) {
         newState.score = state.score + 1
@@ -141,7 +141,7 @@ export const startRound = () => (dispatch, getState) => {
   let ingredients = []
   let playerNum = Object.keys(getState().players).length
 
-  lodash.shuffle(Object.keys(ingredientsCommands)).slice(0, playerNum * getState().ingredientsPerPlayer).forEach(ingredient => {
+  _.shuffle(Object.keys(ingredientsCommands)).slice(0, playerNum * getState().ingredientsPerPlayer).forEach(ingredient => {
     ingredients.push(ingredient)
     commands.push(ingredientsCommands[ingredient])
   })
