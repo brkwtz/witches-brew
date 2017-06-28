@@ -10,7 +10,7 @@ export const playerReady = (uid) => ({type: PLAYER_READY, uid})
 // <-------------- reducers -------------->
 const initialState = {
   players: {},
-  ingredientsPerPlayer: 4
+  commands: []
 }
 
 export default function reducer(state = initialState, action) {

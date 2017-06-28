@@ -10,9 +10,7 @@ export const startGame = (commands, ingredients) => ({type: GAME_START, commands
 // <-------------- reducers -------------->
 const initialState = {
   gameStarted: false,
-  players: {},
   ingredientsPerPlayer: 4,
-  commands: [],
   score: 0,
   level: 1,
   win: null,
@@ -23,6 +21,7 @@ export default function reducer(state = initialState, action) {
   let newState = Object.assign({}, state)
 
   switch (action.type) {
+
   case GAME_START:
     newState.gameStarted = true
     newState.commands = action.commands

@@ -60,7 +60,6 @@ export default class GameContainer extends React.Component {
         )
       )
     )
-    console.log(store.getState())
     this.setState({store})
   }
 

@@ -9,7 +9,8 @@ import _ from 'lodash'
 import {browserHistory} from 'react-router'
 
 import ingredientsCommands from '../assets/commands.json'
-import reducer from './reducers'
+import {playerJoin, playerReady} from './reducers/players'
+import {startRound} from './reducers/levels'
 
 export class PlayInterface extends React.Component {
   state = {user: null}
@@ -27,7 +28,7 @@ export class PlayInterface extends React.Component {
 
   componentWillReceiveProps(newProps) {
     if (!this.state.user) return
-    if (newProps.players[this.state.user.uid].master && _.every(newProps.players, player => player.ready) && !newProps.gameStarted) {
+    if (newProps.players[this.state.user.uid] && newProps.players[this.state.user.uid].master && _.every(newProps.players, player => player.ready) && !newProps.gameStarted) {
       this.props.startRound()
     }
     if (newProps.win === false) {
@@ -72,6 +73,6 @@ export class PlayInterface extends React.Component {
 }
 
 export default connect(
-  ({gameStarted, players, ingredients, commands, score, level, win}) => ({gameStarted, players, ingredients, commands, score, level, win}),
-  reducer,
+  ({gamePlay, players, levels}) => ({gameStarted: gamePlay.gameStarted, players: players.players, ingredients: levels.ingredients, commands: gamePlay.commands, score: levels.score, level: levels.level, win: levels.win, currentCommand: levels.currentCommand}),
+  {playerJoin, playerReady, startRound}
 )(PlayInterface)
