@@ -1,3 +1,5 @@
+'use strict'
+
 import React from 'react'
 import firebase from 'APP/fire'
 import {connect} from 'react-redux'
@@ -7,6 +9,7 @@ import Command from './Command'
 import Ingredients from './Ingredients'
 import Timer from './Timer'
 import lodash from 'lodash'
+import {browserHistory} from 'react-router'
 
 import ingredientsCommands from '../assets/commands.json'
 import {playerJoin, playerReady, startRound, addIngredient, commandExpired} from './reducers'
@@ -18,6 +21,7 @@ export class PlayInterface extends React.Component {
     firebase.auth().onAuthStateChanged(user => {
       this.setState({user})
       if (!user) return
+
       if (!this.props.players[user.uid]) {
         let player = {uid: user.uid, ingredients: [], currentCommand: ''}
         this.props.playerJoin(player)
@@ -29,6 +33,10 @@ export class PlayInterface extends React.Component {
     if (!this.state.user) return
     if (newProps.players[this.state.user.uid].master && lodash.every(newProps.players, player => player.ready) && !newProps.gameStarted) {
       this.props.startRound()
+    }
+    if (newProps.win === false) {
+      window.alert('GAME OVER')
+      browserHistory.push(`/`)
     }
   }
 
@@ -43,6 +51,7 @@ export class PlayInterface extends React.Component {
       <div>
         <h3>Welcome to the coven of {this.props.params.title}!</h3>
         <Cauldron />
+        <h1>LEVEL {this.props.level}</h1>
         {
           (currentPlayer && this.props.gameStarted)
             ? (
@@ -63,6 +72,6 @@ export class PlayInterface extends React.Component {
 }
 
 export default connect(
-  ({gameStarted, players, ingredients, commands, score, level}) => ({gameStarted, players, ingredients, commands, score, level}),
+  ({gameStarted, players, ingredients, commands, score, level, win}) => ({gameStarted, players, ingredients, commands, score, level, win}),
   {playerJoin, playerReady, startRound, addIngredient, commandExpired},
 )(PlayInterface)

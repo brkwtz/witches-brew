@@ -1,8 +1,8 @@
 import React from 'react'
 import firebase from 'APP/fire'
 import {connect} from 'react-redux'
-import { Progress } from 'react-sweet-progress';
-import "react-sweet-progress/lib/style.css";
+import { Progress } from 'react-sweet-progress'
+import 'react-sweet-progress/lib/style.css'
 
 import {commandExpired} from './reducers'
 
@@ -27,7 +27,7 @@ export class Timer extends React.Component {
 
   timeForLevel() {
     let level = this.props.level
-    if(level <= 2){
+    if (level <= 2) {
       return 7
     } else {
       return 5
@@ -53,9 +53,9 @@ export class Timer extends React.Component {
     this.setState({startTime: this.state.startTime - 1})
 
     // Game Over (successfully added all ingredients)
-    if(!this.props.currentPlayer.currentCommand){
+    if (!this.props.currentPlayer.currentCommand){
       clearInterval(this.time)
-     }
+    }
   }
 
   render() {
@@ -64,24 +64,24 @@ export class Timer extends React.Component {
     const percent = Math.floor((time/totalTime) * 100)
     return (
       <div>
-      <Progress
-      percent={percent}
-      theme={{
-        success: {
-          symbol: '🔮',
-          color: '#B920D3'
-        },
-        active: {
-          symbol: '🔮',
-          color: '#730187'
-        },
-        default: {
-          symbol: '😱',
-          color: '#32003A'
-        }
-  }}
-/>
-      <span style={{color: 'red'}}><h1>{time}</h1></span>
+        <Progress
+          percent={percent}
+          theme={{
+            success: {
+              symbol: '🔮',
+              color: '#B920D3'
+            },
+            active: {
+              symbol: '🔮',
+              color: '#730187'
+            },
+            default: {
+              symbol: '😱',
+              color: '#32003A'
+            }
+          }}
+        />
+        <span style={{color: 'red'}}><h1>{time}</h1></span>
       </div>
     )
   }
