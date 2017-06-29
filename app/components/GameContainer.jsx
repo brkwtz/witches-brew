@@ -73,7 +73,7 @@ export class GameContainer extends React.Component {
 
   render() {
     const {store, ready} = this.state || {},
-      {children, loading=<h1>Loading...</h1>} = this.props
+      {children, loading=<h1>Entering the Coven...</h1>} = this.props
     if (!store) return null
     if (!ready) return loading
     return (
