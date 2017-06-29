@@ -60,15 +60,21 @@ export class PlayInterface extends React.Component {
   }
 
   componentDidMount() {
+    console.log('PlayInterface::componentDidMount')
     firebase.auth().onAuthStateChanged(user => {
-      this.setState({user})
-      if (!user) return
-
-      if (!this.props.players[user.uid]) {
-        let player = {uid: user.uid, ingredients: [], currentCommand: ''}
-        this.props.playerJoin(player)
-      }
+      console.log('auth state=', user)
+      this.setState({user}, this.joinGame)
     })
+    this.joinGame()
+  }
+
+  joinGame = () => {
+    const user = this.state.user
+    if (!user) return
+    if (!this.props.players[user.uid]) {
+      let player = {uid: user.uid, ingredients: [], currentCommand: ''}
+      this.props.playerJoin(player)
+    }
   }
 
   componentWillReceiveProps(newProps) {

@@ -45,7 +45,7 @@ export class GameContainer extends React.Component {
             })
 
             // Delete the room when *anyone* disconnects
-            ref.onDisconnect().remove()
+            // ref.onDisconnect().remove()
             // When the room goes away, remount the store, resetting
             // its state.
             const remount = () => this.mountStoreAtRef(ref)
