@@ -111,7 +111,7 @@ export class PlayInterface extends React.Component {
     const renderPoofs = poofedWitches.map((witchPic, indx) => (<img key={indx} id="poofed-witch" src={witchPic}/>))
 
     return (
-      <div>
+      <div className="container-fluid center">
         <ReactModal
          id="levelUp"
           isOpen={this.state.showLevelModal}
@@ -137,9 +137,13 @@ export class PlayInterface extends React.Component {
           </div>
         </ReactModal>
 
-        <h1>Welcome to {covenName}!</h1>
-        <Cauldron />
-        <h2>level {this.props.level}</h2>
+        <div className="row">
+          <h1 >Welcome to the coven of {covenName}!</h1>
+          <h4>level {this.props.level}</h4>
+          <Cauldron />
+        </div>
+        <div>
+          
         {
 
           (currentPlayer && this.props.gameStarted)
@@ -156,11 +160,17 @@ export class PlayInterface extends React.Component {
 
             <div>
               {renderWitches}
-              <button onClick={this.clickToStart}>Start</button>
+
+              {
+                (currentPlayer.ready)
+                  ? <div></div>
+                  : (<p><img src="/gifs/readyButton.gif" onClick={this.clickToStart} /></p>)
+              }
             </div>
           )
 
         }
+        </div>
     </div>
     )
   }

@@ -57,5 +57,26 @@ body {
   }
   
   body {
-    background-color: #e6e6e6;
+    /*background-color: #e6e6e6;*/
+    background-image: url('gifs/background.png');
+    background-size: 100%;
+  }
+
+  .command1 {
+    color: green
+  }
+
+  .command1 {
+    color: darkorange;
+  }
+
+  .command1 {
+    color: red;
+  }
+
+  .center {
+    text-align: center;
+    margin: auto;
+    paddin: 10px;
+    width: 90%
   }
