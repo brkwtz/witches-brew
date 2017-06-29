@@ -113,7 +113,7 @@ export class PlayInterface extends React.Component {
         </ReactModal>
 
         <div className="row">
-          <h3 >Welcome to {covenName}!</h3>
+          <h1 >Welcome to the coven of {covenName}!</h1>
           <h4>LEVEL {this.props.level}</h4>
           <Cauldron />
         </div>
@@ -137,7 +137,11 @@ export class PlayInterface extends React.Component {
                 return (<img key={indx} id="waiting-witch" src={witchPic}/>)
               })}
 
-              <p><button onClick={this.clickToStart}>Start</button></p>
+              {
+                (currentPlayer.ready)
+                  ? <div></div>
+                  : (<p><img src="/gifs/readyButton.gif" onClick={this.clickToStart} /></p>)
+              }
             </div>
           )
 
