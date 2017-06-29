@@ -20,7 +20,7 @@ export class PlayInterface extends React.Component {
     this.state = {
       user: null,
       showLevelModal: false,
-      showGameOverModal: true
+      showGameOverModal: false
     }
     this.handleOpenLevelModal = this.handleOpenLevelModal.bind(this)
     this.handleCloseLevelModal = this.handleCloseLevelModal.bind(this)
@@ -107,16 +107,7 @@ export class PlayInterface extends React.Component {
     }
 
     const renderWitches = waitingWitches.map((witchPic, indx) => (<img key={indx} id="waiting-witch" src={witchPic}/>))
-
-    // const poofWitches = poofedWitches.map((poofPic, indx) => (<img key={indx} id="poofed-witch" src={poofPic}/>))
-
-    const showWitches = () => {
-      const timeout = setTimeout(poofThem, 5000)
-    }
-
-    const poofThem = () => {
-      waitingWitches.forEach((poofPic, indx) => (<img key={indx} id="poofed-witch" src={poofPic}/>))
-    }
+    const renderPoofs = poofedWitches.map((witchPic, indx) => (<img key={indx} id="poofed-witch" src={witchPic}/>))
 
     return (
       <div>
@@ -139,7 +130,7 @@ export class PlayInterface extends React.Component {
           <div className="center">
             <h1>Game Over</h1>
             <h2>maybe burn some sage and try again</h2>
-            {renderWitches}
+            {renderPoofs}
             <button onClick={this.handlePlayAgain}>Play Again</button>
             <button onClick={this.handleQuit}>Quit</button>
           </div>

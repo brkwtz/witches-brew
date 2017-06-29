@@ -13,6 +13,17 @@
   src: url('./fonts/LadyRadical.ttf');
 }
 
+.Modal {
+  font-family: 'LadyRadical';
+  color: #B920D3;
+  background-color: #730187;
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  right: 40px;
+  bottom: 40px;
+}
+
 h1 {
   font-family: 'LadyRadical';
   color: #32003A;
@@ -22,24 +33,13 @@ body {
   background-color: #e6e6e6;
 }
 
-.Modal {
-  font-family: 'LadyRadical';
-  color: #32003A;
-  background-color: #730187;
-  position: absolute;
-  top: 40px;
-  left: 40px;
-  right: 40px;
-  bottom: 40px;
-}
-
 .Overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #1F3A00;
+  background-color: #32003A;
 }
 
 .center {
