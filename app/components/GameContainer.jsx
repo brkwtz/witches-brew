@@ -1,5 +1,4 @@
 import React from 'react'
-import {Router, Route, IndexRedirect, browserHistory} from 'react-router'
 
 import {createStore, applyMiddleware} from 'redux'
 import {Provider} from 'react-redux'
@@ -11,11 +10,9 @@ import reducer from './reducers'
 import firebase from 'APP/fire'
 const db = firebase.database()
 
-import PlayInterface from './PlayInterface'
-import Home from './Home'
-
 export class GameContainer extends React.Component {
   componentDidMount() {
+    this.props.fireRef.onDisconnect().remove()
     this.mountStoreAtRef(this.props.fireRef)
   }
 
