@@ -2,6 +2,9 @@ import React from 'react'
 import firebase from 'APP/fire'
 import {connect} from 'react-redux'
 
+const MobileDetect = require('mobile-detect')
+
+
 import ingredientsCommands from '../assets/commands.json'
 import {playerJoin, startGame, addIngredient, commandExpired} from './reducers'
 
@@ -13,6 +16,12 @@ export class Ingredients extends React.Component {
       win: this.props.win,
       levelEnd: this.props.levelEnd
     }
+
+    this.md = new MobileDetect(window.navigator.userAgent);
+    // let md = new MobileDetect(
+    //     'Mozilla/5.0 (Linux; U; Android 4.0.3; en-in; SonyEricssonMT11i' +
+    //     ' Build/4.1.A.0.562) AppleWebKit/534.30 (KHTML, like Gecko)' +
+    //     ' Version/4.0 Mobile Safari/534.30');
     this.drag = this.drag.bind(this)
   }
 
@@ -27,6 +36,10 @@ export class Ingredients extends React.Component {
   }
 
   render() {
+    console.log('are you accessing witches brew on', this.md.userAgent())
+    console.log('your os is', this. md.os())
+    //md.mobile()
+    console.log('md is...', this.md)
     const ingredients = this.props.currentPlayer.ingredients
     return (
       <div>
