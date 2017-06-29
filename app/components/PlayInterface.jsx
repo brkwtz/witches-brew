@@ -82,7 +82,7 @@ export class PlayInterface extends React.Component {
     if (!this.state.user) return null
     const currentPlayer = this.props.players[this.state.user.uid]
     if (!currentPlayer) {
-      return <h1>This coven is full</h1>
+      return <h1>This coven is full...</h1>
     }
 
     const covenName = this.props.params.title.split('-').map(name => name.charAt(0).toUpperCase() + name.slice(1)).join(' ')
