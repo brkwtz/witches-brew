@@ -16,12 +16,7 @@ export class Ingredients extends React.Component {
       win: this.props.win,
       levelEnd: this.props.levelEnd
     }
-
     this.md = new MobileDetect(window.navigator.userAgent);
-    // let md = new MobileDetect(
-    //     'Mozilla/5.0 (Linux; U; Android 4.0.3; en-in; SonyEricssonMT11i' +
-    //     ' Build/4.1.A.0.562) AppleWebKit/534.30 (KHTML, like Gecko)' +
-    //     ' Version/4.0 Mobile Safari/534.30');
     this.drag = this.drag.bind(this)
   }
 
@@ -34,10 +29,21 @@ export class Ingredients extends React.Component {
   drag(e) {
     e.dataTransfer.setData('ingredient', e.target.id)
   }
+  
+  get mobilePlayer() {
+    let detect = this.md.ua
+    let playingOnA = detect.slice((detect.indexOf('(') + 1), detect.indexOf(';'))
+    if(playingOnA === 'iPhone' || playingOnA === 'Android'){return true}
+    else {return false}
+  }
 
   render() {
-    console.log('are you accessing witches brew on', this.md.userAgent())
+    
     const ingredients = this.props.currentPlayer.ingredients
+    let dragFunc;
+    if(!this.mobilePlayer){dragFunc = this.drag}
+    else{dragFunc = this.drag}
+
     return (
       <div>
         <h1 >{this.state.currentCommand}</h1>
@@ -46,10 +52,11 @@ export class Ingredients extends React.Component {
         {
           ingredients && ingredients.map((ingredient, idx) => (
             <div className="col-sm-3" key={idx}>
-              <img id={ingredient} draggable="true" onDragStart={this.drag} src="/gifs/dummyIngredient.png" /> <br/> ({ingredient})
+              <img id={ingredient} draggable="true" onDragStart={dragFunc} src="/gifs/dummyIngredient.png" /> <br/> ({ingredient})
             </div>
             ))
         }
+
       </div>
     )
   }
