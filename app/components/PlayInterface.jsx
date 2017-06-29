@@ -68,9 +68,9 @@ export class PlayInterface extends React.Component {
       this.handleOpenLevelModal()
     }
     if (newProps.win === false) {
-    //delete when you lose, you loser
-    this.handleOpenGameOverModal()
-    firebase.database().ref('gamerooms').child(this.props.params.title).remove()
+      // delete when you lose, you loser
+      this.handleOpenGameOverModal()
+      firebase.database().ref('gamerooms').child(this.props.params.title).remove()
     }
   }
 
@@ -88,8 +88,8 @@ export class PlayInterface extends React.Component {
     const covenName = this.props.params.title.split('-').map(name => name.charAt(0).toUpperCase() + name.slice(1)).join(' ')
     let witchNum = Object.keys(this.props.players).length
     let waitingWitches = []
-    for(let i = 0; i < witchNum; i++){
-      waitingWitches.push("/gifs/witch" + (i+1) + ".gif")
+    for (let i = 0; i < witchNum; i++) {
+      waitingWitches.push('/gifs/witch' + (i+1) + '.gif')
     }
 
     return (
@@ -114,10 +114,7 @@ export class PlayInterface extends React.Component {
 
         <h1>Welcome to {covenName}!</h1>
         <Cauldron />
-        <h2>Level {this.props.level}</h2>
-
-
-
+        <h2>LEVEL {this.props.level}</h2>
         {
 
           (currentPlayer && this.props.gameStarted)
@@ -145,7 +142,6 @@ export class PlayInterface extends React.Component {
     </div>
     )
   }
-
 }
 
 export default connect(

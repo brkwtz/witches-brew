@@ -46,7 +46,7 @@ export default function reducer(state = initialState, action) {
           gameStarted: false,
           players: state.players,
           ingredientsPerPlayer: state.ingredientsPerPlayer + 1,
-          commands: state.commands,
+          commands: _.shuffle(state.commands),
           score: 0,
           level: state.level + 1,
           win: true
@@ -68,7 +68,6 @@ export default function reducer(state = initialState, action) {
 
   // reducer
   switch (action.type) {
-
   case PLAYER_JOIN:
     if (action.player.uid in state.players) {
       return state
@@ -155,5 +154,5 @@ export const startRound = () => (dispatch, getState) => {
     commands.push(ingredientsCommands[ingredient])
   })
 
-  dispatch(startGame(commands, ingredients))
+  dispatch(startGame(commands, _.shuffle(ingredients)))
 }
