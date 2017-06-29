@@ -22,25 +22,23 @@ export class Ingredients extends React.Component {
     this.setState({levelEnd: newProps.levelEnd})
   }
 
-  drag(e){
-    e.dataTransfer.setData("ingredient", e.target.id)
+  drag(e) {
+    e.dataTransfer.setData('ingredient', e.target.id)
   }
 
   render() {
+
     const ingredients = this.props.currentPlayer.ingredients
     return (
       <div>
-        <h1>{this.state.currentCommand}</h1>
-
+        <h1 >{this.state.currentCommand}</h1>
         <hr />
         <h3>Ingredients</h3>
         {
           ingredients && ingredients.map((ingredient, idx) => (
-              <div className="col-sm-3" key={idx}> 
-                
-                <img id={ingredient} draggable="true" onDragStart={this.drag} src="/gifs/dummyIngredient.png" /> <br/> ({ingredient})
-                
-              </div>
+            <div className="col-sm-3" key={idx}>
+              <img id={ingredient} draggable="true" onDragStart={this.drag} src="/gifs/dummyIngredient.png" /> <br/> ({ingredient})
+            </div>
             ))
         }
       </div>
