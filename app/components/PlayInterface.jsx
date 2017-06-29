@@ -83,13 +83,15 @@ export class PlayInterface extends React.Component {
     const currentPlayer = this.props.players[this.state.user.uid]
     if (!currentPlayer) {
       return <h1>This coven is full</h1>
+    }
 
     const covenName = this.props.params.title.split('-').map(name => name.charAt(0).toUpperCase() + name.slice(1)).join(' ')
     let witchNum = Object.keys(this.props.players).length
     let waitingWitches = []
-    for(let i = 0; i < witchNum; i++){
-      waitingWitches.push("/gifs/witch" + (i+1) + ".gif")
+    for (let i = 0; i < witchNum; i++) {
+      waitingWitches.push('/gifs/witch' + (i+1) + '.gif')
     }
+
     return (
       <div>
         <ReactModal
@@ -108,11 +110,11 @@ export class PlayInterface extends React.Component {
           <p>GAME OVER</p>
           <button onClick={this.handleCloseGameOverModal}>Close Modal</button>
         </ReactModal>
-        
+
         <h3>Welcome to {covenName}!</h3>
         <Cauldron />
         <h2>LEVEL {this.props.level}</h2>
-         
+
         {
           (currentPlayer && this.props.gameStarted)
             ? (
@@ -121,20 +123,20 @@ export class PlayInterface extends React.Component {
                 <Ingredients
                   IngredientsCommands={ingredientsCommands}
                   currentPlayer={currentPlayer}/>
-                 
+
               </div>
           )
             : (
-            
-            <div>          
+
+            <div>
               {waitingWitches.map((witchPic, indx) => {
                 return (<img key={indx} id="waiting-witch" src={witchPic}/>)
               })}
-        
+
               <button onClick={this.clickToStart}>Start</button>
             </div>
           )
-         
+
         }
     </div>
     )
