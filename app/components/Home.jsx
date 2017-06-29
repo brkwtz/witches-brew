@@ -121,6 +121,7 @@ export default class extends React.Component {
  
     return (
       <div>
+        <img src="/gifs/WitchesBrewLogo.png" />
           <h1> Join a Coven </h1>
           <select onChange={this.goToRoom}>
             {this.state.allCovens && this.state.allCovens.map((coven, index) => {
