@@ -97,7 +97,7 @@ export default class extends React.Component {
   }
 
   roomName() {
-    let newRoom = firstTitle[Math.floor(Math.random() * firstTitle.length)] + '-' + secondTitle[Math.floor(Math.random() * firstTitle.length)]
+    let newRoom = firstTitle[Math.floor(Math.random() * firstTitle.length-1)] + '-' + secondTitle[Math.floor(Math.random() * firstTitle.length-1)]
     if (this.state.allCovens.includes(newRoom)) this.createNewRoom()
     else return newRoom
   }
@@ -119,6 +119,7 @@ export default class extends React.Component {
 
   render() {
     let openCovens = this.state.allCovens
+ 
     return (
       <div>
         <h1> Join a Coven </h1>

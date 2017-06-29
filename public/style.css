@@ -1,15 +1,13 @@
-#greyBar {
-  width: 40%;
-  background-color: #ddd;
+#waiting-witch {
+  height: 200px
 }
 
-#purpleBar {
-  width: 1%;
-  height: 30px;
-  background-color: #730187;
+#cauldron {
+  height: 200px
 }
 
-/*body {*/
- /*background-image: url('gifs/witches-brew.jpg');*/
-/*}*/
-
+.col-sm-3 {
+  width: 25%;
+  float: left;
+  margin: 0 auto;
+  position: relative; }

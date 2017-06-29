@@ -23,8 +23,6 @@ export class Ingredients extends React.Component {
   }
 
   drag(e){
-    console.log('dragging')
-    console.log('ingredient being dragged is:', e.target.id)
     e.dataTransfer.setData("ingredient", e.target.id)
   }
 
@@ -38,9 +36,10 @@ export class Ingredients extends React.Component {
         <h3>Ingredients</h3>
         {
           ingredients && ingredients.map((ingredient, idx) => (
-              <p key={idx}> {ingredient}
-                <img key={idx} id={ingredient} draggable="true" onDragStart={this.drag} src="/gifs/dummyIngredient.png" />
-              </p>
+              <div className="col-sm-3" key={idx}> 
+                
+                <img id={ingredient} draggable="true" onDragStart={this.drag} src="/gifs/dummyIngredient.png" /> <br/> ({ingredient})
+              </div>
             ))
         }
       </div>
