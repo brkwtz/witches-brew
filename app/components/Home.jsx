@@ -69,7 +69,7 @@ let secondTitle = [
   'of-the-bramble',
   'of-the-devil',
   'of-the-pentagram',
-  'butts'
+  'of-butts'
 ]
 
 const db = firebase.database()
