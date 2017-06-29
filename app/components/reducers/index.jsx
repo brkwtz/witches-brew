@@ -29,8 +29,7 @@ const initialState = {
   commands: [],
   score: 0,
   level: 1,
-  win: null,
-  levelEnd: false
+  win: null
 }
 
 export default function reducer(state = initialState, action) {
@@ -39,25 +38,30 @@ export default function reducer(state = initialState, action) {
 
   // helper functions
   function updatePlayerState() {
+    // if all commands are removed from queue, level ends
     if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
-      newState.levelEnd = true
+      // if score is higher than 70% clear score and move to next level
       if (state.score / (uids.length * state.ingredientsPerPlayer) >= 0.7) {
-        newState.gameStarted = false
-        newState.win = true
-        newState.level = state.level + 1
-        newState.ingredientsPerPlayer = state.ingredientsPerPlayer + 1
-        newState.score = 0
+        newState = {
+          gameStarted: false,
+          players: state.players,
+          ingredientsPerPlayer: state.ingredientsPerPlayer + 1,
+          commands: state.commands,
+          score: 0,
+          level: state.level + 1,
+          win: true
+        }
+      // if score is lower than 70%, lose game by setting win to false
       } else {
-          newState = {
-            gameStarted: false,
-            players: state.players,
-            ingredientsPerPlayer: 4,
-            commands: [],
-            score: 0,
-            level: 1,
-            win: false,
-            levelEnd: true
-          }
+        newState = {
+          gameStarted: true,
+          players: state.players,
+          ingredientsPerPlayer: state.ingredientsPerPlayer,
+          commands: [],
+          score: state.score,
+          level: state.level,
+          win: false
+        }
       }
     }
   }
@@ -69,6 +73,11 @@ export default function reducer(state = initialState, action) {
     if (action.player.uid in state.players) {
       return state
     }
+
+    if (state.gameStarted || Object.keys(state.players).length >=4) {
+      return state
+    }
+
     newState.players = {...state.players, [action.player.uid]: action.player}
     newState.players = Object.keys(newState.players).sort().map((uid, index) => {
       return {...newState.players[uid], master: index === 0}
@@ -80,7 +89,6 @@ export default function reducer(state = initialState, action) {
 
   case GAME_START:
     newState.gameStarted = true
-    newState.levelEnd = false
     newState.win = null
     newState.commands = action.commands
     newState.players = uids.sort().map((uid, index) => {
@@ -106,32 +114,11 @@ export default function reducer(state = initialState, action) {
           // if no more command in queue, set the currentCommand to null for the player whose command is completed
           newState.players = {...state.players,
             [uid]: {...state.players[uid], currentCommand: null}}
-        }
-
-        if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
-          newState.levelEnd = true
-          if (newState.score / (Object.keys(state.players).length * state.ingredientsPerPlayer) >= 0.7) {
-            newState.gameStarted = false
-            newState.win = true
-            newState.level = state.level + 1
-            newState.ingredientsPerPlayer = state.ingredientsPerPlayer + 1
-            newState.score = 0
-          } else {
-            newState = {
-              gameStarted: false,
-              players: state.players,
-              ingredientsPerPlayer: 4,
-              commands: [],
-              score: 0,
-              level: 1,
-              win: false,
-              levelEnd: true
-            }
-          }
+          updatePlayerState()
         }
       }
     })
-    updatePlayerState()
+
     break
 
 // just for if the timer runs out
@@ -145,13 +132,13 @@ export default function reducer(state = initialState, action) {
       // if no more command in queue, set the currentCommand to null for the player whose command is completed
       newState.players = {...state.players,
         [action.uid]: {...state.players[action.uid], currentCommand: null}}
+      updatePlayerState()
     }
-    updatePlayerState()
     break
 
   default:
     return state
-  }
+  } // end of swtich
 
   return newState
 }
@@ -159,9 +146,9 @@ export default function reducer(state = initialState, action) {
 // ====== thunks ======//
 
 export const startRound = () => (dispatch, getState) => {
-  let commands = []
-  let ingredients = []
-  let playerNum = Object.keys(getState().players).length
+  const commands = []
+  const ingredients = []
+  const playerNum = Object.keys(getState().players).length
 
   _.shuffle(Object.keys(ingredientsCommands)).slice(0, playerNum * getState().ingredientsPerPlayer).forEach(ingredient => {
     ingredients.push(ingredient)
