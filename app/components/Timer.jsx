@@ -54,7 +54,7 @@ export class Timer extends React.Component {
     let defaultTime = this.timeForLevel()
     // Timer reached 0 (command expired)
 
-    if (this.state.startTime <= 0){
+    if (this.state.startTime <= 0) {
       this.props.commandExpired(this.props.currentPlayer.uid)
       this.setState({startTime: defaultTime})
     }

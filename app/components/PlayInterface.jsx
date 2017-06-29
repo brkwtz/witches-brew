@@ -93,7 +93,7 @@ export class PlayInterface extends React.Component {
     }
 
     return (
-      <div>
+      <div className="container-fluid center">
         <ReactModal
          id="levelUp"
           isOpen={this.state.showLevelModal}
@@ -112,9 +112,12 @@ export class PlayInterface extends React.Component {
           <button onClick={this.handleCloseGameOverModal}>Close Modal</button>
         </ReactModal>
 
-        <h3>Welcome to {covenName}!</h3>
-        <Cauldron />
-        <h2>LEVEL {this.props.level}</h2>
+        <div className="row">
+          <h3 >Welcome to {covenName}!</h3>
+          <h4>LEVEL {this.props.level}</h4>
+          <Cauldron />
+        </div>
+        <div>
         {
 
           (currentPlayer && this.props.gameStarted)
@@ -134,11 +137,12 @@ export class PlayInterface extends React.Component {
                 return (<img key={indx} id="waiting-witch" src={witchPic}/>)
               })}
 
-              <button onClick={this.clickToStart}>Start</button>
+              <p><button onClick={this.clickToStart}>Start</button></p>
             </div>
           )
 
         }
+        </div>
     </div>
     )
   }

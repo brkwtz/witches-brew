@@ -108,7 +108,6 @@ export class Home extends React.Component {
       .then(snapshot => {
         snapshot.forEach(childSnapshot => {
           let coven = childSnapshot.key
-          console.log('gameStarted = ', this.props.gameStarted)
           covens.push(coven)
         })
       })
