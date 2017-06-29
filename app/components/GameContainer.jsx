@@ -38,28 +38,34 @@ export class GameContainer extends React.Component {
           createLogger({collapsed: true}),
           thunkMiddleware,
           store => next => {
+            const queue = []
+
             const listener = ref.on('child_added', snapshot => {
               next(snapshot.val())
             })
+
+            // Delete the room when *anyone* disconnects
             ref.onDisconnect().remove()
-            const rmlistener = ref.on('child_removed', snapshot => {
-              this.mountStoreAtRef(ref)
-            })
-            const onceListener = ref.once('value', () => {
+            // When the room goes away, remount the store, resetting
+            // its state.
+            const remount = () => this.mountStoreAtRef(ref)
+            const drainQueueAndSetReady = () => {
               while (queue.length) {
                 next(queue.shift())
               }
               ready = true
               this.setState({ready: true})
-            })
+            }
+            ref.once('child_removed', remount)
+            ref.once('value', drainQueueAndSetReady)
 
             this.unsubscribe = () => {
               ref.off('child_added', listener)
-              ready || ref.off('value', onceListener)
+              ref.off('child_removed', remount)
+              ref.off('value', drainQueueAndSetReady)
             }
 
             let ready = false
-            const queue = []
             const pushWhenReady = (action) => ready ? ref.push(action) : queue.push(action)
 
             return action => {

@@ -103,8 +103,8 @@ export class PlayInterface extends React.Component {
 
     let poofedWitches = []
     for (let i = 0; i < witchNum; i++){
-      waitingWitches.push("/gifs/witch" + (i+1) + ".gif")
-      poofedWitches.push("/gifs/poof" + (i+1) + ".gif")
+      waitingWitches.push('/gifs/witch' + (i+1) + '.gif')
+      poofedWitches.push('/gifs/poof' + (i+1) + '.gif')
     }
 
     const renderWitches = waitingWitches.map((witchPic, indx) => (<img key={indx} id="waiting-witch" src={witchPic}/>))
@@ -143,7 +143,6 @@ export class PlayInterface extends React.Component {
           <Cauldron />
         </div>
         <div>
-          
         {
 
           (currentPlayer && this.props.gameStarted)
