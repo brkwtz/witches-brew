@@ -36,6 +36,11 @@ export default function reducer(state = initialState, action) {
   let newState = Object.assign({}, state)
   const uids = Object.keys(state.players)
 
+// crNOTES:
+// break up updatePlayerState into other commands. Don't change so many things on state in one thing
+// score can be it's own calculation
+// break won/lost into it's own calculation function
+// functions shouldn't mutate state, they should return an object and use that object to update the state
   // helper functions
   function updatePlayerState() {
     // if all commands are removed from queue, level ends

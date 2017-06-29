@@ -71,6 +71,10 @@ export class PlayInterface extends React.Component {
     })
   }
 
+// crNOTES:
+//  * move setting the .win out of componentWillReceiveProps
+// * if not this.props.win the show the modal
+// * change the .win to be .status, can be won, lost, inProgress or something like that
   componentWillReceiveProps(newProps) {
     if (!this.state.user) return
     const currentPlayer = this.props.players[this.state.user.uid]
@@ -143,7 +147,7 @@ export class PlayInterface extends React.Component {
           <Cauldron />
         </div>
         <div>
-          
+
         {
 
           (currentPlayer && this.props.gameStarted)

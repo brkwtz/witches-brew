@@ -13,6 +13,8 @@ export class Timer extends React.Component {
     this.startTimer = this.startTimer.bind(this)
     this.pauseTimer = this.pauseTimer.bind(this)
     this.state = {
+      // crNOTES:
+      // maybe shouldn't be called startTime. Should be time or something more descriptive
       startTime: this.timeForLevel()
     }
     this.tick = this.tick.bind(this)
@@ -32,7 +34,11 @@ export class Timer extends React.Component {
     }
   }
 
+// crNOTES:
+// if you put get in front of this you could make it a getter instead of a function
   timeForLevel() {
+    // crNOTES:
+    // this is never reassigned and could be a const
     let level = this.props.level
     if (level <= 2) {
       return 6
@@ -45,6 +51,8 @@ export class Timer extends React.Component {
     clearInterval(this.time)
   }
 
+// crNOTES:
+// you could make a CSS animation and listen for animationComplete(?) event
   startTimer() {
     this.time = setInterval(this.tick, 1000)
     this.currCommand = this.props.currentPlayer.currentCommand
