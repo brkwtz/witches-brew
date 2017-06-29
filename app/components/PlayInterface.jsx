@@ -5,7 +5,6 @@ import firebase from 'APP/fire'
 import {connect} from 'react-redux'
 
 import Cauldron from './Cauldron'
-import Command from './Command'
 import Ingredients from './Ingredients'
 import Timer from './Timer'
 import _ from 'lodash'
@@ -69,6 +68,8 @@ export class PlayInterface extends React.Component {
       this.handleOpenLevelModal()
     }
     if (newProps.win === false) {
+      // delete when you lose, you loser
+      firebase.database().ref('gamerooms').child(this.props.params.title).remove()
       this.handleOpenGameOverModal()
     }
   }
@@ -109,9 +110,8 @@ export class PlayInterface extends React.Component {
         </ReactModal>
         
         <h3>Welcome to {covenName}!</h3>
-
         <Cauldron />
-        <h1>LEVEL {this.props.level}</h1>
+        <h2>LEVEL {this.props.level}</h2>
          
         {
           (currentPlayer && this.props.gameStarted)

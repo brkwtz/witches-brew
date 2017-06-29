@@ -11,3 +11,17 @@
   float: left;
   margin: 0 auto;
   position: relative; }
+
+  @font-face {
+    font-family: 'LadyRadical';
+    src: url('./fonts/LadyRadical.ttf');
+  }
+
+  h1 {
+    font-family: 'LadyRadical';
+    color: #32003A;
+  }
+
+  body {
+    background-color: #e6e6e6;
+  }
