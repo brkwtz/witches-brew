@@ -80,3 +80,7 @@ body {
     paddin: 10px;
     width: 90%
   }
+
+  .ingredientImg {
+    display: inline-block;
+  }

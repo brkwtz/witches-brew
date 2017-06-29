@@ -38,25 +38,24 @@ export class Ingredients extends React.Component {
   }
 
   render() {
-    
     const ingredients = this.props.currentPlayer.ingredients
-    let dragFunc;
-    if(!this.mobilePlayer){dragFunc = this.drag}
-    else{dragFunc = this.drag}
-
+    let imgsPerRow = Math.ceil(ingredients.length / 2)
+    let imgWidth = Math.floor(100 / imgsPerRow - 5)
+    console.log('width: ', imgWidth)
     return (
       <div>
-        <h1 >{this.state.currentCommand}</h1>
-        <hr />
-        <h3>Ingredients</h3>
-        {
-          ingredients && ingredients.map((ingredient, idx) => (
-            <div className="col-sm-3" key={idx}>
-              <img id={ingredient} draggable="true" onDragStart={dragFunc} src="/gifs/dummyIngredient.png" /> <br/> ({ingredient})
-            </div>
-            ))
-        }
-
+        <div className="row">
+          <h1 >{this.state.currentCommand}</h1>
+        </div>
+        <div className="row">
+          {
+            ingredients && ingredients.map((ingredient, idx) => (
+              <span key={idx} width={`${imgWidth}%`}>
+                <img className="ingredientImg" id={ingredient} draggable="true" onDragStart={this.drag} src="/gifs/dummyIngredient.png" />({ingredient})
+              </span>
+              ))
+          }
+        </div>
       </div>
     )
   }

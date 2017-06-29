@@ -60,15 +60,21 @@ export class PlayInterface extends React.Component {
   }
 
   componentDidMount() {
+    console.log('PlayInterface::componentDidMount')
     firebase.auth().onAuthStateChanged(user => {
-      this.setState({user})
-      if (!user) return
-
-      if (!this.props.players[user.uid]) {
-        let player = {uid: user.uid, ingredients: [], currentCommand: ''}
-        this.props.playerJoin(player)
-      }
+      console.log('auth state=', user)
+      this.setState({user}, this.joinGame)
     })
+    this.joinGame()
+  }
+
+  joinGame = () => {
+    const user = this.state.user
+    if (!user) return
+    if (!this.props.players[user.uid]) {
+      let player = {uid: user.uid, ingredients: [], currentCommand: ''}
+      this.props.playerJoin(player)
+    }
   }
 
   componentWillReceiveProps(newProps) {
@@ -94,7 +100,7 @@ export class PlayInterface extends React.Component {
     if (!this.state.user) return null
     const currentPlayer = this.props.players[this.state.user.uid]
     if (!currentPlayer) {
-      return <h1>This coven is full</h1>
+      return <h1>This coven is full...</h1>
     }
 
     const covenName = this.props.params.title.split('-').map(name => name.charAt(0).toUpperCase() + name.slice(1)).join(' ')
@@ -103,8 +109,8 @@ export class PlayInterface extends React.Component {
 
     let poofedWitches = []
     for (let i = 0; i < witchNum; i++){
-      waitingWitches.push("/gifs/witch" + (i+1) + ".gif")
-      poofedWitches.push("/gifs/poof" + (i+1) + ".gif")
+      waitingWitches.push('/gifs/witch' + (i+1) + '.gif')
+      poofedWitches.push('/gifs/poof' + (i+1) + '.gif')
     }
 
     const renderWitches = waitingWitches.map((witchPic, indx) => (<img key={indx} id="waiting-witch" src={witchPic}/>))
@@ -143,7 +149,6 @@ export class PlayInterface extends React.Component {
           <Cauldron />
         </div>
         <div>
-          
         {
 
           (currentPlayer && this.props.gameStarted)
