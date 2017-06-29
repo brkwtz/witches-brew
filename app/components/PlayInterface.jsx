@@ -55,9 +55,9 @@ export class PlayInterface extends React.Component {
     }
     return (
       <div>
-        <h3>Welcome to {covenName}!</h3>
+        <h1>Welcome to {covenName}!</h1>
         <Cauldron />
-        <h1>LEVEL {this.props.level}</h1>
+        <h2>LEVEL {this.props.level}</h2>
          
         {
           (currentPlayer && this.props.gameStarted)
