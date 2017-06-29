@@ -4,7 +4,6 @@ import firebase from 'APP/fire'
 import {connect} from 'react-redux'
 // import command component(includes timer), ingredients component
 import Cauldron from './Cauldron'
-import Command from './Command'
 import Ingredients from './Ingredients'
 
 let firstTitle = [

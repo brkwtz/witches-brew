@@ -5,7 +5,6 @@ import firebase from 'APP/fire'
 import {connect} from 'react-redux'
 
 import Cauldron from './Cauldron'
-import Command from './Command'
 import Ingredients from './Ingredients'
 import Timer from './Timer'
 import _ from 'lodash'
@@ -34,7 +33,22 @@ export class PlayInterface extends React.Component {
     if (newProps.players[this.state.user.uid] && newProps.players[this.state.user.uid].master && _.every(newProps.players, player => player.ready) && !newProps.gameStarted) {
       this.props.startRound()
     }
+    
     if (newProps.win === false) {
+    
+    let query = firebase.database().ref('gamerooms').orderByKey()
+    firebase.database().ref('gamerooms').child(this.props.params.title).remove()
+    // query.once('value')
+    //   .then(snapshot => {
+    //     snapshot.forEach(childSnapshot => {
+    //       console.log(this.props.params.title, '=', childSnapshot.key, '?')
+    //       if(this.props.params.title === childSnapshot.key){
+    //         console.log()
+    //         firebase.database().ref('gamerooms').child(childSnapshot.key).remove()
+    //       }
+    //     })
+    //   })
+
       window.alert('GAME OVER')
       browserHistory.push(`/`)
     }
