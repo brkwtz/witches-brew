@@ -10,6 +10,8 @@ export class Timer extends React.Component {
   constructor(props) {
     super(props)
     this.timeForLevel = this.timeForLevel.bind(this)
+    this.startTimer = this.startTimer.bind(this)
+    this.pauseTimer = this.pauseTimer.bind(this)
     this.state = {
       startTime: this.timeForLevel()
     }
@@ -17,12 +19,17 @@ export class Timer extends React.Component {
   }
 
   componentDidMount() {
-    this.time = setInterval(this.tick, 1000)
-    this.currCommand = this.props.currentPlayer.currentCommand
+    this.startTimer()
   }
 
   componentWillUnmount() {
-    clearInterval(this.time)
+    this.pauseTimer()
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (!newProps.win) {
+      this.pauseTimer()
+    }
   }
 
   timeForLevel() {
@@ -34,15 +41,24 @@ export class Timer extends React.Component {
     }
   }
 
+  pauseTimer() {
+    clearInterval(this.time)
+  }
+
+  startTimer() {
+    this.time = setInterval(this.tick, 1000)
+    this.currCommand = this.props.currentPlayer.currentCommand
+  }
+
   tick() {
     let defaultTime = this.timeForLevel()
     // Timer reached 0 (command expired)
-    if(this.state.startTime <= 0){
+    if (this.state.startTime <= 0){
       this.props.commandExpired(this.props.currentPlayer.uid)
       this.setState({startTime: defaultTime})
     }
 
-    // Player did correct command 
+    // Player did correct command
     else if(this.props.currentPlayer.currentCommand && this.props.currentPlayer.currentCommand !== this.currCommand){
       // when the command changes, reset the timer, then reset the local "currCommand"
       this.currCommand = this.props.currentPlayer.currentCommand
@@ -88,9 +104,6 @@ export class Timer extends React.Component {
 }
 
 export default connect(
-  ({gameStarted, players, ingredients, commands, score, level, win, levelEnd}) => ({gameStarted, players, ingredients, commands, score, level, win, levelEnd}),
+  ({gameStarted, players, ingredients, commands, score, level, win}) => ({gameStarted, players, ingredients, commands, score, level, win}),
   {commandExpired},
 )(Timer)
-
-
-//
