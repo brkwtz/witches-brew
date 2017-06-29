@@ -37,9 +37,7 @@ export class Ingredients extends React.Component {
 
   render() {
     console.log('are you accessing witches brew on', this.md.userAgent())
-    console.log('your os is', this. md.os())
-    //md.mobile()
-    console.log('md is...', this.md)
+
     const ingredients = this.props.currentPlayer.ingredients
     return (
       <div>
