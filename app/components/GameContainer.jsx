@@ -1,5 +1,4 @@
 import React from 'react'
-import {Router, Route, IndexRedirect, browserHistory} from 'react-router'
 
 import {createStore, applyMiddleware} from 'redux'
 import {Provider} from 'react-redux'
@@ -11,11 +10,9 @@ import reducer from './reducers'
 import firebase from 'APP/fire'
 const db = firebase.database()
 
-import PlayInterface from './PlayInterface'
-import Home from './Home'
-
 export class GameContainer extends React.Component {
   componentDidMount() {
+    this.props.fireRef.onDisconnect().remove()
     this.mountStoreAtRef(this.props.fireRef)
   }
 
@@ -76,7 +73,7 @@ export class GameContainer extends React.Component {
 
   render() {
     const {store, ready} = this.state || {},
-      {children, loading=<h1>Loading...</h1>} = this.props
+      {children, loading=<h1>Entering the Coven...</h1>} = this.props
     if (!store) return null
     if (!ready) return loading
     return (
@@ -89,7 +86,6 @@ export class GameContainer extends React.Component {
 
 export default ({params: {title}, children}) =>
   <div>
-    <h1>{title}</h1>
     {/* Here, we're passing in a Firebase reference to
      /whiteboards/$whiteboardTitle. This is where the whiteboard is
      stored in Firebase. Each whiteboard is an array of actions that

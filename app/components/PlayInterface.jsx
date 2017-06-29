@@ -100,6 +100,7 @@ export class PlayInterface extends React.Component {
     const covenName = this.props.params.title.split('-').map(name => name.charAt(0).toUpperCase() + name.slice(1)).join(' ')
     const witchNum = Object.keys(this.props.players).length
     let waitingWitches = []
+
     let poofedWitches = []
     for (let i = 0; i < witchNum; i++){
       waitingWitches.push("/gifs/witch" + (i+1) + ".gif")
@@ -136,10 +137,9 @@ export class PlayInterface extends React.Component {
           </div>
         </ReactModal>
 
-        <h3>Welcome to {covenName}!</h3>
+        <h1>Welcome to {covenName}!</h1>
         <Cauldron />
-        <h2>LEVEL {this.props.level}</h2>
-
+        <h2>level {this.props.level}</h2>
         {
 
           (currentPlayer && this.props.gameStarted)
@@ -164,7 +164,6 @@ export class PlayInterface extends React.Component {
     </div>
     )
   }
-
 }
 
 export default connect(
