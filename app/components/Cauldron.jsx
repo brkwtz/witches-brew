@@ -29,7 +29,7 @@ export class Cauldron extends React.Component {
 
   // will fire add ingredient when dragged to the right area.
   selectIngredient(e) {
-    setTimeout(this.cauldronBubble(), 500)
+    this.cauldronBubble()
     let ingredient = e.dataTransfer.getData("ingredient")
     this.props.addIngredient(ingredient)
     
