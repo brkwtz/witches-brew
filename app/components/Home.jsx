@@ -119,17 +119,18 @@ export default class extends React.Component {
 
   render() {
     let openCovens = this.state.allCovens
- 
+
     return (
       <div>
         <img src="/gifs/WitchesBrewLogo.png" />
-          <h1> Join a Coven </h1>
+          <h1> The initiation begins... </h1>
           <select onChange={this.goToRoom}>
+          <option selected>Join a Coven</option>
             {this.state.allCovens && this.state.allCovens.map((coven, index) => {
               return (<option value={coven} key={index}>{coven.split('-').join(' ')}</option>)
             })}
           </select>
-          <h1> Create a Coven </h1>
+          <h1> Establish a new Coven... </h1>
           <button onClick={this.createNewRoom}>Live Deliciously</button>
           <Link to='/instructions'>How to play</Link>
       </div>
