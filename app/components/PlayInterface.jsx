@@ -22,11 +22,11 @@ export class PlayInterface extends React.Component {
       showLevelModal: false,
       showGameOverModal: false
     }
-
     this.handleOpenLevelModal = this.handleOpenLevelModal.bind(this)
     this.handleCloseLevelModal = this.handleCloseLevelModal.bind(this)
     this.handleOpenGameOverModal = this.handleOpenGameOverModal.bind(this)
-    this.handleCloseGameOverModal = this.handleCloseGameOverModal.bind(this)
+    this.handlePlayAgain = this.handlePlayAgain.bind(this)
+    this.handleQuit = this.handleQuit.bind(this)
   }
 
   handleOpenLevelModal() {
@@ -41,8 +41,22 @@ export class PlayInterface extends React.Component {
     this.setState({showGameOverModal: true})
   }
 
-  handleCloseGameOverModal() {
+  handleQuit() {
+    // close modal
     this.setState({showGameOverModal: false})
+    // delete gameroom from database
+    firebase.database().ref('gamerooms').child(this.props.params.title).remove()
+    // redirect to /coven
+    .then(() => browserHistory.push('/'))
+  }
+
+  handlePlayAgain() {
+    // close modal
+    this.setState({showGameOverModal: false})
+    // delete gameroom from database
+    firebase.database().ref('gamerooms').child(this.props.params.title).remove()
+    // redirect to /play/gameroom
+    .then(() => browserHistory.push(`/play/${this.props.params.title}`))
   }
 
   componentDidMount() {
@@ -68,9 +82,7 @@ export class PlayInterface extends React.Component {
       this.handleOpenLevelModal()
     }
     if (newProps.win === false) {
-      // delete when you lose, you loser
-      this.handleOpenGameOverModal()
-      firebase.database().ref('gamerooms').child(this.props.params.title).remove()
+    this.handleOpenGameOverModal()
     }
   }
 
@@ -86,11 +98,17 @@ export class PlayInterface extends React.Component {
     }
 
     const covenName = this.props.params.title.split('-').map(name => name.charAt(0).toUpperCase() + name.slice(1)).join(' ')
-    let witchNum = Object.keys(this.props.players).length
+    const witchNum = Object.keys(this.props.players).length
     let waitingWitches = []
-    for (let i = 0; i < witchNum; i++) {
-      waitingWitches.push('/gifs/witch' + (i+1) + '.gif')
+
+    let poofedWitches = []
+    for (let i = 0; i < witchNum; i++){
+      waitingWitches.push("/gifs/witch" + (i+1) + ".gif")
+      poofedWitches.push("/gifs/poof" + (i+1) + ".gif")
     }
+
+    const renderWitches = waitingWitches.map((witchPic, indx) => (<img key={indx} id="waiting-witch" src={witchPic}/>))
+    const renderPoofs = poofedWitches.map((witchPic, indx) => (<img key={indx} id="poofed-witch" src={witchPic}/>))
 
     return (
       <div className="container-fluid center">
@@ -107,17 +125,25 @@ export class PlayInterface extends React.Component {
           id="gameOver"
           isOpen={this.state.showGameOverModal}
           contentLabel="Game Over"
+          className="Modal"
+          overlayClassName="Overlay"
         >
-          <p>GAME OVER</p>
-          <button onClick={this.handleCloseGameOverModal}>Close Modal</button>
+          <div className="center">
+            <h1>Game Over</h1>
+            <h2>maybe burn some sage and try again</h2>
+            {renderPoofs}
+            <button onClick={this.handlePlayAgain}>Play Again</button>
+            <button onClick={this.handleQuit}>Quit</button>
+          </div>
         </ReactModal>
 
         <div className="row">
           <h1 >Welcome to the coven of {covenName}!</h1>
-          <h4>LEVEL {this.props.level}</h4>
+          <h4>level {this.props.level}</h4>
           <Cauldron />
         </div>
         <div>
+          
         {
 
           (currentPlayer && this.props.gameStarted)
@@ -133,9 +159,7 @@ export class PlayInterface extends React.Component {
             : (
 
             <div>
-              {waitingWitches.map((witchPic, indx) => {
-                return (<img key={indx} id="waiting-witch" src={witchPic}/>)
-              })}
+              {renderWitches}
 
               {
                 (currentPlayer.ready)

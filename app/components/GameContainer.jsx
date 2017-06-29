@@ -86,7 +86,6 @@ export class GameContainer extends React.Component {
 
 export default ({params: {title}, children}) =>
   <div>
-    <h1>{title}</h1>
     {/* Here, we're passing in a Firebase reference to
      /whiteboards/$whiteboardTitle. This is where the whiteboard is
      stored in Firebase. Each whiteboard is an array of actions that
