@@ -41,7 +41,7 @@ export default function reducer(state = initialState, action) {
     // if all commands are removed from queue, level ends
     if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
       // if score is higher than 70% clear score and move to next level
-      if (state.score / (uids.length * state.ingredientsPerPlayer) >= 0.7) {
+      if (newState.score / (uids.length * state.ingredientsPerPlayer) >= 0.7) {
         newState = {
           gameStarted: false,
           players: state.players,

@@ -73,7 +73,7 @@ let secondTitle = [
 
 const db = firebase.database()
 
-export class Home extends React.Component {
+export default class Home extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -109,7 +109,6 @@ export class Home extends React.Component {
       .then(snapshot => {
         snapshot.forEach(childSnapshot => {
           let coven = childSnapshot.key
-          console.log('gameStarted = ', this.props.gameStarted)
           covens.push(coven)
         })
       })
@@ -138,8 +137,3 @@ export class Home extends React.Component {
     )
   }
 }
-
-export default connect(
-  ({gameStarted}) => ({gameStarted}),
-  {},
-)(Home)
