@@ -1,8 +1,4 @@
-#waiting-witch {
-  height: 200px
-}
-
-#cauldron {
+#cauldron, #poofed-witch, #waiting-witch {
   height: 200px
 }
 
@@ -12,16 +8,41 @@
   margin: 0 auto;
   position: relative; }
 
-  @font-face {
-    font-family: 'LadyRadical';
-    src: url('./fonts/LadyRadical.ttf');
-  }
+@font-face {
+  font-family: 'LadyRadical';
+  src: url('./fonts/LadyRadical.ttf');
+}
 
-  h1 {
-    font-family: 'LadyRadical';
-    color: #32003A;
-  }
+h1 {
+  font-family: 'LadyRadical';
+  color: #32003A;
+}
 
-  body {
-    background-color: #e6e6e6;
-  }
+body {
+  background-color: #e6e6e6;
+}
+
+.Modal {
+  font-family: 'LadyRadical';
+  color: #32003A;
+  background-color: #730187;
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  right: 40px;
+  bottom: 40px;
+}
+
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #1F3A00;
+}
+
+.center {
+  margin: auto;
+  width: 60%;
+}
