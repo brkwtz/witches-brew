@@ -60,7 +60,9 @@ export class PlayInterface extends React.Component {
 
   componentWillReceiveProps(newProps) {
     if (!this.state.user) return
-    if (newProps.players[this.state.user.uid] && newProps.players[this.state.user.uid].master && _.every(newProps.players, player => player.ready) && !newProps.gameStarted) {
+    const currentPlayer = this.props.players[this.state.user.uid]
+    if (!currentPlayer) return
+    if (currentPlayer.master && _.every(newProps.players, player => player.ready) && !newProps.gameStarted) {
       this.props.startRound()
     }
     if (this.props.level !== newProps.level) {
@@ -78,6 +80,9 @@ export class PlayInterface extends React.Component {
   render() {
     if (!this.state.user) return null
     const currentPlayer = this.props.players[this.state.user.uid]
+    if (!currentPlayer) {
+      return <h1>This coven is full</h1>
+
     const covenName = this.props.params.title.split('-').map(name => name.charAt(0).toUpperCase() + name.slice(1)).join(' ')
     let witchNum = Object.keys(this.props.players).length
     let waitingWitches = []

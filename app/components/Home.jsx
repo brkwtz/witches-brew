@@ -122,15 +122,15 @@ export default class extends React.Component {
  
     return (
       <div>
-          <h1> Join a Coven </h1>
-          <select onChange={this.goToRoom}>
-            {this.state.allCovens && this.state.allCovens.map((coven, index) => {
-              return (<option value={coven} key={index}>{coven.split('-').join(' ')}</option>)
-            })}
-          </select>
-          <h1> Create a Coven </h1>
-          <button onClick={this.createNewRoom}>Live Deliciously</button>
-          <Link to='/instructions'>How to play</Link>
+        <h1> Join a Coven </h1>
+        <select onChange={this.goToRoom}>
+          {this.state.allCovens && this.state.allCovens.map((coven, index) => {
+            return (<option value={coven} key={index}>{coven.split('-').join(' ')}</option>)
+          })}
+        </select>
+        <h1> Create a Coven </h1>
+        <button onClick={this.createNewRoom}>Live Deliciously</button>
+        <Link to='/instructions'>How to play</Link>
       </div>
     )
   }

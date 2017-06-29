@@ -73,6 +73,11 @@ export default function reducer(state = initialState, action) {
     if (action.player.uid in state.players) {
       return state
     }
+
+    if (state.gameStarted || Object.keys(state.players).length >=4) {
+      return state
+    }
+
     newState.players = {...state.players, [action.player.uid]: action.player}
     newState.players = Object.keys(newState.players).sort().map((uid, index) => {
       return {...newState.players[uid], master: index === 0}
@@ -109,10 +114,11 @@ export default function reducer(state = initialState, action) {
           // if no more command in queue, set the currentCommand to null for the player whose command is completed
           newState.players = {...state.players,
             [uid]: {...state.players[uid], currentCommand: null}}
+          updatePlayerState()
         }
       }
     })
-    updatePlayerState()
+
     break
 
 // just for if the timer runs out
@@ -126,13 +132,13 @@ export default function reducer(state = initialState, action) {
       // if no more command in queue, set the currentCommand to null for the player whose command is completed
       newState.players = {...state.players,
         [action.uid]: {...state.players[action.uid], currentCommand: null}}
+      updatePlayerState()
     }
-    updatePlayerState()
     break
 
   default:
     return state
-  }
+  } // end of swtich
 
   return newState
 }
