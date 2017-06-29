@@ -112,7 +112,7 @@ export class PlayInterface extends React.Component {
           <button onClick={this.handleCloseGameOverModal}>Close Modal</button>
         </ReactModal>
 
-        <h3>Welcome to {covenName}!</h3>
+        <h1>Welcome to {covenName}!</h1>
         <Cauldron />
         <h2>LEVEL {this.props.level}</h2>
         {

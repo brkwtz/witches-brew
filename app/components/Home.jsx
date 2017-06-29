@@ -39,6 +39,7 @@ let firstTitle = [
   'dead-daughters',
   'the-thorny-briar',
   'black-briar',
+  'the-notorious-sisters'
 ]
 
 let secondTitle = [
@@ -96,7 +97,7 @@ export class Home extends React.Component {
   }
 
   roomName() {
-    let newRoom = firstTitle[Math.floor(Math.random() * firstTitle.length-1)] + '-' + secondTitle[Math.floor(Math.random() * firstTitle.length-1)]
+    let newRoom = firstTitle[Math.floor(Math.random() * firstTitle.length-1)] + '-' + secondTitle[Math.floor(Math.random() * secondTitle.length-1)]
     if (this.state.allCovens.includes(newRoom)) this.createNewRoom()
     else return newRoom
   }
@@ -123,13 +124,14 @@ export class Home extends React.Component {
     return (
       <div>
         <img src="/gifs/WitchesBrewLogo.png" />
-          <h1> Join a Coven </h1>
+          <h1> The initiation begins... </h1>
           <select onChange={this.goToRoom}>
+          <option selected>Join a Coven</option>
             {this.state.allCovens && this.state.allCovens.map((coven, index) => {
               return (<option value={coven} key={index}>{coven.split('-').join(' ')}</option>)
             })}
           </select>
-          <h1> Create a Coven </h1>
+          <h1> Establish a new Coven... </h1>
           <button onClick={this.createNewRoom}>Live Deliciously</button>
           <Link to='/instructions'>How to play</Link>
       </div>
