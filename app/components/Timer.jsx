@@ -27,7 +27,7 @@ export class Timer extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (!newProps.win) {
+    if (newProps.win === false) {
       this.pauseTimer()
     }
   }
@@ -98,7 +98,7 @@ export class Timer extends React.Component {
             }
           }}
         />
-        
+
       </div>
     )
   }
