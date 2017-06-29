@@ -39,6 +39,7 @@ export class Ingredients extends React.Component {
               <div className="col-sm-3" key={idx}> 
                 
                 <img id={ingredient} draggable="true" onDragStart={this.drag} src="/gifs/dummyIngredient.png" /> <br/> ({ingredient})
+                
               </div>
             ))
         }

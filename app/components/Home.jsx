@@ -39,6 +39,7 @@ let firstTitle = [
   'dead-daughters',
   'the-thorny-briar',
   'black-briar',
+  'the-notorious-sisters'
 ]
 
 let secondTitle = [
@@ -96,7 +97,7 @@ export default class extends React.Component {
   }
 
   roomName() {
-    let newRoom = firstTitle[Math.floor(Math.random() * firstTitle.length-1)] + '-' + secondTitle[Math.floor(Math.random() * firstTitle.length-1)]
+    let newRoom = firstTitle[Math.floor(Math.random() * firstTitle.length-1)] + '-' + secondTitle[Math.floor(Math.random() * secondTitle.length-1)]
     if (this.state.allCovens.includes(newRoom)) this.createNewRoom()
     else return newRoom
   }

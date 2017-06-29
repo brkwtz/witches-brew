@@ -22,6 +22,15 @@
     color: #32003A;
   }
 
+  h2 {
+    font-family: 'LadyRadical';
+    color: #B920D3;
+  }
+
+  p {
+    color: #730187;
+  }
+  
   body {
     background-color: #e6e6e6;
   }
