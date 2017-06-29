@@ -73,7 +73,7 @@ let secondTitle = [
 
 const db = firebase.database()
 
-export default class extends React.Component {
+export default class Home extends React.Component {
   constructor(props) {
     super(props)
     this.state = {

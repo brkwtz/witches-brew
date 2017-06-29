@@ -1,5 +1,4 @@
 import React from 'react'
-import {Router, Route, IndexRedirect, browserHistory} from 'react-router'
 
 import {createStore, applyMiddleware} from 'redux'
 import {Provider} from 'react-redux'
@@ -10,9 +9,6 @@ import reducer from './reducers'
 
 import firebase from 'APP/fire'
 const db = firebase.database()
-
-import PlayInterface from './PlayInterface'
-import Home from './Home'
 
 export class GameContainer extends React.Component {
   componentDidMount() {
@@ -45,7 +41,10 @@ export class GameContainer extends React.Component {
             const listener = ref.on('child_added', snapshot => {
               next(snapshot.val())
             })
-
+            ref.onDisconnect().remove()
+            const rmlistener = ref.on('child_removed', snapshot => {
+              this.mountStoreAtRef(ref)
+            })
             const onceListener = ref.once('value', () => {
               while (queue.length) {
                 next(queue.shift())
@@ -76,7 +75,7 @@ export class GameContainer extends React.Component {
 
   render() {
     const {store, ready} = this.state || {},
-      {children, loading=<h1>Loading...</h1>} = this.props
+      {children, loading=<h1>Entering the Coven...</h1>} = this.props
     if (!store) return null
     if (!ready) return loading
     return (

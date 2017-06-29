@@ -33,11 +33,11 @@ export class Timer extends React.Component {
   }
 
   timeForLevel() {
-    let level = this.props.level
-    if (level <= 2) {
-      return 6
+    const level = this.props.level
+    if (level <= 3) {
+      return 8
     } else {
-      return 5
+      return 7
     }
   }
 
@@ -46,60 +46,48 @@ export class Timer extends React.Component {
   }
 
   startTimer() {
-    this.time = setInterval(this.tick, 1000)
+    const now = window.performance.now()
+    this.setState({
+      currentTime: now
+    })
+    this.running = true
+    this.startTime = now
+    this.endTime = now + (this.timeForLevel() * 1000)
+    this.tick(now)
     this.currCommand = this.props.currentPlayer.currentCommand
   }
 
-  tick() {
-    let defaultTime = this.timeForLevel()
+  tick = (currentTime) => {
+    const defaultTime = this.timeForLevel()
     // Timer reached 0 (command expired)
-
-    if (this.state.startTime <= 0){
+    if (this.running) {
+      window.requestAnimationFrame(this.tick)
+    }
+    this.setState({currentTime})
+    if (currentTime > this.endTime) {
       this.props.commandExpired(this.props.currentPlayer.uid)
-      this.setState({startTime: defaultTime})
+      this.startTimer()
     }
 
     // Player did correct command
     else if (this.props.currentPlayer.currentCommand && this.props.currentPlayer.currentCommand !== this.currCommand) {
       // when the command changes, reset the timer, then reset the local "currCommand"
       this.currCommand = this.props.currentPlayer.currentCommand
-      this.setState({startTime: defaultTime})
+      this.startTimer()
     }
-
-    // The ticking:
-    this.setState({startTime: this.state.startTime - 1})
 
     // Game Over (successfully added all ingredients)
     if (!this.props.currentPlayer.currentCommand) {
-      clearInterval(this.time)
+      this.running = false
     }
   }
 
   render() {
-    const time = this.state.startTime
-    const totalTime = this.timeForLevel()
-    let percent = Math.ceil(((time)/(totalTime -1)) * 100)
-    if(percent > 100){percent = 100}
+    const time = this.endTime - this.state.currentTime
+    const totalTime = this.endTime - this.startTime
+    let percent = time / totalTime * 100
     return (
-      <div>
-        <Progress
-          percent={percent}
-          theme={{
-            success: {
-              symbol: '🔮',
-              color: '#B920D3'
-            },
-            active: {
-              symbol: '🔮',
-              color: '#730187'
-            },
-            default: {
-              symbol: '😱',
-              color: '#32003A'
-            }
-          }}
-        />
-      </div>
+      <div style={{height:"10px", width:`${percent}%`, backgroundColor:"#B920D3", borderRadius:"5px"}} />
     )
   }
 }
