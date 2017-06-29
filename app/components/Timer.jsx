@@ -77,7 +77,7 @@ export class Timer extends React.Component {
   render() {
     const time = this.state.startTime
     const totalTime = this.timeForLevel()
-    const percent = Math.floor((time/totalTime) * 100)
+    const percent = Math.floor(((time)/totalTime) * 100)
     return (
       <div>
         <Progress
@@ -97,7 +97,7 @@ export class Timer extends React.Component {
             }
           }}
         />
-        <span style={{color: 'red'}}><h1>{time}</h1></span>
+        
       </div>
     )
   }
@@ -107,3 +107,5 @@ export default connect(
   ({gameStarted, players, ingredients, commands, score, level, win}) => ({gameStarted, players, ingredients, commands, score, level, win}),
   {commandExpired},
 )(Timer)
+
+// <span style={{color: 'red'}}><h1>{time} / {totalTime}</h1></span>
