@@ -36,19 +36,8 @@ export class PlayInterface extends React.Component {
     
     if (newProps.win === false) {
     
-    let query = firebase.database().ref('gamerooms').orderByKey()
+    //delete when you lose, you loser
     firebase.database().ref('gamerooms').child(this.props.params.title).remove()
-    // query.once('value')
-    //   .then(snapshot => {
-    //     snapshot.forEach(childSnapshot => {
-    //       console.log(this.props.params.title, '=', childSnapshot.key, '?')
-    //       if(this.props.params.title === childSnapshot.key){
-    //         console.log()
-    //         firebase.database().ref('gamerooms').child(childSnapshot.key).remove()
-    //       }
-    //     })
-    //   })
-
       window.alert('GAME OVER')
       browserHistory.push(`/`)
     }
