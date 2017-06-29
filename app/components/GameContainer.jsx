@@ -12,7 +12,6 @@ const db = firebase.database()
 
 export class GameContainer extends React.Component {
   componentDidMount() {
-    this.props.fireRef.onDisconnect().remove()
     this.mountStoreAtRef(this.props.fireRef)
   }
 
@@ -42,7 +41,10 @@ export class GameContainer extends React.Component {
             const listener = ref.on('child_added', snapshot => {
               next(snapshot.val())
             })
-
+            ref.onDisconnect().remove()
+            const rmlistener = ref.on('child_removed', snapshot => {
+              this.mountStoreAtRef(ref)
+            })
             const onceListener = ref.once('value', () => {
               while (queue.length) {
                 next(queue.shift())
