@@ -36,6 +36,7 @@ export class Ingredients extends React.Component {
   }
 
   drag(e) {
+    console.log(e)
     e.dataTransfer.setData('ingredient', e.target.id)
   }
   
@@ -63,16 +64,22 @@ export class Ingredients extends React.Component {
         let selectedElem = elems[i];
         let dragElem = new Draggabilly( selectedElem, {
           // containment: '.main'
-        });
+        })
+        dragElem.ingredient = selectedElem.id
+        //dragElem.ingredient = selectedElem.id
+        dragElem.on( 'dragMove', ( event, pointer, moveVector ) => {
+          //console.log(event)
+          this.turtle
+        })
       
         draggableElems.push(dragElem)
       }
 
-      //
+      // <img src="/gifs/poof1.gif"  value="turtle" onDragStart={this.turtle}/>
 
       //console.log(draggableElems[0].element.getBoundingClientRect())
 
-    console.log('?new dragabble elems?', draggableElems)  
+    console.log('with ingredient added', draggableElems)  
 
     return (
       <div>
@@ -82,13 +89,12 @@ export class Ingredients extends React.Component {
         {
           ingredients && ingredients.map((ingredient, idx) => (
             <div className="col-sm-3" key={idx}>
-              <img id={ingredient} draggable="true" onDragStart={this.drag} src="/gifs/dummyIngredient.png" /> <br/> ({ingredient})
+              <img id={ingredient} className="draggable" onDragStart={this.drag} src="/gifs/dummyIngredient.png" /> <br/> ({ingredient})
             </div>
             ))
         }
-        <div>
-        
-        <img src="/gifs/poof1.gif" className="draggable" value="turtle" onDragStart={this.turtle}/>
+        <div>   
+       
         </div>
       </div>
     )
