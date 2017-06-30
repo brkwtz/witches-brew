@@ -1,8 +1,6 @@
 import React from 'react'
 import firebase from 'APP/fire'
 import {connect} from 'react-redux'
-import { Progress } from 'react-sweet-progress'
-import 'react-sweet-progress/lib/style.css'
 
 import {commandExpired} from './reducers'
 
