@@ -15,11 +15,13 @@ export class Ingredients extends React.Component {
       currentCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand,
       win: this.props.win,
       levelEnd: this.props.levelEnd,
-      touching: 'you are not touching me'
+      touching: 'you are not touching me',
+      pos: {x: 0, y: 0}
     }
     this.md = new MobileDetect(window.navigator.userAgent);
     this.drag = this.drag.bind(this)
     this.touching = this.touching.bind(this)
+    this.moving = this.moving.bind(this)
   }
 
   componentWillReceiveProps(newProps) {
@@ -29,6 +31,7 @@ export class Ingredients extends React.Component {
   }
 
   drag(e) {
+    console.log('e dot target dot dx', e.target.value)
     e.dataTransfer.setData('ingredient', e.target.id)
   }
   
@@ -42,6 +45,11 @@ export class Ingredients extends React.Component {
   touching(){
     this.setState({touching: 'you ARE touching me!!'})
   }
+  
+  moving(e){
+    this.setState({pos: {x: e.target.dx, y: e.target.dy}})
+  }
+
 
   render() {
     
@@ -61,8 +69,9 @@ export class Ingredients extends React.Component {
             ))
         }
         <div>
-        <h1>{this.state.touching}</h1>
-        <img src="/gifs/poof1.gif" draggable="true" onTouchMove={this.touching}/>
+        <p>{this.state.touching}</p>
+        <p>x: {this.state.pos.x} y: {this.state.pos.y}</p>
+        <img src="/gifs/poof1.gif" draggable="true" onTouchStart={this.touching} onTouchMove={this.moving}/>
         </div>
       </div>
     )
