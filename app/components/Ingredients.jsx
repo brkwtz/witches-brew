@@ -1,6 +1,8 @@
 import React from 'react'
 import firebase from 'APP/fire'
 import {connect} from 'react-redux'
+import Draggabilly from 'draggabilly'
+
 
 const MobileDetect = require('mobile-detect')
 
@@ -15,14 +17,17 @@ export class Ingredients extends React.Component {
       currentCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand,
       win: this.props.win,
       levelEnd: this.props.levelEnd,
-      touching: 'you are not touching me',
-      pos: {x: 0, y: 0}
+      elems: []
     }
-    this.md = new MobileDetect(window.navigator.userAgent);
+    this.md = new MobileDetect(window.navigator.userAgent)
     this.drag = this.drag.bind(this)
-    this.touching = this.touching.bind(this)
-    this.moving = this.moving.bind(this)
+    this.turtle = this.turtle.bind(this)
   }
+  
+  componentDidMount() {
+    this.setState({elems: document.querySelectorAll('.draggable')})
+  }
+
 
   componentWillReceiveProps(newProps) {
     this.setState({currentCommand: newProps.players[firebase.auth().currentUser.uid].currentCommand})
@@ -31,7 +36,6 @@ export class Ingredients extends React.Component {
   }
 
   drag(e) {
-    console.log('e dot target dot dx', e.target.value)
     e.dataTransfer.setData('ingredient', e.target.id)
   }
   
@@ -42,19 +46,33 @@ export class Ingredients extends React.Component {
     else {return false}
   }
 
-  touching(){
-    this.setState({touching: 'you ARE touching me!!'})
+  turtle(event){
+    console.log('hi turtle')
+    console.log(event.target.value, 'says hi')
   }
-  
-  moving(e){
-    this.setState({pos: {x: e.target.dx, y: e.target.dy}})
-  }
-
 
   render() {
     
     const ingredients = this.props.currentPlayer.ingredients
     let isMobile = this.mobilePlayer;
+    let elems = this.state.elems
+
+      let draggableElems = []
+      // init Draggabillies
+      for ( var i=0, len = elems.length; i < len; i++ ) {
+        let selectedElem = elems[i];
+        let dragElem = new Draggabilly( selectedElem, {
+          // containment: '.main'
+        });
+      
+        draggableElems.push(dragElem)
+      }
+
+      //
+
+      //console.log(draggableElems[0].element.getBoundingClientRect())
+
+    console.log('?new dragabble elems?', draggableElems)  
 
     return (
       <div>
@@ -69,9 +87,8 @@ export class Ingredients extends React.Component {
             ))
         }
         <div>
-        <p>{this.state.touching}</p>
-        <p>x: {this.state.pos.x} y: {this.state.pos.y}</p>
-        <img src="/gifs/poof1.gif" draggable="true" onTouchStart={this.touching} onTouchMove={this.moving}/>
+        
+        <img src="/gifs/poof1.gif" className="draggable" value="turtle" onDragStart={this.turtle}/>
         </div>
       </div>
     )
