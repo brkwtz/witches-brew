@@ -17,15 +17,23 @@ export class Ingredients extends React.Component {
       currentCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand,
       win: this.props.win,
       levelEnd: this.props.levelEnd,
-      elems: []
+      elems: [],
+      cauldronPos: {x:0,y:0},
+      mobileCheck: ':('
     }
     this.md = new MobileDetect(window.navigator.userAgent)
     this.drag = this.drag.bind(this)
-    this.turtle = this.turtle.bind(this)
   }
   
   componentDidMount() {
-    this.setState({elems: document.querySelectorAll('.draggable')})
+    this.setState({elems: document.querySelectorAll('.ingredient')})
+    
+    let cauldron = document.getElementById('cauldron');
+    let position = cauldron.getBoundingClientRect();
+    let x = position.left;
+    let y = position.top;
+
+    this.setState({cauldronPos: {x,y}})
   }
 
 
@@ -35,9 +43,18 @@ export class Ingredients extends React.Component {
     this.setState({levelEnd: newProps.levelEnd})
   }
 
-  drag(e) {
-    console.log(e)
-    e.dataTransfer.setData('ingredient', e.target.id)
+  drag(e, pointer, elem) {
+    e.preventDefault();
+    let ingX = pointer.pageX
+    let ingY = pointer.pageY
+    let xOffSet = this.state.cauldronPos.x - ingX
+    let yOffSet = this.state.cauldronPos.y - ingY
+
+    this.setState({mobileCheck: xOffSet})
+    if(xOffSet <= 200 && yOffSet <= 200){
+      this.props.addIngredient(elem.ingredient)
+      //snap back item lol
+    }
   }
   
   get mobilePlayer() {
@@ -47,49 +64,39 @@ export class Ingredients extends React.Component {
     else {return false}
   }
 
-  turtle(event){
-    console.log('hi turtle')
-    console.log(event.target.value, 'says hi')
-  }
 
   render() {
-    
+
+
     const ingredients = this.props.currentPlayer.ingredients
     let isMobile = this.mobilePlayer;
+
     let elems = this.state.elems
 
       let draggableElems = []
-      // init Draggabillies
+
       for ( var i=0, len = elems.length; i < len; i++ ) {
         let selectedElem = elems[i];
-        let dragElem = new Draggabilly( selectedElem, {
+        let dragElem = new Draggabilly(selectedElem, {
           // containment: '.main'
         })
         dragElem.ingredient = selectedElem.id
-        //dragElem.ingredient = selectedElem.id
-        dragElem.on( 'dragMove', ( event, pointer, moveVector ) => {
-          //console.log(event)
-          this.turtle
+
+        dragElem.on('pointerUp', (e, pointer) => {
+          this.drag(e, pointer, dragElem)
         })
-      
         draggableElems.push(dragElem)
       }
-
-      // <img src="/gifs/poof1.gif"  value="turtle" onDragStart={this.turtle}/>
-
-      //console.log(draggableElems[0].element.getBoundingClientRect())
-
-    console.log('with ingredient added', draggableElems)  
 
     return (
       <div>
         <h1 >{this.state.currentCommand}</h1>
         <hr />
-        <h3>Ingredients</h3>
+        <h3>{this.state.mobileCheck}</h3>
         {
           ingredients && ingredients.map((ingredient, idx) => (
             <div className="col-sm-3" key={idx}>
-              <img id={ingredient} className="draggable" onDragStart={this.drag} src="/gifs/dummyIngredient.png" /> <br/> ({ingredient})
+              <img id={ingredient} draggable="true" className="ingredient" src="/gifs/dummyIngredient.png" /> <br/> ({ingredient})
             </div>
             ))
         }

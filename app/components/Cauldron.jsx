@@ -35,6 +35,7 @@ export class Cauldron extends React.Component {
     
   }
 
+
   render() {
         return (
             <img id="cauldron" onDragOver={this.allowDrop} onDrop={this.selectIngredient} src={this.state.cauldronImg} />
