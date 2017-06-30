@@ -26,7 +26,12 @@
 
 .wizardPoof {
   width: 200px;
-  max-width: 90%;"
+  max-width: 90%;
+}
+
+.levelUp {
+  width: 100px;
+  max-width: 50%;
 }
 
 h1 {
