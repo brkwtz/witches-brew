@@ -1,7 +1,8 @@
-import {combineReducers} from 'redux'
-import {List} from 'immutable'
 import ingredientsCommands from '../../assets/commands.json'
+import firebase from 'APP/fire'
 import _ from 'lodash'
+
+const db = firebase.database()
 
 // =====actions=====//
 const PLAYER_JOIN = 'PLAYER_JOIN'
@@ -36,39 +37,10 @@ export default function reducer(state = initialState, action) {
   let newState = Object.assign({}, state)
   const uids = Object.keys(state.players)
 
-  // helper functions
-  function updatePlayerState() {
-    // if all commands are removed from queue, level ends
-    if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
-      // if score is higher than 70% clear score and move to next level
-      if (newState.score / (uids.length * state.ingredientsPerPlayer) >= 0.7) {
-        newState = {
-          gameStarted: false,
-          players: state.players,
-          ingredientsPerPlayer: state.ingredientsPerPlayer + 1,
-          commands: _.shuffle(state.commands),
-          score: 0,
-          level: state.level + 1,
-          win: true
-        }
-      // if score is lower than 70%, lose game by setting win to false
-      } else {
-        newState = {
-          gameStarted: true,
-          players: state.players,
-          ingredientsPerPlayer: state.ingredientsPerPlayer,
-          commands: [],
-          score: state.score,
-          level: state.level,
-          win: false
-        }
-      }
-    }
-  }
-
   // reducer
   switch (action.type) {
   case PLAYER_JOIN:
+
     if (action.player.uid in state.players) {
       return state
     }
@@ -113,7 +85,7 @@ export default function reducer(state = initialState, action) {
           // if no more command in queue, set the currentCommand to null for the player whose command is completed
           newState.players = {...state.players,
             [uid]: {...state.players[uid], currentCommand: null}}
-          updatePlayerState()
+          updatePlayerState(newState, state)
         }
       }
     })
@@ -131,13 +103,13 @@ export default function reducer(state = initialState, action) {
       // if no more command in queue, set the currentCommand to null for the player whose command is completed
       newState.players = {...state.players,
         [action.uid]: {...state.players[action.uid], currentCommand: null}}
-      updatePlayerState()
+      updatePlayerState(newState, state)
     }
     break
 
   default:
     return state
-  } // end of swtich
+  } // end of switch
 
   return newState
 }
@@ -155,4 +127,35 @@ export const startRound = () => (dispatch, getState) => {
   })
 
   dispatch(startGame(commands, _.shuffle(ingredients)))
+}
+
+// ======================= helper functions ===================== //
+function updatePlayerState(newState, state) {
+  const uids = Object.keys(state.players)
+  // if all commands are removed from queue, level ends
+  if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
+    // if score is higher than 70% clear score and move to next level
+    if (newState.score / (uids.length * state.ingredientsPerPlayer) >= 0.7) {
+      newState = {
+        gameStarted: false,
+        players: state.players,
+        ingredientsPerPlayer: state.ingredientsPerPlayer + 1,
+        commands: _.shuffle(state.commands),
+        score: 0,
+        level: state.level + 1,
+        win: true
+      }
+      // if score is lower than 70%, lose game by setting win to false
+    } else {
+      newState = {
+        gameStarted: true,
+        players: state.players,
+        ingredientsPerPlayer: state.ingredientsPerPlayer,
+        commands: [],
+        score: state.score,
+        level: state.level,
+        win: false
+      }
+    }
+  }
 }

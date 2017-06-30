@@ -2,7 +2,6 @@ import React from 'react'
 import firebase from 'APP/fire'
 import {connect} from 'react-redux'
 
-import ingredientsCommands from '../assets/commands.json'
 import {playerJoin, startGame, addIngredient, commandExpired} from './reducers'
 
 export class Ingredients extends React.Component {
@@ -28,9 +27,6 @@ export class Ingredients extends React.Component {
 
   render() {
     const ingredients = this.props.currentPlayer.ingredients
-    let imgsPerRow = Math.ceil(ingredients.length / 2)
-    let imgWidth = Math.floor(100 / imgsPerRow - 5)
-    console.log('width: ', imgWidth)
     return (
       <div>
         <div className="row">
@@ -39,7 +35,7 @@ export class Ingredients extends React.Component {
         <div className="row">
           {
             ingredients && ingredients.map((ingredient, idx) => (
-              <span key={idx} width={`${imgWidth}%`}>
+              <span key={idx}>
                 <img className="ingredientImg" id={ingredient} draggable="true" onDragStart={this.drag} src="/gifs/dummyIngredient.png" />({ingredient})
               </span>
               ))
