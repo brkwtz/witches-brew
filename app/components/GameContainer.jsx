@@ -31,6 +31,11 @@ export class GameContainer extends React.Component {
       return process.nextTick(() => this.mountStoreAtRef(ref))
     }
 
+    const presenceRef = ref.child('roster').child(this.props.user.uid)
+    presenceRef.set(true)
+    presenceRef.onDisconnect().remove()
+    const actionsRef = ref.child('actions')
+
     const store = createStore(
       reducer,
       composeWithDevTools(
@@ -40,7 +45,7 @@ export class GameContainer extends React.Component {
           store => next => {
             const queue = []
 
-            const listener = ref.on('child_added', snapshot => {
+            const listener = actionsRef.on('child_added', snapshot => {
               next(snapshot.val())
             })
 
@@ -56,17 +61,17 @@ export class GameContainer extends React.Component {
               ready = true
               this.setState({ready: true})
             }
-            ref.once('child_removed', remount)
-            ref.once('value', drainQueueAndSetReady)
+            actionsRef.once('child_removed', remount)
+            actionsRef.once('value', drainQueueAndSetReady)
 
             this.unsubscribe = () => {
-              ref.off('child_added', listener)
-              ref.off('child_removed', remount)
-              ref.off('value', drainQueueAndSetReady)
+              actionsRef.off('child_added', listener)
+              actionsRef.off('child_removed', remount)
+              actionsRef.off('value', drainQueueAndSetReady)
             }
 
             let ready = false
-            const pushWhenReady = (action) => ready ? ref.push(action) : queue.push(action)
+            const pushWhenReady = (action) => ready ? actionsRef.push(action) : queue.push(action)
 
             return action => {
               if (action.doNotSync) { return next(action) }
@@ -92,13 +97,33 @@ export class GameContainer extends React.Component {
   }
 }
 
+class Auth extends React.Component {
+  componentDidMount() {
+    const {auth} = this.props
+    this.unsubscribe = auth.onAuthStateChanged(user => this.setState({user}))
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe()
+  }
+
+  render() {
+    const {user} = this.state || {}
+    if (!user) return null
+    const child = React.Children.only(this.props.children)
+    return React.cloneElement(child, {user})
+  }
+}
+
 export default ({params: {title}, children}) =>
   <div className="container-fluid">
     {/* Here, we're passing in a Firebase reference to
      /whiteboards/$whiteboardTitle. This is where the whiteboard is
      stored in Firebase. Each whiteboard is an array of actions that
      users have dispatched into the whiteboard. */}
-    <GameContainer fireRef={db.ref('gamerooms').child(title)}>
-      {children}
-    </GameContainer>
+    <Auth auth={firebase.auth()}>
+      <GameContainer fireRef={db.ref('gamerooms').child(title)}>
+        {children}
+      </GameContainer>
+    </Auth>
   </div>
