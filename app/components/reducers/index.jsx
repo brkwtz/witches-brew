@@ -155,6 +155,7 @@ function updatePlayerState(newState, state) {
     // if score is higher than 70% clear score and move to next level
     if (newState.score / (uids.length * state.ingredientsPerPlayer) >= 0.7) {
       return {
+        ...newState,
         gameStarted: false,
         players: state.players,
         ingredientsPerPlayer: (state.ingredientsPerPlayer >= 8) ? 8 :state.ingredientsPerPlayer + 1,
@@ -167,6 +168,7 @@ function updatePlayerState(newState, state) {
       // if score is lower than 70%, lose game by setting win to false
     } else {
       return {
+        ...newState,
         gameStarted: true,
         players: state.players,
         ingredientsPerPlayer: state.ingredientsPerPlayer,

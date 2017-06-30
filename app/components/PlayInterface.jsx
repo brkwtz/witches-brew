@@ -87,10 +87,10 @@ export class PlayInterface extends React.Component {
   render() {
     if (!this.state.user) return null
     const currentPlayer = this.props.players[this.state.user.uid]
-    // const currentViewer = this.props.viewers[this.state.user.uid]
-    // if (!currentPlayer && !currentViewer) {
-    //   return <h1>Joining Coven...</h1>
-    // }
+    const currentViewer = this.props.viewers[this.state.user.uid]
+    if (!currentPlayer && !currentViewer) {
+      return <h1>Joining Coven...</h1>
+    }
 
     if (!currentPlayer) {
       return <h1>This coven is full. Reload to try joining again.</h1>
@@ -181,6 +181,6 @@ export class PlayInterface extends React.Component {
 }
 
 export default connect(
-  ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin, viewers}) => ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin, viewers}),
+  ({gameStarted,players, ingredients, commands, score, level, win, ultimateWin, viewers}) => ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin, viewers}),
   {playerJoin, playerReady, startRound, addIngredient, commandExpired},
 )(PlayInterface)
