@@ -87,8 +87,13 @@ export class PlayInterface extends React.Component {
   render() {
     if (!this.state.user) return null
     const currentPlayer = this.props.players[this.state.user.uid]
+    const currentViewer = this.props.viewers[this.state.user.uid]
+    if (!currentPlayer && !currentViewer) {
+      return <h1>Joining Coven...</h1>
+    }
+
     if (!currentPlayer) {
-      return <h1>This coven is full...</h1>
+      return <h1>This coven is full. Reload to try joining again.</h1>
     }
 
     const covenName = this.props.params.title.split('-').map((name, i) => {if(i<(this.props.params.title.split('-').length-1)) return (name.charAt(0).toUpperCase() + name.slice(1))}).join(' ')
@@ -175,6 +180,6 @@ export class PlayInterface extends React.Component {
 }
 
 export default connect(
-  ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin}) => ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin}),
+  ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin, viewers}) => ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin, viewers}),
   {playerJoin, playerReady, startRound, addIngredient, commandExpired},
 )(PlayInterface)

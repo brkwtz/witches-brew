@@ -101,7 +101,7 @@ export class Ingredients extends React.Component {
           {
             ingredients && ingredients.map((ingredient, idx) => {
               ingredientImage = '/gifs/ingredients/' + ingredient.split(' ').join('-') + '.gif'
-              return (
+              return ( 
                 <span key={idx}>
                   <img className="ingredientImg" id={ingredient} draggable="true" onDragStart={this.drag} src={ingredientImage} />
                 </span>
