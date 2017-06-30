@@ -44,6 +44,7 @@ export class Timer extends React.Component {
   timer = () => window.requestAnimationFrame(this.tick)
 
   stopTimer() {
+    console.log('stopped timer')
     this.running = false
     window.cancelAnimationFrame(this.timer)
   }
@@ -65,10 +66,10 @@ export class Timer extends React.Component {
     // start the ticking!
     if (this.running) {
       this.timer()
-    }
 
-    // update time [for ticking]
-    this.setState({currentTime})
+      // update time [for ticking]
+      this.setState({currentTime})
+    }
 
     // if currentTime reaches endTime and is running
     if (currentTime > this.endTime && this.running) {
