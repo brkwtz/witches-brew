@@ -2,7 +2,6 @@ import React from 'react'
 import { withRouter, Link } from 'react-router'
 import firebase from 'APP/fire'
 import {connect} from 'react-redux'
-// import command component(includes timer), ingredients component
 import Cauldron from './Cauldron'
 import Ingredients from './Ingredients'
 
@@ -80,16 +79,16 @@ export default class Home extends React.Component {
     this.state = {
       allCovens: []
     }
+    // this.goToRoom = this.goToRoom.bind(this)
     this.createNewRoom = this.createNewRoom.bind(this)
-    this.goToRoom = this.goToRoom.bind(this)
     this.roomName = this.roomName.bind(this)
   }
 
-  goToRoom(e) {
-    let roomName = e.target.value
-    let go = '/play/' + roomName
-    this.props.router.push(go)
-  }
+  // goToRoom(e) {
+  //   let roomName = e.target.value
+  //   let go = '/play/' + roomName
+  //   this.props.router.push(go)
+  // }
 
   createNewRoom() {
     let newCoven = this.roomName()
@@ -104,35 +103,35 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {
-    let covens = []
-    let query = firebase.database().ref('gamerooms').orderByKey()
-    query.once('value')
-      .then(snapshot => {
-        snapshot.forEach(childSnapshot => {
-          let coven = childSnapshot.key
-          covens.push(coven)
-        })
-      })
-      .then(() => {
-        this.setState({allCovens: covens})
-      })
+    // let covens = []
+    // let query = firebase.database().ref('gamerooms').orderByKey()
+    // query.once('value')
+    //   .then(snapshot => {
+    //     snapshot.forEach(childSnapshot => {
+    //       let coven = childSnapshot.key
+    //       covens.push(coven)
+    //     })
+    //   })
+    //   .then(() => {
+    //     this.setState({allCovens: covens})
+    //   })
   }
 
   render() {
-    let openCovens = this.state.allCovens
-
+    // let openCovens = this.state.allCovens
     return (
       <div>
+
         <img src="/gifs/WitchesBrewLogo.png" />
           <div className="row center">
-            <h1> The initiation begins... </h1>
+            {/*<h1> The initiation begins... </h1>*/}
 
-            <select onChange={this.goToRoom}>
-            <option defaultValue>Join a Coven</option>
-              {this.state.allCovens && this.state.allCovens.map((coven, index) => {
-                return (<option value={coven} key={index}>{coven.split('-').join(' ')}</option>)
-              })}
-            </select>
+            {/*<select onChange={this.goToRoom}>*/}
+            {/*<option defaultValue>Join a Coven</option>*/}
+              {/*{this.state.allCovens && this.state.allCovens.map((coven, index) => {*/}
+                {/*return (<option value={coven} key={index}>{coven.split('-').join(' ')}</option>)*/}
+              {/*})}*/}
+            {/*</select>*/}
 
             <h1> Establish a new Coven... </h1>
             <img src="/gifs/liveDeliciously.png" onClick={this.createNewRoom} className="live-deliciously" />

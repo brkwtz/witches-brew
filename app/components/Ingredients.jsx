@@ -40,6 +40,7 @@ export class Ingredients extends React.Component {
 
   render() {
     const ingredients = this.props.currentPlayer.ingredients
+    let ingredientImage
     return (
       <div>
         <div className="row">
@@ -47,11 +48,14 @@ export class Ingredients extends React.Component {
         </div>
         <div className="row">
           {
-            ingredients && ingredients.map((ingredient, idx) => (
-              <span key={idx}>
-                <img className="ingredientImg" id={ingredient} draggable="true" onDragStart={this.drag} src="/gifs/dummyIngredient.png" />({ingredient})
-              </span>
-              ))
+            ingredients && ingredients.map((ingredient, idx) => {
+              ingredientImage = '/gifs/ingredients/' + ingredient.split(' ').join('-') + '.gif'
+              return (
+                <span key={idx}>
+                  <img className="ingredientImg" id={ingredient} draggable="true" onDragStart={this.drag} src={ingredientImage} />
+                </span>
+              )
+            })
           }
         </div>
       </div>
