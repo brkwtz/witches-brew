@@ -98,19 +98,6 @@ export class Timer extends React.Component {
         this.startTimer()
         }
     }
-
-    // // if the level has ended and the timer is running
-    // else if (this.props.win !== null && this.running) {
-    //   console.log('WIN IS NOT NULL HELLO - LEVEL HAS ENDED')
-    //   this.stopTimer()
-    // }
-
-    // // Game Over (successfully added all ingredients)
-    // else if (!this.props.currentPlayer.currentCommand) {
-    //   console.log('huh not thispropscurrentplayercurrcommand')
-    //   this.stopTimer()
-    // }
-
   }
 
   render() {
