@@ -19,24 +19,13 @@ export class PlayInterface extends React.Component {
     super()
     this.state = {
       user: null,
-      showLevelModal: false,
       showGameOverModal: false,
       showUltimateWinModal: false
     }
 
-    this.handleOpenLevelModal = this.handleOpenLevelModal.bind(this)
-    this.handleCloseLevelModal = this.handleCloseLevelModal.bind(this)
     this.handleOpenGameOverModal = this.handleOpenGameOverModal.bind(this)
     this.handlePlayAgain = this.handlePlayAgain.bind(this)
     this.handleQuit = this.handleQuit.bind(this)
-  }
-
-  handleOpenLevelModal() {
-    this.setState({showLevelModal: true})
-  }
-
-  handleCloseLevelModal() {
-    this.setState({showLevelModal: false})
   }
 
   handleOpenGameOverModal() {
@@ -89,15 +78,16 @@ export class PlayInterface extends React.Component {
     if (currentPlayer.master && _.every(newProps.players, player => player.ready) && !newProps.gameStarted) {
       this.props.startRound()
     }
-    if (this.props.level !== newProps.level) {
-      this.handleOpenLevelModal()
-    }
+
     if (newProps.win === false) {
       this.handleOpenGameOverModal()
     }
+
     if (newProps.ultimateWin === true) {
       this.handleOpenUltimateWinModal()
     }
+
+    this.levelUp = (newProps.win !== this.props.win) ? (<p><img className="levelUp" src="/gifs/levelUp.gif" loop="0" width="100px"/></p>) : (<div><h4>level {this.props.level}</h4></div>)
   }
 
   clickToStart = () => {
@@ -126,15 +116,6 @@ export class PlayInterface extends React.Component {
 
     return (
       <div className="container-fluid center">
-
-        <ReactModal
-         id="levelUp"
-          isOpen={this.state.showLevelModal}
-          contentLabel="New Level"
-        >
-          <p>YOU HAVE REACHED LEVEL {this.props.level}</p>
-          <button onClick={this.handleCloseLevelModal}>Close Modal</button>
-        </ReactModal>
 
         <ReactModal
           id="gameOver"
@@ -169,7 +150,7 @@ export class PlayInterface extends React.Component {
 
         <div className="row">
           <h1 >Welcome to the coven of {covenName}!</h1>
-          <h4>level {this.props.level}</h4>
+          {this.levelUp}
           <Cauldron />
         </div>
         <div>
