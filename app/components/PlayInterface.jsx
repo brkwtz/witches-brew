@@ -60,9 +60,7 @@ export class PlayInterface extends React.Component {
   }
 
   componentDidMount() {
-    console.log('PlayInterface::componentDidMount')
     firebase.auth().onAuthStateChanged(user => {
-      console.log('auth state=', user)
       this.setState({user}, this.joinGame)
     })
     this.joinGame()
@@ -88,7 +86,7 @@ export class PlayInterface extends React.Component {
       this.handleOpenLevelModal()
     }
     if (newProps.win === false) {
-    this.handleOpenGameOverModal()
+      this.handleOpenGameOverModal()
     }
   }
 
