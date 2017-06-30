@@ -11,7 +11,7 @@ export class Timer extends React.Component {
     super(props)
     this.timeForLevel = this.timeForLevel.bind(this)
     this.startTimer = this.startTimer.bind(this)
-    this.pauseTimer = this.pauseTimer.bind(this)
+    this.stopTimer = this.stopTimer.bind(this)
     this.state = {
       startTime: this.timeForLevel()
     }
@@ -23,12 +23,13 @@ export class Timer extends React.Component {
   }
 
   componentWillUnmount() {
-    this.pauseTimer()
+    console.log('COMPONENT UNMOUNTING')
+    this.stopTimer()
   }
 
   componentWillReceiveProps(newProps) {
     if (newProps.win === false) {
-      this.pauseTimer()
+      this.stopTimer()
     }
   }
 
@@ -41,11 +42,16 @@ export class Timer extends React.Component {
     }
   }
 
-  pauseTimer() {
+  timer = () => window.requestAnimationFrame(this.tick)
+
+  stopTimer() {
+    this.running = false
     window.cancelAnimationFrame(this.timer)
+    console.log('stopped timer')
   }
 
   startTimer() {
+    console.log('we\'re starting a timer')
     const now = window.performance.now()
     this.setState({
       currentTime: now
@@ -53,50 +59,58 @@ export class Timer extends React.Component {
     this.running = true
     this.startTime = now
     this.endTime = now + (this.timeForLevel() * 1000)
-    this.tick(now)
     this.currCommand = this.props.currentPlayer.currentCommand
+    this.tick(now)
   }
 
-  timer = () => window.requestAnimationFrame(this.tick)
-
   tick = (currentTime) => {
-    console.log('im ticking')
     const defaultTime = this.timeForLevel()
-    // Timer reached 0 (command expired)
+
+    // start the ticking!
     if (this.running) {
+      console.log('im ticking')
       this.timer()
     }
+
+    // update time [for ticking]
     this.setState({currentTime})
-    if (currentTime > this.endTime && this.props.win === null) {
+
+    // if currentTime reaches endTime and is running
+    if (currentTime > this.endTime && this.running) {
+      this.stopTimer() // stop the original timer
       this.props.commandExpired(this.props.currentPlayer.uid)
-      this.pauseTimer() // stop the original timer
-      this.startTimer() // start a new timer
+      if (this.props.win === null) { // start a new timer
+        console.log('restart timer after command expired')
+        this.startTimer()
+      }
     }
 
     // Player did correct command, and there are more commands to do
     else if (this.props.currentPlayer.currentCommand && this.props.currentPlayer.currentCommand !== this.currCommand) {
-      // when the command changes, reset the timer, then reset the local "currCommand"
+      // when the command changes, reset the local "currCommand", reset the timer
       this.currCommand = this.props.currentPlayer.currentCommand
-      this.pauseTimer() // stop the timer
-      this.startTimer() // start a new timer
+
+      console.log('did a correct command trying to reset timer here')
+      this.stopTimer() // stop the timer
+      // if the game has not ended, restart timer
+      if (this.props.win === null) {
+        console.log('added ingredient, have not yet won')
+        this.startTimer()
+        }
     }
 
-    else if (this.props.win !== null) { // once the level ends, stop the timer
-      console.log('stop the timerrrrr')
-      this.running = false
-      this.pauseTimer()
-    }
+    // // if the level has ended and the timer is running
+    // else if (this.props.win !== null && this.running) {
+    //   console.log('WIN IS NOT NULL HELLO - LEVEL HAS ENDED')
+    //   this.stopTimer()
+    // }
 
-    // Game Over (successfully added all ingredients)
-    else if (!this.props.currentPlayer.currentCommand) {
-      this.running = false
-      this.pauseTimer()
-    }
+    // // Game Over (successfully added all ingredients)
+    // else if (!this.props.currentPlayer.currentCommand) {
+    //   console.log('huh not thispropscurrentplayercurrcommand')
+    //   this.stopTimer()
+    // }
 
-    else {
-      console.log('omg help stop ahhhh')
-      this.pauseTimer()
-    }
   }
 
   render() {

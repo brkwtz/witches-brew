@@ -143,7 +143,7 @@ export class PlayInterface extends React.Component {
           <Cauldron />
         </div>
         <div>
-          
+
         {
 
           (currentPlayer && this.props.gameStarted)
