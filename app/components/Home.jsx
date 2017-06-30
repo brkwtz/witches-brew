@@ -2,7 +2,6 @@ import React from 'react'
 import { withRouter, Link } from 'react-router'
 import firebase from 'APP/fire'
 import {connect} from 'react-redux'
-// import command component(includes timer), ingredients component
 import Cauldron from './Cauldron'
 import Ingredients from './Ingredients'
 

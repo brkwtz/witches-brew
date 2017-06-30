@@ -10,6 +10,7 @@ import Timer from './Timer'
 import _ from 'lodash'
 import {browserHistory} from 'react-router'
 import ReactModal from 'react-modal'
+import axios from 'axios'
 
 import ingredientsCommands from '../assets/commands.json'
 import {playerJoin, playerReady, startRound, addIngredient, commandExpired} from './reducers'
@@ -27,6 +28,7 @@ export class PlayInterface extends React.Component {
     this.handleOpenGameOverModal = this.handleOpenGameOverModal.bind(this)
     this.handlePlayAgain = this.handlePlayAgain.bind(this)
     this.handleQuit = this.handleQuit.bind(this)
+    this.handleInviteWitch = this.handleInviteWitch.bind(this)
   }
 
   handleOpenLevelModal() {
@@ -45,9 +47,13 @@ export class PlayInterface extends React.Component {
     // close modal
     this.setState({showGameOverModal: false})
     // delete gameroom from database
-    firebase.database().ref('gamerooms').child(this.props.params.title).remove()
+    if (currentPlayer.master) {
+      firebase.database().ref('gamerooms').child(this.props.params.title).remove()
+      .then(() => browserHistory.push('/'))
+    } else {
     // redirect to /coven
-    .then(() => browserHistory.push('/'))
+      browserHistory.push('/')
+    }
   }
 
   handlePlayAgain() {
@@ -57,6 +63,15 @@ export class PlayInterface extends React.Component {
     firebase.database().ref('gamerooms').child(this.props.params.title).remove()
     // redirect to /play/gameroom
     .then(() => browserHistory.push(`/play/${this.props.params.title}`))
+  }
+
+  handleInviteWitch(e) {
+    const messageBody = `You've been invited to play Witches Brew with ${this.props.params.title}! Click here to join: https://www.playwitchesbrew.com/play/${this.props.params.title}`
+    const targetPhone = e.target.value
+    if (targetPhone.length === 10) {
+      axios.post('https://enigmatic-wave-65174.herokuapp.com/', {targetPhone, messageBody})
+      .then(() => console.log('message sent'))
+    }
   }
 
   componentDidMount() {
@@ -82,7 +97,7 @@ export class PlayInterface extends React.Component {
       this.handleOpenLevelModal()
     }
     if (newProps.win === false) {
-    this.handleOpenGameOverModal()
+      this.handleOpenGameOverModal()
     }
   }
 
@@ -143,7 +158,7 @@ export class PlayInterface extends React.Component {
           <Cauldron />
         </div>
         <div>
-          
+
         {
 
           (currentPlayer && this.props.gameStarted)
@@ -160,7 +175,11 @@ export class PlayInterface extends React.Component {
 
             <div>
               {renderWitches}
-
+                <h3>Invite another Witch to {this.props.params.title}</h3>
+                  <form>
+                    <label>Phone Number:</label>
+                    <input type="text" name="targetPhone" onChange={this.handleInviteWitch}/>
+                  </form>
               {
                 (currentPlayer.ready)
                   ? <div></div>
@@ -177,6 +196,6 @@ export class PlayInterface extends React.Component {
 }
 
 export default connect(
-  ({gameStarted, players, ingredients, commands, score, level, win}) => ({gameStarted, players, ingredients, commands, score, level, win}),
+  ({gameStarted, players, ingredients, commands, score, level, win, targetPhone}) => ({gameStarted, players, ingredients, commands, score, level, win, targetPhone}),
   {playerJoin, playerReady, startRound, addIngredient, commandExpired},
 )(PlayInterface)

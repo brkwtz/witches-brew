@@ -42,9 +42,9 @@ export class GameContainer extends React.Component {
               next(snapshot.val())
             })
             ref.onDisconnect().remove()
-            const rmlistener = ref.on('child_removed', snapshot => {
-              this.mountStoreAtRef(ref)
-            })
+            // const rmlistener = ref.on('child_removed', snapshot => {
+            //   this.mountStoreAtRef(ref)
+            // })
             const onceListener = ref.once('value', () => {
               while (queue.length) {
                 next(queue.shift())

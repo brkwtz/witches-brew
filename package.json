@@ -16,7 +16,7 @@
     "build-watch": "npm run build -- -w",
     "build-dev": "cross-env NODE_ENV=development npm run build-watch",
     "build-branch": "bin/build-branch.sh",
-    "start": "firebase serve",
+    "start": "firebase serve -o 0.0.0.0",
     "test": "mocha --compilers js:babel-register --watch-extensions js,jsx app/**/*.test.js app/**/*.test.jsx server/**/*.test.js fire/**/*.test.js",
     "test-watch": "npm run test -- --watch --reporter=min",
     "seed": "node db/seed.js",
@@ -39,7 +39,8 @@
   },
   "homepage": "https://github.com/queerviolet/bones#readme",
   "dependencies": {
-    "axios": "^0.15.2",
+    "ajax": "0.0.4",
+    "axios": "^0.15.3",
     "babel-preset-stage-2": "^6.18.0",
     "bcryptjs": "^2.4.0",
     "body-parser": "^1.15.2",
