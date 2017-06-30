@@ -2,7 +2,8 @@ import React from 'react'
 import firebase from 'APP/fire'
 import {connect} from 'react-redux'
 
-import ingredientsCommands from '../assets/commands.json'
+const MobileDetect = require('mobile-detect')
+
 import {playerJoin, startGame, addIngredient, commandExpired} from './reducers'
 
 export class Ingredients extends React.Component {
@@ -13,6 +14,7 @@ export class Ingredients extends React.Component {
       win: this.props.win,
       levelEnd: this.props.levelEnd
     }
+    this.md = new MobileDetect(window.navigator.userAgent)
     this.drag = this.drag.bind(this)
   }
 
@@ -26,21 +28,36 @@ export class Ingredients extends React.Component {
     e.dataTransfer.setData('ingredient', e.target.id)
   }
 
-  render() {
+  get mobilePlayer() {
+    let detect = this.md.ua
+    let playingOnA = detect.slice((detect.indexOf('(') + 1), detect.indexOf(';'))
+    if (playingOnA === 'iPhone' || playingOnA === 'Android') {
+      return true
+    } else {
+      return false
+    }
+  }
 
+  render() {
     const ingredients = this.props.currentPlayer.ingredients
+    let ingredientImage
     return (
       <div>
-        <h1 >{this.state.currentCommand}</h1>
-        <hr />
-        <h3>Ingredients</h3>
-        {
-          ingredients && ingredients.map((ingredient, idx) => (
-            <div className="col-sm-3" key={idx}>
-              <img id={ingredient} draggable="true" onDragStart={this.drag} src="/gifs/dummyIngredient.png" /> <br/> ({ingredient})
-            </div>
-            ))
-        }
+        <div className="row">
+          <h1 >{this.state.currentCommand}</h1>
+        </div>
+        <div className="row">
+          {
+            ingredients && ingredients.map((ingredient, idx) => {
+              ingredientImage = '/gifs/ingredients/' + ingredient.split(' ').join('-') + '.gif'
+              return (
+                <span key={idx}>
+                  <img className="ingredientImg" id={ingredient} draggable="true" onDragStart={this.drag} src={ingredientImage} />
+                </span>
+              )
+            })
+          }
+        </div>
       </div>
     )
   }

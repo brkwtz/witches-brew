@@ -19,9 +19,10 @@ export class PlayInterface extends React.Component {
     super()
     this.state = {
       user: null,
-      showLevelModal: false,
-      showGameOverModal: false
+      showGameOverModal: false,
+      showUltimateWinModal: false
     }
+    
     this.handleOpenGameOverModal = this.handleOpenGameOverModal.bind(this)
     this.handlePlayAgain = this.handlePlayAgain.bind(this)
     this.handleQuit = this.handleQuit.bind(this)
@@ -29,6 +30,10 @@ export class PlayInterface extends React.Component {
 
   handleOpenGameOverModal() {
     this.setState({showGameOverModal: true})
+  }
+
+  handleOpenUltimateWinModal() {
+    this.setState({showUltimateWinModal: true})
   }
 
   handleQuit() {
@@ -43,6 +48,7 @@ export class PlayInterface extends React.Component {
   handlePlayAgain() {
     // close modal
     this.setState({showGameOverModal: false})
+    this.setState({showUltimateWinModal: false})
     // delete gameroom from database
     firebase.database().ref('gamerooms').child(this.props.params.title).remove()
     // redirect to /play/gameroom
@@ -51,14 +57,18 @@ export class PlayInterface extends React.Component {
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
-      this.setState({user})
-      if (!user) return
-
-      if (!this.props.players[user.uid]) {
-        let player = {uid: user.uid, ingredients: [], currentCommand: ''}
-        this.props.playerJoin(player)
-      }
+      this.setState({user}, this.joinGame)
     })
+    this.joinGame()
+  }
+
+  joinGame = () => {
+    const user = this.state.user
+    if (!user) return
+    if (!this.props.players[user.uid]) {
+      let player = {uid: user.uid, ingredients: [], currentCommand: ''}
+      this.props.playerJoin(player)
+    }
   }
 
   componentWillReceiveProps(newProps) {
@@ -68,9 +78,16 @@ export class PlayInterface extends React.Component {
     if (currentPlayer.master && _.every(newProps.players, player => player.ready) && !newProps.gameStarted) {
       this.props.startRound()
     }
+
     if (newProps.win === false) {
-    this.handleOpenGameOverModal()
+      this.handleOpenGameOverModal()
     }
+
+    if (newProps.ultimateWin === true) {
+      this.handleOpenUltimateWinModal()
+    }
+
+    this.levelUp = (newProps.win !== this.props.win) ? (<p><img className="levelUp" src="/gifs/levelUp.gif" loop="0" width="100px"/></p>) : (<div><h4>level {this.props.level}</h4></div>)
   }
 
   clickToStart = () => {
@@ -81,7 +98,7 @@ export class PlayInterface extends React.Component {
     if (!this.state.user) return null
     const currentPlayer = this.props.players[this.state.user.uid]
     if (!currentPlayer) {
-      return <h1>This coven is full</h1>
+      return <h1>This coven is full...</h1>
     }
 
     const covenName = this.props.params.title.split('-').map(name => name.charAt(0).toUpperCase() + name.slice(1)).join(' ')
@@ -89,9 +106,9 @@ export class PlayInterface extends React.Component {
     let waitingWitches = []
 
     let poofedWitches = []
-    for (let i = 0; i < witchNum; i++){
-      waitingWitches.push("/gifs/witch" + (i+1) + ".gif")
-      poofedWitches.push("/gifs/poof" + (i+1) + ".gif")
+    for (let i = 0; i < witchNum; i++) {
+      waitingWitches.push('/gifs/witch' + (i+1) + '.gif')
+      poofedWitches.push('/gifs/poof' + (i+1) + '.gif')
     }
 
     const renderWitches = waitingWitches.map((witchPic, indx) => (<img key={indx} id="waiting-witch" src={witchPic}/>))
@@ -115,13 +132,27 @@ export class PlayInterface extends React.Component {
           </div>
         </ReactModal>
 
+        <ReactModal
+          id="ultimateWin"
+          isOpen={this.state.showUltimateWinModal}
+          contentLabel="Congrats! You've won the game!"
+          className="Modal"
+          overlayClassName="Overlay"
+        >
+          <div className="center">
+            <h1>You've successfully brewed all the potion</h1>
+            <img className="center wizardPoof" src="/gifs/poofWizard.gif" />
+            <button onClick={this.handlePlayAgain}>Play Again</button>
+            <button onClick={this.handleQuit}>Quit</button>
+          </div>
+        </ReactModal>
+
         <div className="row">
           <h1 >Welcome to the coven of {covenName}!</h1>
-          <h4>level {this.props.level}</h4>
+          {this.levelUp}
           <Cauldron />
         </div>
         <div>
-
         {
 
           (currentPlayer && this.props.gameStarted)
@@ -131,7 +162,6 @@ export class PlayInterface extends React.Component {
                 <Ingredients
                   IngredientsCommands={ingredientsCommands}
                   currentPlayer={currentPlayer}/>
-
               </div>
           )
             : (
@@ -155,6 +185,6 @@ export class PlayInterface extends React.Component {
 }
 
 export default connect(
-  ({gameStarted, players, ingredients, commands, score, level, win}) => ({gameStarted, players, ingredients, commands, score, level, win}),
+  ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin}) => ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin}),
   {playerJoin, playerReady, startRound, addIngredient, commandExpired},
 )(PlayInterface)
