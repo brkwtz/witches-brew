@@ -23,12 +23,11 @@ export class Timer extends React.Component {
   }
 
   componentWillUnmount() {
-    console.log('COMPONENT UNMOUNTING')
     this.stopTimer()
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.win === false) {
+    if (newProps.win !== null) {
       this.stopTimer()
     }
   }
@@ -47,11 +46,9 @@ export class Timer extends React.Component {
   stopTimer() {
     this.running = false
     window.cancelAnimationFrame(this.timer)
-    console.log('stopped timer')
   }
 
   startTimer() {
-    console.log('we\'re starting a timer')
     const now = window.performance.now()
     this.setState({
       currentTime: now
@@ -65,10 +62,8 @@ export class Timer extends React.Component {
 
   tick = (currentTime) => {
     const defaultTime = this.timeForLevel()
-
     // start the ticking!
     if (this.running) {
-      console.log('im ticking')
       this.timer()
     }
 
@@ -80,7 +75,6 @@ export class Timer extends React.Component {
       this.stopTimer() // stop the original timer
       this.props.commandExpired(this.props.currentPlayer.uid)
       if (this.props.win === null) { // start a new timer
-        console.log('restart timer after command expired')
         this.startTimer()
       }
     }
@@ -89,12 +83,9 @@ export class Timer extends React.Component {
     else if (this.props.currentPlayer.currentCommand && this.props.currentPlayer.currentCommand !== this.currCommand) {
       // when the command changes, reset the local "currCommand", reset the timer
       this.currCommand = this.props.currentPlayer.currentCommand
-
-      console.log('did a correct command trying to reset timer here')
       this.stopTimer() // stop the timer
       // if the game has not ended, restart timer
       if (this.props.win === null) {
-        console.log('added ingredient, have not yet won')
         this.startTimer()
         }
     }
