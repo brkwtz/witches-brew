@@ -19,14 +19,13 @@ export class Ingredients extends React.Component {
       levelEnd: this.props.levelEnd,
       elems: [],
       cauldronPos: {x:0,y:0},
-      mobileCheck: ':('
     }
     this.md = new MobileDetect(window.navigator.userAgent)
     this.drag = this.drag.bind(this)
   }
   
   componentDidMount() {
-    this.setState({elems: document.querySelectorAll('.ingredient')})
+    this.setState({elems: document.querySelectorAll('.ingredientImg')})
     
     let cauldron = document.getElementById('cauldron');
     let position = cauldron.getBoundingClientRect();
@@ -44,17 +43,22 @@ export class Ingredients extends React.Component {
   }
 
   drag(e, pointer, elem) {
+    
+
     e.preventDefault();
     let ingX = pointer.pageX
     let ingY = pointer.pageY
     let xOffSet = this.state.cauldronPos.x - ingX
     let yOffSet = this.state.cauldronPos.y - ingY
 
-    this.setState({mobileCheck: xOffSet})
     if(xOffSet <= 200 && yOffSet <= 200){
       this.props.addIngredient(elem.ingredient)
-      //snap back item lol
+      elem.position.x = 0;
+      elem.position.y = 0;
     }
+
+
+
   }
   
   get mobilePlayer() {
@@ -66,8 +70,6 @@ export class Ingredients extends React.Component {
 
 
   render() {
-
-
     const ingredients = this.props.currentPlayer.ingredients
     let isMobile = this.mobilePlayer;
 
@@ -80,8 +82,9 @@ export class Ingredients extends React.Component {
         let dragElem = new Draggabilly(selectedElem, {
           // containment: '.main'
         })
-        dragElem.ingredient = selectedElem.id
 
+
+        dragElem.ingredient = selectedElem.id
         dragElem.on('pointerUp', (e, pointer) => {
           this.drag(e, pointer, dragElem)
         })
@@ -92,11 +95,10 @@ export class Ingredients extends React.Component {
       <div>
         <h1 >{this.state.currentCommand}</h1>
         <hr />
-        <h3>{this.state.mobileCheck}</h3>
         {
           ingredients && ingredients.map((ingredient, idx) => (
             <div className="col-sm-3" key={idx}>
-              <img id={ingredient} draggable="true" className="ingredient" src="/gifs/dummyIngredient.png" /> <br/> ({ingredient})
+              <img id={ingredient} draggable="true" className="ingredientImg" src="/gifs/dummyIngredient.png" /> <br/> ({ingredient})
             </div>
             ))
         }
