@@ -58,8 +58,13 @@ body {
   
   body {
     /*background-color: #e6e6e6;*/
-    background-image: url('gifs/background.png');
+    background-image: url('gifs/background-spider.jpg');
     background-size: 100%;
+  }
+
+  .live-deliciously {
+    width: 25%;
+    border: 10px red;
   }
 
   .command1 {
