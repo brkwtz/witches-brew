@@ -30,7 +30,8 @@ const initialState = {
   commands: [],
   score: 0,
   level: 1,
-  win: null
+  win: null,
+  ultimateWin: false
 }
 
 export default function reducer(state = initialState, action) {
@@ -139,11 +140,12 @@ function updatePlayerState(newState, state) {
       return {
         gameStarted: false,
         players: state.players,
-        ingredientsPerPlayer: state.ingredientsPerPlayer + 1,
+        ingredientsPerPlayer: (state.ingredientsPerPlayer >= 8) ? 8 :state.ingredientsPerPlayer + 1,
         commands: _.shuffle(state.commands),
         score: 0,
-        level: state.level + 1,
-        win: true
+        level: (state.level >=10) ? 10 : state.level + 1,
+        win: true,
+        ultimateWin: state.level >= 10
       }
       // if score is lower than 70%, lose game by setting win to false
     } else {
@@ -154,7 +156,8 @@ function updatePlayerState(newState, state) {
         commands: [],
         score: state.score,
         level: state.level,
-        win: false
+        win: false,
+        ultimateWin: false
       }
     }
   }

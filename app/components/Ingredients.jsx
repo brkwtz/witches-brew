@@ -27,12 +27,12 @@ export class Ingredients extends React.Component {
   drag(e) {
     e.dataTransfer.setData('ingredient', e.target.id)
   }
-  
+
   get mobilePlayer() {
     let detect = this.md.ua
     let playingOnA = detect.slice((detect.indexOf('(') + 1), detect.indexOf(';'))
-    if(playingOnA === 'iPhone' || playingOnA === 'Android'){return true}
-    else {return false}
+    if (playingOnA === 'iPhone' || playingOnA === 'Android') { return true }
+    else { return false }
   }
 
   render() {

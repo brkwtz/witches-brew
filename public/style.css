@@ -24,6 +24,11 @@
   bottom: 40px;
 }
 
+.wizardPoof {
+  width: 200px;
+  max-width: 90%;"
+}
+
 h1 {
   font-family: 'LadyRadical';
   color: #32003A;
