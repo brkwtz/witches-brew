@@ -1,6 +1,8 @@
 import React from 'react'
 import firebase from 'APP/fire'
 import {connect} from 'react-redux'
+import Draggabilly from 'draggabilly'
+
 
 const MobileDetect = require('mobile-detect')
 
@@ -12,11 +14,25 @@ export class Ingredients extends React.Component {
     this.state = {
       currentCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand,
       win: this.props.win,
-      levelEnd: this.props.levelEnd
+      levelEnd: this.props.levelEnd,
+      elems: [],
+      cauldronPos: {x:0,y:0},
     }
     this.md = new MobileDetect(window.navigator.userAgent)
     this.drag = this.drag.bind(this)
   }
+  
+  componentDidMount() {
+    this.setState({elems: document.querySelectorAll('.ingredientImg')})
+    
+    let cauldron = document.getElementById('cauldron');
+    let position = cauldron.getBoundingClientRect();
+    let x = position.left;
+    let y = position.top;
+
+    this.setState({cauldronPos: {x,y}})
+  }
+
 
   componentWillReceiveProps(newProps) {
     this.setState({currentCommand: newProps.players[firebase.auth().currentUser.uid].currentCommand})
@@ -24,8 +40,23 @@ export class Ingredients extends React.Component {
     this.setState({levelEnd: newProps.levelEnd})
   }
 
-  drag(e) {
-    e.dataTransfer.setData('ingredient', e.target.id)
+  drag(e, pointer, elem) {
+    
+
+    e.preventDefault();
+    let ingX = pointer.pageX
+    let ingY = pointer.pageY
+    let xOffSet = this.state.cauldronPos.x - ingX
+    let yOffSet = this.state.cauldronPos.y - ingY
+
+    if(xOffSet <= 200 && yOffSet <= 200){
+      this.props.addIngredient(elem.ingredient)
+      elem.position.x = 0;
+      elem.position.y = 0;
+    }
+
+
+
   }
 
   get mobilePlayer() {
@@ -38,8 +69,28 @@ export class Ingredients extends React.Component {
     }
   }
 
+
   render() {
     const ingredients = this.props.currentPlayer.ingredients
+    let isMobile = this.mobilePlayer;
+
+    let elems = this.state.elems
+
+      let draggableElems = []
+
+      for ( var i=0, len = elems.length; i < len; i++ ) {
+        let selectedElem = elems[i];
+        let dragElem = new Draggabilly(selectedElem, {
+          // containment: '.main'
+        })
+
+
+        dragElem.ingredient = selectedElem.id
+        dragElem.on('pointerUp', (e, pointer) => {
+          this.drag(e, pointer, dragElem)
+        })
+        draggableElems.push(dragElem)
+      } 
     let ingredientImage
     return (
       <div>
