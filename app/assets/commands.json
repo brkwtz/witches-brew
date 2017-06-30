@@ -21,5 +21,7 @@
   "spoon" : "stir the potion",
   "sand" : "throw sand on the flame",
   "bellows" : "stoke the fire",
-  "tongue of cat" : "add tongue of cat"
+  "tongue of cat" : "add tongue of cat",
+  "bat" : "add bat",
+  "cat" : "add cat"
 }

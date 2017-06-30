@@ -6,8 +6,6 @@ import Draggabilly from 'draggabilly'
 
 const MobileDetect = require('mobile-detect')
 
-
-import ingredientsCommands from '../assets/commands.json'
 import {playerJoin, startGame, addIngredient, commandExpired} from './reducers'
 
 export class Ingredients extends React.Component {
@@ -60,12 +58,15 @@ export class Ingredients extends React.Component {
 
 
   }
-  
+
   get mobilePlayer() {
     let detect = this.md.ua
     let playingOnA = detect.slice((detect.indexOf('(') + 1), detect.indexOf(';'))
-    if(playingOnA === 'iPhone' || playingOnA === 'Android'){return true}
-    else {return false}
+    if (playingOnA === 'iPhone' || playingOnA === 'Android') {
+      return true
+    } else {
+      return false
+    }
   }
 
 
@@ -89,21 +90,24 @@ export class Ingredients extends React.Component {
           this.drag(e, pointer, dragElem)
         })
         draggableElems.push(dragElem)
-      }
-
+      } 
+    let ingredientImage
     return (
       <div>
-        <h1 >{this.state.currentCommand}</h1>
-        <hr />
-        {
-          ingredients && ingredients.map((ingredient, idx) => (
-            <div className="col-sm-3" key={idx}>
-              <img id={ingredient} draggable="true" className="ingredientImg" src="/gifs/dummyIngredient.png" /> <br/> ({ingredient})
-            </div>
-            ))
-        }
-        <div>   
-       
+        <div className="row">
+          <h1 >{this.state.currentCommand}</h1>
+        </div>
+        <div className="row">
+          {
+            ingredients && ingredients.map((ingredient, idx) => {
+              ingredientImage = '/gifs/ingredients/' + ingredient.split(' ').join('-') + '.gif'
+              return (
+                <span key={idx}>
+                  <img className="ingredientImg" id={ingredient} draggable="true" onDragStart={this.drag} src={ingredientImage} />
+                </span>
+              )
+            })
+          }
         </div>
       </div>
     )
