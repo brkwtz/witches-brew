@@ -22,7 +22,7 @@ export class PlayInterface extends React.Component {
       showGameOverModal: false,
       showUltimateWinModal: false
     }
-
+    
     this.handleOpenGameOverModal = this.handleOpenGameOverModal.bind(this)
     this.handlePlayAgain = this.handlePlayAgain.bind(this)
     this.handleQuit = this.handleQuit.bind(this)
@@ -116,7 +116,6 @@ export class PlayInterface extends React.Component {
 
     return (
       <div className="container-fluid center">
-
         <ReactModal
           id="gameOver"
           isOpen={this.state.showGameOverModal}
