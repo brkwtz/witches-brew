@@ -27,6 +27,7 @@ export const commandExpired = (uid) => ({type: COMMAND_EXPIRED, uid})
 
 // ======reducers ======//
 const initialState = {
+  viewers: {},
   gameStarted: false,
   players: {},
   ingredientsPerPlayer: 4,
@@ -49,8 +50,8 @@ export default function reducer(state = initialState, action) {
       return state
     }
 
-    if (state.gameStarted || Object.keys(state.players).length >=4) {
-      return state
+    if (state.gameStarted || Object.keys(state.players).length >= 1) {
+      return {...state, viewers: {...state.viewers, [action.player.uid]: true}}
     }
 
     newState.players = {...state.players, [action.player.uid]: action.player}
@@ -59,10 +60,12 @@ export default function reducer(state = initialState, action) {
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
     break
 
-  case PLAYER_LEAVE:
+    case PLAYER_LEAVE:
     const players = {...state.players}
+    const viewers = {...state.viewers}
     delete players[action.player.uid]
-    return {...state, players, gameStarted: false}
+    delete viewers[action.player.uid]
+    return {...state, players, viewers, gameStarted: false}
 
   case PLAYER_READY:
     return {...state, players: {...state.players, [action.uid]: {...state.players[action.uid], ready: true}}}
