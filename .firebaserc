@@ -1,5 +1,6 @@
 {
   "projects": {
-    "witchs-brew": "witchs-brew"
+    "witchs-brew": "witchs-brew",
+    "default": "witchs-brew"
   }
 }

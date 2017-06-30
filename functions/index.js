@@ -1,20 +1,32 @@
-var functions = require('firebase-functions')
+const functions = require('firebase-functions')
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/preview/functions/write-firebase-functions
+// // Create and Deploy Your First Cloud Functions
+// // https://firebase.google.com/docs/functions/write-firebase-functions
 //
-// exports.helloWorld = functions.https().onRequest((request, response) => {
-//   response.send('Hello from Firebase!')
-// })
+// exports.helloWorld = functions.https.onRequest((request, response) => {
+//  response.send("Hello from Firebase!");
+// });
 
-exports.startGame = functions.database.ref('/gamerooms/{roomId}')
+// Listens for new messages added to /messages/:pushId/original and creates an
+// uppercase version of the message to /messages/:pushId/uppercase
+exports.sendPresenceActions = functions.database.ref('/gamerooms/{gameId}/roster/{userId}')
   .onWrite(event => {
-    // Grab the current value of what was written to the Realtime Database.
-    const original = event.data.val()
-    console.log('event origin', original)
-    // const uppercase = original.toUpperCase()
-    // You must return a Promise when performing asynchronous tasks inside a Functions such as
-    // writing to the Firebase Realtime Database.
-    // Setting an "uppercase" sibling in the Realtime Database returns a Promise.
-    // return event.data.ref.parent.child('uppercase').set(uppercase)
+    const room = event.data.ref.parent.parent
+    const actions = room.child('actions')
+    const roster = room.child('roster')
+
+    const isThere = event.data.val()
+    if (isThere) {
+      return actions.push({
+        type: 'PLAYER_JOIN',
+        player: {uid: event.params.userId}
+      })
+    }
+
+    return roster.once('value').then(roster => roster.val()
+        ? actions.push({
+          type: 'PLAYER_LEAVE',
+          player: {uid: event.params.userId}
+        })
+        : room.remove())
   })
