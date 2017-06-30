@@ -85,7 +85,7 @@ export default function reducer(state = initialState, action) {
           // if no more command in queue, set the currentCommand to null for the player whose command is completed
           newState.players = {...state.players,
             [uid]: {...state.players[uid], currentCommand: null}}
-          updatePlayerState(newState, state)
+          newState = updatePlayerState(newState, state)
         }
       }
     })
@@ -103,7 +103,7 @@ export default function reducer(state = initialState, action) {
       // if no more command in queue, set the currentCommand to null for the player whose command is completed
       newState.players = {...state.players,
         [action.uid]: {...state.players[action.uid], currentCommand: null}}
-      updatePlayerState(newState, state)
+      newState = updatePlayerState(newState, state)
     }
     break
 
@@ -136,7 +136,7 @@ function updatePlayerState(newState, state) {
   if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
     // if score is higher than 70% clear score and move to next level
     if (newState.score / (uids.length * state.ingredientsPerPlayer) >= 0.7) {
-      newState = {
+      return {
         gameStarted: false,
         players: state.players,
         ingredientsPerPlayer: state.ingredientsPerPlayer + 1,
@@ -147,7 +147,7 @@ function updatePlayerState(newState, state) {
       }
       // if score is lower than 70%, lose game by setting win to false
     } else {
-      newState = {
+      return {
         gameStarted: true,
         players: state.players,
         ingredientsPerPlayer: state.ingredientsPerPlayer,

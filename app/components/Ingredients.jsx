@@ -2,6 +2,8 @@ import React from 'react'
 import firebase from 'APP/fire'
 import {connect} from 'react-redux'
 
+const MobileDetect = require('mobile-detect')
+
 import {playerJoin, startGame, addIngredient, commandExpired} from './reducers'
 
 export class Ingredients extends React.Component {
@@ -12,6 +14,7 @@ export class Ingredients extends React.Component {
       win: this.props.win,
       levelEnd: this.props.levelEnd
     }
+    this.md = new MobileDetect(window.navigator.userAgent)
     this.drag = this.drag.bind(this)
   }
 
@@ -23,6 +26,13 @@ export class Ingredients extends React.Component {
 
   drag(e) {
     e.dataTransfer.setData('ingredient', e.target.id)
+  }
+  
+  get mobilePlayer() {
+    let detect = this.md.ua
+    let playingOnA = detect.slice((detect.indexOf('(') + 1), detect.indexOf(';'))
+    if(playingOnA === 'iPhone' || playingOnA === 'Android'){return true}
+    else {return false}
   }
 
   render() {
