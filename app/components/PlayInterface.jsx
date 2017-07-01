@@ -22,10 +22,11 @@ export class PlayInterface extends React.Component {
       showGameOverModal: false,
       showUltimateWinModal: false
     }
-    
+
     this.handleOpenGameOverModal = this.handleOpenGameOverModal.bind(this)
     this.handlePlayAgain = this.handlePlayAgain.bind(this)
     this.handleQuit = this.handleQuit.bind(this)
+    this.handleInviteWitch = this.handleInviteWitch.bind(this)
   }
 
   handleOpenGameOverModal() {
@@ -53,6 +54,18 @@ export class PlayInterface extends React.Component {
     firebase.database().ref('gamerooms').child(this.props.params.title).remove()
     // redirect to /play/gameroom
     .then(() => browserHistory.push(`/play/${this.props.params.title}`))
+  }
+
+  handleInviteWitch(e) {
+    const messageBody = `You've been invited to play Witches Brew with ${this.props.params.title}! Click here to join: https://www.playwitchesbrew.com/play/${this.props.params.title}`
+    let targetPhone = e.target.value
+    if (targetPhone.length === 10) {
+      targetPhone = '+1' + targetPhone
+      firebase.database().ref('sms').push().set({
+        messageBody,
+        targetPhone
+      })
+    }
   }
 
   componentDidMount() {
@@ -163,7 +176,11 @@ export class PlayInterface extends React.Component {
 
             <div>
               {renderWitches}
-
+                <h3>Invite another Witch to {this.props.params.title}</h3>
+                  <form>
+                    <label>Phone Number:</label>
+                    <input type="text" name="targetPhone" onChange={this.handleInviteWitch}/>
+                  </form>
               {
                 (currentPlayer.ready)
                   ? <div></div>
