@@ -94,7 +94,10 @@ export class Timer extends React.Component {
     const totalTime = this.endTime - this.startTime
     let percent = time / totalTime * 100
     return (
-        <div id="bar" style={{width: `${percent}%`}} />
+      <div>
+      <div id="overlay"></div>
+      <div id="bar" style={{width: `${percent}%`}} />
+      </div>
     )
   }
 }

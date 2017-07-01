@@ -107,17 +107,19 @@ body {
   height: 10px;
   background-color: #B920D3;
   border-radius: 5px;
+  position:relative;
+  z-index: -1;
 }
 
-#bar:before {
-  height: 20px;
-  position: absolute;
-  top: 8px;
-  left: 0px;
+#overlay {
+  position:absolute;
+  height: 10px;
   background: #fff;
   animation: active-anim 2s cubic-bezier(0.25, 1, 0.6, 1) infinite;
   content: "";
   opacity: 0;
+  z-index:0;
+  border-radius: 5px;
   }
 
 @keyframes active-anim {
@@ -130,7 +132,7 @@ body {
     opacity: .5
   }
   to {
-    width: 100%;
+    width: 80%;
     opacity: 0
   }
 }
