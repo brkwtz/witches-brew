@@ -50,7 +50,7 @@ export default function reducer(state = initialState, action) {
       return state
     }
 
-    if (state.gameStarted || Object.keys(state.players).length >= 1) {
+    if (state.gameStarted || Object.keys(state.players).length >= 4) {
       return {...state, viewers: {...state.viewers, [action.player.uid]: true}}
     }
 
@@ -60,7 +60,7 @@ export default function reducer(state = initialState, action) {
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
     break
 
-    case PLAYER_LEAVE:
+  case PLAYER_LEAVE:
     const players = {...state.players}
     const viewers = {...state.viewers}
     delete players[action.player.uid]
@@ -77,7 +77,7 @@ export default function reducer(state = initialState, action) {
     newState.players = uids.sort().map((uid, index) => {
       const num = action.ingredients.length / uids.length
       return {...state.players[uid],
-        ready: false,
+        // ready: false,
         ingredients: action.ingredients.slice(index*num, (index+1)*num),
         currentCommand: action.commands.shift()}
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
@@ -90,7 +90,7 @@ export default function reducer(state = initialState, action) {
         newState.score = state.score + 1
         // if there's still a command in the queue, fetch the next command to player whose command is completed
         if (state.commands.length > 0) {
-          newState.players = {...state.players,
+          newState.players = {...newState.players,
             [uid]: {...state.players[uid],
               currentCommand: state.commands[0]}}
           newState.commands = state.commands.slice(1)
@@ -149,6 +149,7 @@ function updatePlayerState(newState, state) {
     // if score is higher than 70% clear score and move to next level
     if (newState.score / (uids.length * state.ingredientsPerPlayer) >= 0.7) {
       return {
+        ...newState,
         gameStarted: false,
         players: state.players,
         ingredientsPerPlayer: (state.ingredientsPerPlayer >= 8) ? 8 :state.ingredientsPerPlayer + 1,
@@ -161,6 +162,7 @@ function updatePlayerState(newState, state) {
       // if score is lower than 70%, lose game by setting win to false
     } else {
       return {
+        ...newState,
         gameStarted: true,
         players: state.players,
         ingredientsPerPlayer: state.ingredientsPerPlayer,
