@@ -90,6 +90,10 @@ export class PlayInterface extends React.Component {
     const currentViewer = this.props.viewers[this.state.user.uid]
     if (!currentPlayer && !currentViewer) {
       return <h1>Joining Coven...</h1>
+
+    }
+    if (!currentPlayer) {
+      return <h1>This coven is full. Reload to try joining again.</h1>
     }
 
     if (!currentPlayer) {
