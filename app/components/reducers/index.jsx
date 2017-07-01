@@ -6,6 +6,7 @@ const db = firebase.database()
 
 // =====actions=====//
 const PLAYER_JOIN = 'PLAYER_JOIN'
+const PLAYER_LEAVE = 'PLAYER_LEAVE'
 const PLAYER_READY = 'PLAYER_READY'
 const GAME_START = 'GAME_START'
 const ADD_INGREDIENT = 'ADD_INGREDIENT'
@@ -13,6 +14,8 @@ const COMMAND_EXPIRED = 'COMMAND_EXPIRED'
 
 // === action creators =======//
 export const playerJoin = (player) => ({type: PLAYER_JOIN, player})
+
+export const playerLeave = (uid) => ({type: PLAYER_LEAVE, uid})
 
 export const playerReady = (uid) => ({type: PLAYER_READY, uid})
 
@@ -24,6 +27,7 @@ export const commandExpired = (uid) => ({type: COMMAND_EXPIRED, uid})
 
 // ======reducers ======//
 const initialState = {
+  viewers: {},
   gameStarted: false,
   players: {},
   ingredientsPerPlayer: 4,
@@ -46,8 +50,8 @@ export default function reducer(state = initialState, action) {
       return state
     }
 
-    if (state.gameStarted || Object.keys(state.players).length >=4) {
-      return state
+    if (state.gameStarted || Object.keys(state.players).length >= 1) {
+      return {...state, viewers: {...state.viewers, [action.player.uid]: true}}
     }
 
     newState.players = {...state.players, [action.player.uid]: action.player}
@@ -55,6 +59,13 @@ export default function reducer(state = initialState, action) {
       return {...newState.players[uid], master: index === 0}
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
     break
+
+    case PLAYER_LEAVE:
+    const players = {...state.players}
+    const viewers = {...state.viewers}
+    delete players[action.player.uid]
+    delete viewers[action.player.uid]
+    return {...state, players, viewers, gameStarted: false}
 
   case PLAYER_READY:
     return {...state, players: {...state.players, [action.uid]: {...state.players[action.uid], ready: true}}}
@@ -66,6 +77,7 @@ export default function reducer(state = initialState, action) {
     newState.players = uids.sort().map((uid, index) => {
       const num = action.ingredients.length / uids.length
       return {...state.players[uid],
+        ready: false,
         ingredients: action.ingredients.slice(index*num, (index+1)*num),
         currentCommand: action.commands.shift()}
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
