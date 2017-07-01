@@ -41,13 +41,9 @@ export class PlayInterface extends React.Component {
     // close modal
     this.setState({showGameOverModal: false})
     // delete gameroom from database
-    if (currentPlayer.master) {
-      firebase.database().ref('gamerooms').child(this.props.params.title).remove()
-      .then(() => browserHistory.push('/'))
-    } else {
+    firebase.database().ref('gamerooms').child(this.props.params.title).remove()
     // redirect to /coven
-      browserHistory.push('/')
-    }
+    .then(() => browserHistory.push('/'))
   }
 
   handlePlayAgain() {
