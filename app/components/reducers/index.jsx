@@ -77,7 +77,7 @@ export default function reducer(state = initialState, action) {
     newState.players = uids.sort().map((uid, index) => {
       const num = action.ingredients.length / uids.length
       return {...state.players[uid],
-        // ready: false,
+        ready: false,
         ingredients: action.ingredients.slice(index*num, (index+1)*num),
         currentCommand: action.commands.shift()}
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
@@ -144,12 +144,7 @@ export const startRound = () => (dispatch, getState) => {
 
 // ======================= helper functions ===================== //
 function updatePlayerState(newState, state) {
-  console.log('are u inside helper function')
   const uids = Object.keys(state.players)
-  console.log('uids', uids)
-  console.log('newState.score', newState.score)
-  console.log('#ingre', state.ingredientsPerPlayer)
-  console.log('score', newState.score / (uids.length * state.ingredientsPerPlayer))
   // if all commands are removed from queue, level ends
   if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
     // if score is higher than 70% clear score and move to next level
