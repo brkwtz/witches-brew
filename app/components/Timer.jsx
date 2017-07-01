@@ -11,7 +11,7 @@ export class Timer extends React.Component {
     super(props)
     this.timeForLevel = this.timeForLevel.bind(this)
     this.startTimer = this.startTimer.bind(this)
-    this.pauseTimer = this.pauseTimer.bind(this)
+    this.stopTimer = this.stopTimer.bind(this)
     this.state = {
       startTime: this.timeForLevel()
     }
@@ -23,12 +23,12 @@ export class Timer extends React.Component {
   }
 
   componentWillUnmount() {
-    this.pauseTimer()
+    this.stopTimer()
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.win === false) {
-      this.pauseTimer()
+    if (newProps.win !== null) {
+      this.stopTimer()
     }
   }
 
@@ -41,8 +41,11 @@ export class Timer extends React.Component {
     }
   }
 
-  pauseTimer() {
-    clearInterval(this.time)
+  timer = () => window.requestAnimationFrame(this.tick)
+
+  stopTimer() {
+    this.running = false
+    window.cancelAnimationFrame(this.timer)
   }
 
   startTimer() {
@@ -53,32 +56,38 @@ export class Timer extends React.Component {
     this.running = true
     this.startTime = now
     this.endTime = now + (this.timeForLevel() * 1000)
-    this.tick(now)
     this.currCommand = this.props.currentPlayer.currentCommand
+    this.tick(now)
   }
 
   tick = (currentTime) => {
     const defaultTime = this.timeForLevel()
-    // Timer reached 0 (command expired)
+    // start the ticking!
     if (this.running) {
-      window.requestAnimationFrame(this.tick)
+      this.timer()
+
+      // update time [for ticking]
+      this.setState({currentTime})
     }
-    this.setState({currentTime})
-    if (currentTime > this.endTime) {
+
+    // if currentTime reaches endTime and is running
+    if (currentTime > this.endTime && this.running) {
+      this.stopTimer() // stop the original timer
       this.props.commandExpired(this.props.currentPlayer.uid)
-      this.startTimer()
+      if (this.props.win === null) { // start a new timer
+        this.startTimer()
+      }
     }
 
-    // Player did correct command
+    // Player did correct command, and there are more commands to do
     else if (this.props.currentPlayer.currentCommand && this.props.currentPlayer.currentCommand !== this.currCommand) {
-      // when the command changes, reset the timer, then reset the local "currCommand"
+      // when the command changes, reset the local "currCommand", reset the timer
       this.currCommand = this.props.currentPlayer.currentCommand
-      this.startTimer()
-    }
-
-    // Game Over (successfully added all ingredients)
-    if (!this.props.currentPlayer.currentCommand) {
-      this.running = false
+      this.stopTimer() // stop the timer
+      // if the game has not ended, restart timer
+      if (this.props.win === null) {
+        this.startTimer()
+        }
     }
   }
 
