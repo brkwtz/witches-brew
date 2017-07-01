@@ -10,7 +10,6 @@ import Timer from './Timer'
 import _ from 'lodash'
 import {browserHistory} from 'react-router'
 import ReactModal from 'react-modal'
-import axios from 'axios'
 
 import ingredientsCommands from '../assets/commands.json'
 import {playerJoin, playerReady, startRound, addIngredient, commandExpired} from './reducers'
@@ -63,7 +62,7 @@ export class PlayInterface extends React.Component {
 
   handleInviteWitch(e) {
     const messageBody = `You've been invited to play Witches Brew with ${this.props.params.title}! Click here to join: https://www.playwitchesbrew.com/play/${this.props.params.title}`
-    const targetPhone = e.target.value
+    let targetPhone = e.target.value
     if (targetPhone.length === 10) {
       targetPhone = '+1' + targetPhone
       firebase.database().ref('sms').push().set({
