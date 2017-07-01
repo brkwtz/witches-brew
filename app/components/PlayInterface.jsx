@@ -65,6 +65,7 @@ export class PlayInterface extends React.Component {
     const messageBody = `You've been invited to play Witches Brew with ${this.props.params.title}! Click here to join: https://www.playwitchesbrew.com/play/${this.props.params.title}`
     const targetPhone = e.target.value
     if (targetPhone.length === 10) {
+      targetPhone = '+1' + targetPhone
       firebase.database().ref('sms').push().set({
         messageBody,
         targetPhone
