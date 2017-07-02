@@ -90,7 +90,7 @@ export class PlayInterface extends React.Component {
       this.handleOpenUltimateWinModal()
     }
 
-    this.levelUp = (newProps.win !== this.props.win) ? (<p><img className="levelUp" src="/gifs/levelUp.gif" loop="0" width="100px"/></p>) : (<div><h4>level {this.props.level}</h4></div>)
+    this.levelUp = (newProps.win !== this.props.win) ? (<h2><img className="levelUp" src="/gifs/levelUp.gif" loop="0" width="100px"/></h2>) : (<div><h2>level {this.props.level}</h2></div>)
   }
 
   clickToStart = () => {
@@ -103,12 +103,15 @@ export class PlayInterface extends React.Component {
     const currentViewer = this.props.viewers[this.state.user.uid]
     if (!currentPlayer && !currentViewer) {
       return <h1>Joining Coven...</h1>
+
+    }
+    if (!currentPlayer) {
+      return <h1>This coven is full. Reload to try joining again.</h1>
     }
 
     if (!currentPlayer) {
       return <h1>This coven is full. Reload to try joining again.</h1>
     }
-
     const covenName = this.props.params.title.split('-').map((name, i) => {if(i<(this.props.params.title.split('-').length-1)) return (name.charAt(0).toUpperCase() + name.slice(1))}).join(' ')
     const witchNum = Object.keys(this.props.players).length
     let waitingWitches = []
@@ -158,6 +161,7 @@ export class PlayInterface extends React.Component {
         <div className="row">
           <h1 >Welcome to the coven of {covenName}!</h1>
           {this.levelUp}
+          <br />
           <Cauldron />
         </div>
         <div>
@@ -166,6 +170,7 @@ export class PlayInterface extends React.Component {
           (currentPlayer && this.props.gameStarted)
             ? (
               <div>
+              <br />
                <Timer currentPlayer={currentPlayer}/>
                 <Ingredients
                   IngredientsCommands={ingredientsCommands}

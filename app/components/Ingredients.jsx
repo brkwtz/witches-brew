@@ -17,6 +17,7 @@ export class Ingredients extends React.Component {
       levelEnd: this.props.levelEnd,
       elems: [],
       cauldronPos: {x:0,y:0},
+      fire: []
     }
     this.md = new MobileDetect(window.navigator.userAgent)
     this.drag = this.drag.bind(this)
@@ -24,11 +25,11 @@ export class Ingredients extends React.Component {
   
   componentDidMount() {
     this.setState({elems: document.querySelectorAll('.ingredientImg')})
-    
-    let cauldron = document.getElementById('cauldron');
-    let position = cauldron.getBoundingClientRect();
-    let x = position.left;
-    let y = position.top;
+    this.setState({fire: document.querySelectorAll('.fire')})
+    let cauldron = document.getElementById('cauldron')
+    let position = cauldron.getBoundingClientRect()
+    let x = position.left
+    let y = position.top
 
     this.setState({cauldronPos: {x,y}})
   }
@@ -41,8 +42,7 @@ export class Ingredients extends React.Component {
   }
 
   drag(e, pointer, elem) {
-    
-
+    // the backstory behind this function is that i'm a messy bitch who lives for drama
     e.preventDefault();
     let ingX = pointer.pageX
     let ingY = pointer.pageY
@@ -50,16 +50,19 @@ export class Ingredients extends React.Component {
     let yOffSet = this.state.cauldronPos.y - ingY
 
     if(xOffSet <= 200 && yOffSet <= 200){
+      if(elem.ingredient === 'bellows' || elem.ingredient === 'sand'){
+        document.querySelectorAll('.fire')[0].src = '/gifs/fire.gif'
+      }else{
+        document.querySelectorAll('.fire')[0].src = ''
+      }
       this.props.addIngredient(elem.ingredient)
-      elem.position.x = 0;
-      elem.position.y = 0;
+      elem.position.x = 0
+      elem.position.y = 0
     }
-
-
-
   }
 
   get mobilePlayer() {
+    // this isn't even necessary anymore! #drama
     let detect = this.md.ua
     let playingOnA = detect.slice((detect.indexOf('(') + 1), detect.indexOf(';'))
     if (playingOnA === 'iPhone' || playingOnA === 'Android') {
@@ -83,8 +86,6 @@ export class Ingredients extends React.Component {
         let dragElem = new Draggabilly(selectedElem, {
           // containment: '.main'
         })
-
-
         dragElem.ingredient = selectedElem.id
         dragElem.on('pointerUp', (e, pointer) => {
           this.drag(e, pointer, dragElem)
