@@ -45,7 +45,6 @@ export default function reducer(state = initialState, action) {
   // reducer
   switch (action.type) {
   case PLAYER_JOIN:
-
     if (action.player.uid in state.players) {
       return state
     }
@@ -83,7 +82,6 @@ export default function reducer(state = initialState, action) {
     break
 
   case ADD_INGREDIENT:
-
     uids.forEach(uid => {
       // if correct ingredient is added
       if (state.players[uid].currentCommand === ingredientsCommands[action.ingredient]) {
@@ -102,7 +100,6 @@ export default function reducer(state = initialState, action) {
         }
       }
     })
-
     break
 
 // just for if the timer runs out
