@@ -27,6 +27,7 @@ export class PlayInterface extends React.Component {
     this.handlePlayAgain = this.handlePlayAgain.bind(this)
     this.handleQuit = this.handleQuit.bind(this)
     this.handleInviteWitch = this.handleInviteWitch.bind(this)
+    this.handleCopyLink = this.handleCopyLink.bind(this)
   }
 
   handleOpenGameOverModal() {
@@ -35,6 +36,11 @@ export class PlayInterface extends React.Component {
 
   handleOpenUltimateWinModal() {
     this.setState({showUltimateWinModal: true})
+  }
+
+  handleCopyLink() {
+    let gameUrl = `https://www.playwitchesbrew.com/play/${this.props.params.title}`
+    window.prompt("Copy to clipboard:", gameUrl)
   }
 
   handleQuit() {
@@ -58,13 +64,18 @@ export class PlayInterface extends React.Component {
 
   handleInviteWitch(e) {
     const messageBody = `You've been invited to play Witches Brew with ${this.props.params.title}! Click here to join: https://www.playwitchesbrew.com/play/${this.props.params.title}`
-    let targetPhone = e.target.value
-    if (targetPhone.length === 10) {
-      targetPhone = '+1' + targetPhone
+    const targetPhone = e.target.value
+    let targetPhoneNumbersOnly = targetPhone.replace(/\D/g, '')
+    if (targetPhoneNumbersOnly[0] === '1') {
+      targetPhoneNumbersOnly = targetPhoneNumbersOnly.slice(1)
+    }
+    if (targetPhoneNumbersOnly.length === 10) {
+      targetPhoneNumbersOnly = '+1' + targetPhoneNumbersOnly
       firebase.database().ref('sms').push().set({
         messageBody,
-        targetPhone
+        targetPhoneNumbersOnly
       })
+      .then(window.alert(`An invitation has been sent to ${targetPhone}!`))
     }
   }
 
@@ -148,7 +159,7 @@ export class PlayInterface extends React.Component {
           overlayClassName="Overlay"
         >
           <div className="center">
-            <h1>You've successfully brewed all the potion</h1>
+            <h1>You've successfully brewed the potion!</h1>
             <img className="center wizardPoof" src="/gifs/poofWizard.gif" />
             <button onClick={this.handlePlayAgain}>Play Again</button>
             <button onClick={this.handleQuit}>Quit</button>
@@ -176,11 +187,12 @@ export class PlayInterface extends React.Component {
 
             <div>
               {renderWitches}
-                <h3>Invite another Witch to {this.props.params.title}</h3>
+                <h3>Invite a witch to your coven</h3>
                   <form>
-                    <label>Phone Number:</label>
+                    <label>Enter a phone number here </label>
                     <input type="text" name="targetPhone" onChange={this.handleInviteWitch}/>
                   </form>
+                  <p>or <button onClick={this.handleCopyLink}>copy the room link</button></p>
               {
                 (currentPlayer.ready)
                   ? <div></div>
