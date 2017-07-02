@@ -117,7 +117,6 @@ export default function reducer(state = initialState, action) {
       newState.players = {...state.players,
         [action.uid]: {...state.players[action.uid], currentCommand: null}}
       newState = updatePlayerState(newState, state)
-      // console.log('newState after helper funtion', newState)
     }
     break
 
@@ -144,10 +143,6 @@ export const startRound = () => (dispatch, getState) => {
 
 // ======================= helper functions ===================== //
 function updatePlayerState(newState, state, uid) {
-
-  let tempPlayers = Object.assign({}, newState.players)
-  delete tempPlayers[uid]
-
   const uids = Object.keys(state.players)
   // if all commands are removed from queue, level ends
   if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
