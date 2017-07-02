@@ -45,7 +45,6 @@ export default function reducer(state = initialState, action) {
   // reducer
   switch (action.type) {
   case PLAYER_JOIN:
-
     if (action.player.uid in state.players) {
       return state
     }
@@ -60,7 +59,7 @@ export default function reducer(state = initialState, action) {
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
     break
 
-    case PLAYER_LEAVE:
+  case PLAYER_LEAVE:
     const players = {...state.players}
     const viewers = {...state.viewers}
     delete players[action.player.uid]
@@ -97,11 +96,10 @@ export default function reducer(state = initialState, action) {
           // if no more command in queue, set the currentCommand to null for the player whose command is completed
           newState.players = {...state.players,
             [uid]: {...state.players[uid], currentCommand: null}}
-          newState = updatePlayerState(newState, state)
+          newState = updatePlayerState(newState, state, uid)
         }
       }
     })
-
     break
 
 // just for if the timer runs out
@@ -141,7 +139,7 @@ export const startRound = () => (dispatch, getState) => {
 }
 
 // ======================= helper functions ===================== //
-function updatePlayerState(newState, state) {
+function updatePlayerState(newState, state, uid) {
   const uids = Object.keys(state.players)
   // if all commands are removed from queue, level ends
   if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
@@ -171,5 +169,7 @@ function updatePlayerState(newState, state) {
         ultimateWin: false
       }
     }
+  } else {
+    return newState
   }
 }
