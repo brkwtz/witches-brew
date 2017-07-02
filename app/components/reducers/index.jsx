@@ -50,7 +50,7 @@ export default function reducer(state = initialState, action) {
       return state
     }
 
-    if (state.gameStarted || Object.keys(state.players).length >= 1) {
+    if (state.gameStarted || Object.keys(state.players).length >= 4) {
       return {...state, viewers: {...state.viewers, [action.player.uid]: true}}
     }
 
@@ -77,7 +77,6 @@ export default function reducer(state = initialState, action) {
     newState.players = uids.sort().map((uid, index) => {
       const num = action.ingredients.length / uids.length
       return {...state.players[uid],
-        ready: false,
         ingredients: action.ingredients.slice(index*num, (index+1)*num),
         currentCommand: action.commands.shift()}
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
@@ -148,7 +147,7 @@ function updatePlayerState(newState, state) {
   if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
     // if score is higher than 70% clear score and move to next level
     if (newState.score / (uids.length * state.ingredientsPerPlayer) >= 0.7) {
-      return {
+      return {...newState,
         gameStarted: false,
         players: state.players,
         ingredientsPerPlayer: (state.ingredientsPerPlayer >= 8) ? 8 :state.ingredientsPerPlayer + 1,
@@ -161,6 +160,7 @@ function updatePlayerState(newState, state) {
       // if score is lower than 70%, lose game by setting win to false
     } else {
       return {
+        ...newState,
         gameStarted: true,
         players: state.players,
         ingredientsPerPlayer: state.ingredientsPerPlayer,
