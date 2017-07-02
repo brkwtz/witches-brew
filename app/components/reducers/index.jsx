@@ -30,7 +30,7 @@ const initialState = {
   viewers: {},
   gameStarted: false,
   players: {},
-  ingredientsPerPlayer: 2,
+  ingredientsPerPlayer: 4,
   commands: [],
   score: 0,
   level: 1,
