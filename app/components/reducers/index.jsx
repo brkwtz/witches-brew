@@ -45,12 +45,11 @@ export default function reducer(state = initialState, action) {
   // reducer
   switch (action.type) {
   case PLAYER_JOIN:
-
     if (action.player.uid in state.players) {
       return state
     }
 
-    if (state.gameStarted || Object.keys(state.players).length >= 1) {
+    if (state.gameStarted || Object.keys(state.players).length >= 4) {
       return {...state, viewers: {...state.viewers, [action.player.uid]: true}}
     }
 
@@ -60,7 +59,7 @@ export default function reducer(state = initialState, action) {
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
     break
 
-    case PLAYER_LEAVE:
+  case PLAYER_LEAVE:
     const players = {...state.players}
     const viewers = {...state.viewers}
     delete players[action.player.uid]
@@ -77,7 +76,6 @@ export default function reducer(state = initialState, action) {
     newState.players = uids.sort().map((uid, index) => {
       const num = action.ingredients.length / uids.length
       return {...state.players[uid],
-        ready: false,
         ingredients: action.ingredients.slice(index*num, (index+1)*num),
         currentCommand: action.commands.shift()}
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
@@ -98,11 +96,10 @@ export default function reducer(state = initialState, action) {
           // if no more command in queue, set the currentCommand to null for the player whose command is completed
           newState.players = {...state.players,
             [uid]: {...state.players[uid], currentCommand: null}}
-          newState = updatePlayerState(newState, state)
+          newState = updatePlayerState(newState, state, uid)
         }
       }
     })
-
     break
 
 // just for if the timer runs out
@@ -142,13 +139,13 @@ export const startRound = () => (dispatch, getState) => {
 }
 
 // ======================= helper functions ===================== //
-function updatePlayerState(newState, state) {
+function updatePlayerState(newState, state, uid) {
   const uids = Object.keys(state.players)
   // if all commands are removed from queue, level ends
   if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
     // if score is higher than 70% clear score and move to next level
     if (newState.score / (uids.length * state.ingredientsPerPlayer) >= 0.7) {
-      return {
+      return {...newState,
         gameStarted: false,
         players: state.players,
         ingredientsPerPlayer: (state.ingredientsPerPlayer >= 8) ? 8 :state.ingredientsPerPlayer + 1,
@@ -161,6 +158,7 @@ function updatePlayerState(newState, state) {
       // if score is lower than 70%, lose game by setting win to false
     } else {
       return {
+        ...newState,
         gameStarted: true,
         players: state.players,
         ingredientsPerPlayer: state.ingredientsPerPlayer,
@@ -171,5 +169,7 @@ function updatePlayerState(newState, state) {
         ultimateWin: false
       }
     }
+  } else {
+    return newState
   }
 }
