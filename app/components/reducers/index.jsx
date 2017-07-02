@@ -30,7 +30,7 @@ const initialState = {
   viewers: {},
   gameStarted: false,
   players: {},
-  ingredientsPerPlayer: 4,
+  ingredientsPerPlayer: 2,
   commands: [],
   score: 0,
   level: 1,
@@ -60,7 +60,7 @@ export default function reducer(state = initialState, action) {
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
     break
 
-    case PLAYER_LEAVE:
+  case PLAYER_LEAVE:
     const players = {...state.players}
     const viewers = {...state.viewers}
     delete players[action.player.uid]
@@ -83,6 +83,7 @@ export default function reducer(state = initialState, action) {
     break
 
   case ADD_INGREDIENT:
+
     uids.forEach(uid => {
       // if correct ingredient is added
       if (state.players[uid].currentCommand === ingredientsCommands[action.ingredient]) {
@@ -97,7 +98,7 @@ export default function reducer(state = initialState, action) {
           // if no more command in queue, set the currentCommand to null for the player whose command is completed
           newState.players = {...state.players,
             [uid]: {...state.players[uid], currentCommand: null}}
-          newState = updatePlayerState(newState, state)
+          newState = updatePlayerState(newState, state, uid)
         }
       }
     })
@@ -116,6 +117,7 @@ export default function reducer(state = initialState, action) {
       newState.players = {...state.players,
         [action.uid]: {...state.players[action.uid], currentCommand: null}}
       newState = updatePlayerState(newState, state)
+      // console.log('newState after helper funtion', newState)
     }
     break
 
@@ -141,7 +143,11 @@ export const startRound = () => (dispatch, getState) => {
 }
 
 // ======================= helper functions ===================== //
-function updatePlayerState(newState, state) {
+function updatePlayerState(newState, state, uid) {
+
+  let tempPlayers = Object.assign({}, newState.players)
+  delete tempPlayers[uid]
+
   const uids = Object.keys(state.players)
   // if all commands are removed from queue, level ends
   if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
@@ -171,5 +177,7 @@ function updatePlayerState(newState, state) {
         ultimateWin: false
       }
     }
+  } else {
+    return newState
   }
 }
