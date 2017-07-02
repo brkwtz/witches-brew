@@ -25,7 +25,6 @@ export class PlayInterface extends React.Component {
 
     this.handleOpenGameOverModal = this.handleOpenGameOverModal.bind(this)
     this.handlePlayAgain = this.handlePlayAgain.bind(this)
-    this.handleQuit = this.handleQuit.bind(this)
     this.handleInviteWitch = this.handleInviteWitch.bind(this)
     this.handleCopyLink = this.handleCopyLink.bind(this)
   }
@@ -40,26 +39,16 @@ export class PlayInterface extends React.Component {
 
   handleCopyLink() {
     let gameUrl = `https://www.playwitchesbrew.com/play/${this.props.params.title}`
-    window.prompt("Copy to clipboard:", gameUrl)
-  }
-
-  handleQuit() {
-    // close modal
-    this.setState({showGameOverModal: false})
-    // delete gameroom from database
-    firebase.database().ref('gamerooms').child(this.props.params.title).remove()
-    // redirect to /coven
-    .then(() => browserHistory.push('/'))
+    window.prompt('Copy to clipboard:', gameUrl)
   }
 
   handlePlayAgain() {
     // close modal
     this.setState({showGameOverModal: false})
-    this.setState({showUltimateWinModal: false})
     // delete gameroom from database
     firebase.database().ref('gamerooms').child(this.props.params.title).remove()
-    // redirect to /play/gameroom
-    .then(() => browserHistory.push(`/play/${this.props.params.title}`))
+    // redirect to /coven
+      .then(() => browserHistory.push('/'))
   }
 
   handleInviteWitch(e) {
@@ -147,7 +136,6 @@ export class PlayInterface extends React.Component {
             <h2>maybe burn some sage and try again</h2>
             {renderPoofs}
             <button onClick={this.handlePlayAgain}>Play Again</button>
-            <button onClick={this.handleQuit}>Quit</button>
           </div>
         </ReactModal>
 
