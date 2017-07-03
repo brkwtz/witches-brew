@@ -3,7 +3,6 @@ import firebase from 'APP/fire'
 import {connect} from 'react-redux'
 import Draggabilly from 'draggabilly'
 import ingredientsCommands from '../assets/commands.json'
-import {addIngredient} from './reducers'
 
 export const Cauldron = () => {
   let cauldronImg = '/gifs/cauldron.gif'
@@ -15,6 +14,5 @@ export const Cauldron = () => {
 }
 
 export default connect(
-  ({ingredients, level, score}) => ({ingredients, level, score}),
-  {addIngredient},
+  ({level, score}) => ({level, score}),
 )(Cauldron)
