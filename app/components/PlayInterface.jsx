@@ -1,6 +1,7 @@
 'use strict'
 
 import React from 'react'
+import {Link} from 'react-router'
 import firebase from 'APP/fire'
 import {connect} from 'react-redux'
 
@@ -24,7 +25,6 @@ export class PlayInterface extends React.Component {
     }
 
     this.handleOpenGameOverModal = this.handleOpenGameOverModal.bind(this)
-    this.handlePlayAgain = this.handlePlayAgain.bind(this)
     this.handleInviteWitch = this.handleInviteWitch.bind(this)
     this.handleCopyLink = this.handleCopyLink.bind(this)
   }
@@ -40,15 +40,6 @@ export class PlayInterface extends React.Component {
   handleCopyLink() {
     let gameUrl = `https://www.playwitchesbrew.com/play/${this.props.params.title}`
     window.prompt('Copy to clipboard:', gameUrl)
-  }
-
-  handlePlayAgain() {
-    // close modal
-    this.setState({showGameOverModal: false})
-    // delete gameroom from database
-    firebase.database().ref('gamerooms').child(this.props.params.title).remove()
-    // redirect to /coven
-      .then(() => browserHistory.push('/'))
   }
 
   handleInviteWitch(e) {
@@ -135,7 +126,7 @@ export class PlayInterface extends React.Component {
             <h1>Game Over</h1>
             <h2>maybe burn some sage and try again</h2>
             {renderPoofs}
-            <button onClick={this.handlePlayAgain}>Play Again</button>
+            <Link to="/"><h2>Play Again</h2></Link>
           </div>
         </ReactModal>
 
@@ -150,7 +141,6 @@ export class PlayInterface extends React.Component {
             <h1>You've successfully brewed the potion!</h1>
             <img className="center wizardPoof" src="/gifs/poofWizard.gif" />
             <button onClick={this.handlePlayAgain}>Play Again</button>
-            <button onClick={this.handleQuit}>Quit</button>
           </div>
         </ReactModal>
 
