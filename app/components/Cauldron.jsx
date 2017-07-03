@@ -9,30 +9,29 @@ export class Cauldron extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      cauldronImg: "/gifs/cauldron.png",
-      cauldron: ''
+      cauldronImg: '/gifs/cauldron.png'
     }
-    this.cauldronBubble = this.cauldronBubble.bind(this)
   }
-  
 
-  cauldronBubble(){
-    // and more stuff eventually...
-    this.setState({cauldronImg: "/gifs/cauldron.gif"})
+  componentWillReceiveProps(newProps) {
+    if (newProps.level !== this.props.level) {
+      this.state.cauldronImg = '/gifs/levelUpCauldron.gif'
+    } else if (newProps.score !== this.props.score) {
+      this.state.cauldronImg = '/gifs/cauldron.gif'
+    } else {
+      this.state.cauldronImg = '/gifs/cauldron.png'
+    }
   }
 
   render() {
-      
-        return (
-            <img className="cauldron" id="cauldron" src={this.state.cauldronImg} />
-           
-        )
+    const level = this.props.level
+    return (
+      <img loop="0" className="cauldron" id="cauldron" src={this.state.cauldronImg} />
+    )
   }
 }
 
-
 export default connect(
-  ({ingredients}) => ({ingredients}),
-  { addIngredient},
+  ({ingredients, level, score}) => ({ingredients, level, score}),
+  {addIngredient},
 )(Cauldron)
-
