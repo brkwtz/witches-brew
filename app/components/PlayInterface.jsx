@@ -38,24 +38,24 @@ export class PlayInterface extends React.Component {
   }
 
   handleCopyLink() {
-    let gameUrl = `https://www.playwitchesbrew.com/play/${this.props.params.title}`
+    const gameUrl = `https://www.playwitchesbrew.com/play/${this.props.params.title}`
     window.prompt('Copy to clipboard:', gameUrl)
   }
 
   handleInviteWitch(e) {
     const messageBody = `You've been invited to play Witches Brew with ${this.props.params.title}! Click here to join: https://www.playwitchesbrew.com/play/${this.props.params.title}`
-    const targetPhone = e.target.value
-    let targetPhoneNumbersOnly = targetPhone.replace(/\D/g, '')
-    if (targetPhoneNumbersOnly[0] === '1') {
-      targetPhoneNumbersOnly = targetPhoneNumbersOnly.slice(1)
+    const targetPhoneRaw = e.target.value
+    let targetPhone = targetPhoneRaw.replace(/\D/g, '')
+    if (targetPhone[0] === '1') {
+      targetPhone = targetPhone.slice(1)
     }
-    if (targetPhoneNumbersOnly.length === 10) {
-      targetPhoneNumbersOnly = '+1' + targetPhoneNumbersOnly
+    if (targetPhone.length === 10) {
+      targetPhone = '+1' + targetPhone
       firebase.database().ref('sms').push().set({
         messageBody,
-        targetPhoneNumbersOnly
+        targetPhone
       })
-      .then(window.alert(`An invitation has been sent to ${targetPhone}!`))
+      .then(window.alert(`An invitation has been sent to ${targetPhoneRaw}!`))
     }
   }
 
