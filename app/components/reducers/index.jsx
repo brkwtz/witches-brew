@@ -144,8 +144,11 @@ function updatePlayerState(newState, state, uid) {
   // if all commands are removed from queue, level ends
   if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
     // if score is higher than 70% clear score and move to next level
+    console.log('newState is: ', newState)
+    console.log('newState.score is: ', newState.score)
     if (newState.score / (uids.length * state.ingredientsPerPlayer) >= 0.7) {
-      return {...newState,
+      return {
+        ...newState,
         gameStarted: false,
         players: state.players,
         ingredientsPerPlayer: (state.ingredientsPerPlayer >= 8) ? 8 :state.ingredientsPerPlayer + 1,
