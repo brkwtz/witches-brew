@@ -11,13 +11,13 @@ export class Ingredients extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand,
-      win: this.props.win,
-      levelEnd: this.props.levelEnd,
+      // currentCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand,
+      // win: this.props.win,
+      // levelEnd: this.props.levelEnd,
       elems: [],
       cauldronPos: {x: 0, y: 0},
     }
-    this.md = new MobileDetect(window.navigator.userAgent)
+    //this.md = new MobileDetect(window.navigator.userAgent)
     this.drag = this.drag.bind(this)
   }
 
@@ -32,23 +32,25 @@ export class Ingredients extends React.Component {
     this.setState({cauldronPos: {x, y}})
   }
 
-  componentWillReceiveProps(newProps) {
-    this.setState({currentCommand: newProps.players[firebase.auth().currentUser.uid].currentCommand})
-    this.setState({win: newProps.win})
-    this.setState({levelEnd: newProps.levelEnd})
-  }
+  // componentWillReceiveProps(newProps) {
+  //   this.setState({currentCommand: newProps.players[firebase.auth().currentUser.uid].currentCommand})
+  //   this.setState({win: newProps.win})
+  //   this.setState({levelEnd: newProps.levelEnd})
+  // }
 
   drag(e, pointer, elem) {
     e.preventDefault()
-    let ingX = pointer.pageX
-    let ingY = pointer.pageY
-    let cauldronWidth = this.state.cauldronPos.x + 200
-    let cauldronHeight = this.state.cauldronPos.y + 200
-    let xOffSet = this.state.cauldronPos.x - ingX
-    let yOffSet = this.state.cauldronPos.y - ingY
+    const ingX = pointer.pageX
+    const ingY = pointer.pageY
+    const cauldronX = this.state.cauldronPos.x
+    const cauldronY = this.state.cauldronPos.y
+    const cauldronWidth = this.state.cauldronPos.x + 200
+    const cauldronHeight = this.state.cauldronPos.y + 200
+    // let xOffSet = this.state.cauldronPos.x - ingX
+    // let yOffSet = this.state.cauldronPos.y - ingY
 
     console.log(ingX, ingY)
-    if ((ingX >= this.state.cauldronPos.x && ingX <= cauldronWidth) && (ingY >= this.state.cauldronPos.y && ingY <= cauldronHeight)) {
+    if ((ingX >= cauldronX && ingX <= cauldronWidth) && (ingY >= cauldronY && ingY <= cauldronHeight)) {
       console.log('dispatch addIngredient')
       this.props.addIngredient(elem.ingredient)
       elem.position.x = 0
@@ -56,15 +58,15 @@ export class Ingredients extends React.Component {
     }
   }
 
-  mobilePlayer() {
-    let detect = this.md.ua
-    let playingOnA = detect.slice((detect.indexOf('(') + 1), detect.indexOf(';'))
-    if (playingOnA === 'iPhone' || playingOnA === 'Android') {
-      return true
-    } else {
-      return false
-    }
-  }
+  // mobilePlayer() {
+  //   let detect = this.md.ua
+  //   let playingOnA = detect.slice((detect.indexOf('(') + 1), detect.indexOf(';'))
+  //   if (playingOnA === 'iPhone' || playingOnA === 'Android') {
+  //     return true
+  //   } else {
+  //     return false
+  //   }
+  // }
 
   render() {
     console.log('CAULDRON POSITION:', this.state.cauldronPos.x, this.state.cauldronPos.y)
@@ -89,7 +91,7 @@ export class Ingredients extends React.Component {
     return (
       <div>
         <div className="row">
-          <h1 >{this.state.currentCommand}</h1>
+          <h1 >{this.props.players[firebase.auth().currentUser.uid].currentCommand}</h1>
         </div>
         <div className="row">
           {
