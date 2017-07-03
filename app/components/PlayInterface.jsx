@@ -146,7 +146,7 @@ export class PlayInterface extends React.Component {
         </ReactModal>
 
         <div className="row">
-          <h1 >Welcome to the coven of {covenName}!</h1>
+          {(this.props.gameStarted) ? null : (<h1>Welcome to the coven of {covenName}!</h1>)}
           {this.levelUp}
           <Cauldron />
         </div>
@@ -172,11 +172,7 @@ export class PlayInterface extends React.Component {
                     <input type="text" name="targetPhone" onChange={this.handleInviteWitch}/>
                   </form>
                   <p>or <button onClick={this.handleCopyLink}>copy the room link</button></p>
-              {
-                (currentPlayer.ready)
-                  ? <div></div>
-                  : (<p><img src="/gifs/readyButton.gif" onClick={this.clickToStart} /></p>)
-              }
+              {(currentPlayer.ready) ? <div></div> : (<p><img src="/gifs/readyButton.gif" onClick={this.clickToStart} /></p>)}
             </div>
           )
 
