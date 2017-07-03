@@ -42,20 +42,21 @@ export class Ingredients extends React.Component {
     e.preventDefault()
     let ingX = pointer.pageX
     let ingY = pointer.pageY
+    let cauldronWidth = this.state.cauldronPos.x + 200
+    let cauldronHeight = this.state.cauldronPos.y + 200
     let xOffSet = this.state.cauldronPos.x - ingX
     let yOffSet = this.state.cauldronPos.y - ingY
 
-    console.log(xOffSet, yOffSet)
-    if (xOffSet <= 200 && yOffSet <= 200) {
+    console.log(ingX, ingY)
+    if ((ingX >= this.state.cauldronPos.x && ingX <= cauldronWidth) && (ingY >= this.state.cauldronPos.y && ingY <= cauldronHeight)) {
       console.log('dispatch addIngredient')
-      console.log('event!', e)
       this.props.addIngredient(elem.ingredient)
       elem.position.x = 0
       elem.position.y = 0
     }
   }
 
-  get mobilePlayer() {
+  mobilePlayer() {
     let detect = this.md.ua
     let playingOnA = detect.slice((detect.indexOf('(') + 1), detect.indexOf(';'))
     if (playingOnA === 'iPhone' || playingOnA === 'Android') {
@@ -66,6 +67,7 @@ export class Ingredients extends React.Component {
   }
 
   render() {
+    console.log('CAULDRON POSITION:', this.state.cauldronPos.x, this.state.cauldronPos.y)
     const ingredients = this.props.currentPlayer.ingredients
     let isMobile = this.mobilePlayer
     let elems = this.state.elems
@@ -95,7 +97,7 @@ export class Ingredients extends React.Component {
               ingredientImage = '/gifs/ingredients/' + ingredient.split(' ').join('-') + '.gif'
               return (
                 <span key={idx}>
-                  <img className="ingredientImg" id={ingredient} draggable="true" onDragStart={this.drag} src={ingredientImage} />
+                  <img className="ingredientImg" id={ingredient} draggable="true" src={ingredientImage} />
                 </span>
               )
             })
