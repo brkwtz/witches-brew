@@ -85,9 +85,11 @@ export default function reducer(state = initialState, action) {
     uids.forEach(uid => {
       // if correct ingredient is added
       if (state.players[uid].currentCommand === ingredientsCommands[action.ingredient]) {
+        console.log('increment score')
         newState.score = state.score + 1
         // if there's still a command in the queue, fetch the next command to player whose command is completed
         if (state.commands.length > 0) {
+          console.log('we are in the if statement where updatePlayerState is not called, update command')
           newState.players = {...state.players,
             [uid]: {...state.players[uid],
               currentCommand: state.commands[0]}}

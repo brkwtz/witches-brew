@@ -45,7 +45,10 @@ export class Ingredients extends React.Component {
     let xOffSet = this.state.cauldronPos.x - ingX
     let yOffSet = this.state.cauldronPos.y - ingY
 
+    console.log(xOffSet, yOffSet)
     if (xOffSet <= 200 && yOffSet <= 200) {
+      console.log('dispatch addIngredient')
+      console.log('event!', e)
       this.props.addIngredient(elem.ingredient)
       elem.position.x = 0
       elem.position.y = 0
