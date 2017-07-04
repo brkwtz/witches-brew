@@ -15,10 +15,11 @@ export class Ingredients extends React.Component {
       // win: this.props.win,
       // levelEnd: this.props.levelEnd,
       elems: [],
-      cauldronPos: {x: 0, y: 0},
+      cauldronPos: {x: 0, y: 0}
     }
     // this.md = new MobileDetect(window.navigator.userAgent)
     this.drag = this.drag.bind(this)
+    this.handleDrag = this.handleDrag.bind(this)
   }
 
   componentDidMount() {
@@ -58,20 +59,8 @@ export class Ingredients extends React.Component {
     }
   }
 
-  // mobilePlayer() {
-  //   let detect = this.md.ua
-  //   let playingOnA = detect.slice((detect.indexOf('(') + 1), detect.indexOf(';'))
-  //   if (playingOnA === 'iPhone' || playingOnA === 'Android') {
-  //     return true
-  //   } else {
-  //     return false
-  //   }
-  // }
-
-  render() {
-    console.log('CAULDRON POSITION:', this.state.cauldronPos.x, this.state.cauldronPos.y)
-    const ingredients = this.props.currentPlayer.ingredients
-    let isMobile = this.mobilePlayer
+  handleDrag(event) {
+    console.log('react synthetic event! *** ', event)
     let elems = this.state.elems
     let draggableElems = []
 
@@ -87,6 +76,23 @@ export class Ingredients extends React.Component {
       })
       draggableElems.push(dragElem)
     }
+  }
+
+  // mobilePlayer() {
+  //   let detect = this.md.ua
+  //   let playingOnA = detect.slice((detect.indexOf('(') + 1), detect.indexOf(';'))
+  //   if (playingOnA === 'iPhone' || playingOnA === 'Android') {
+  //     return true
+  //   } else {
+  //     return false
+  //   }
+  // }
+
+  render() {
+    console.log('CAULDRON POSITION:', this.state.cauldronPos.x, this.state.cauldronPos.y)
+    const ingredients = this.props.currentPlayer.ingredients
+    // let isMobile = this.mobilePlayer
+
     let ingredientImage
     return (
       <div>
@@ -99,7 +105,7 @@ export class Ingredients extends React.Component {
               ingredientImage = '/gifs/ingredients/' + ingredient.split(' ').join('-') + '.gif'
               return (
                 <span key={idx}>
-                  <img className="ingredientImg" id={ingredient} draggable="true" src={ingredientImage} />
+                  <img className="ingredientImg" id={ingredient} draggable="true" onDragEnd={this.handleDrag} src={ingredientImage} />
                 </span>
               )
             })
