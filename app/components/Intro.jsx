@@ -35,8 +35,6 @@ export default class Intro extends React.Component {
   }
 
   render() {
-    
-
     return (
       <div>
           <div className="mobile-container">

@@ -117,7 +117,7 @@ a:hover{
   body {
     /*background-color: #e6e6e6;*/
     background-image: url('gifs/background.png');
-    background-size: 130%;
+    background-size: 170%;
     background-position:initial;
     background-repeat: no-repeat;
   }
@@ -136,6 +136,10 @@ a:hover{
     background-color: #000;
     background-repeat: no-repeat;
     background-size:1500px 769px;
+  } 
+  .waitingBody {
+    background-image: url('/gifs/waiting.png');
+    background-repeat: repeat;
   } 
   .skip {
     position:fixed;
