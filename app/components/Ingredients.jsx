@@ -50,9 +50,9 @@ export class Ingredients extends React.Component {
     // let xOffSet = this.state.cauldronPos.x - ingX
     // let yOffSet = this.state.cauldronPos.y - ingY
 
-    console.log(ingX, ingY)
+    // console.log(ingX, ingY)
     if ((ingX >= cauldronX && ingX <= cauldronWidth) && (ingY >= cauldronY && ingY <= cauldronHeight)) {
-      console.log('dispatch addIngredient')
+      // console.log('dispatch addIngredient')
       this.props.addIngredient(elem.ingredient)
       elem.position.x = 0
       elem.position.y = 0
@@ -60,7 +60,7 @@ export class Ingredients extends React.Component {
   }
 
   handleDrag(event) {
-    console.log('react synthetic event! *** ', event)
+    // console.log('react synthetic event! *** ', event)
     let elems = this.state.elems
     let draggableElems = []
 
@@ -89,7 +89,7 @@ export class Ingredients extends React.Component {
   // }
 
   render() {
-    console.log('CAULDRON POSITION:', this.state.cauldronPos.x, this.state.cauldronPos.y)
+    // console.log('CAULDRON POSITION:', this.state.cauldronPos.x, this.state.cauldronPos.y)
     const ingredients = this.props.currentPlayer.ingredients
     // let isMobile = this.mobilePlayer
 
