@@ -90,7 +90,7 @@ export default class Home extends React.Component {
   }
 
   roomName() {
-    let newRoom = firstTitle[Math.abs(Math.random() * firstTitle.length-1)] + '-' + secondTitle[Math.abs(Math.random() * secondTitle.length-1)] + '-' + Math.floor(Math.random() * 100)
+    let newRoom = firstTitle[Math.abs(Math.floor(Math.random() * firstTitle.length-1))] + '-' + secondTitle[Math.abs(Math.floor(Math.random() * secondTitle.length-1))] + '-' + Math.floor(Math.random() * 100)
     if (this.state.allCovens.includes(newRoom)) this.createNewRoom()
     else return newRoom
   }
