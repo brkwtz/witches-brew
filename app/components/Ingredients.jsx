@@ -17,17 +17,17 @@ export class Ingredients extends React.Component {
       elems: [],
       cauldronPos: {x: 0, y: 0},
     }
-    //this.md = new MobileDetect(window.navigator.userAgent)
+    // this.md = new MobileDetect(window.navigator.userAgent)
     this.drag = this.drag.bind(this)
   }
 
   componentDidMount() {
     this.setState({elems: document.querySelectorAll('.ingredientImg')})
 
-    let cauldron = document.getElementById('cauldron')
-    let position = cauldron.getBoundingClientRect()
-    let x = position.left
-    let y = position.top
+    const cauldron = document.getElementById('cauldron')
+    const position = cauldron.getBoundingClientRect()
+    const x = position.left
+    const y = position.top
 
     this.setState({cauldronPos: {x, y}})
   }
