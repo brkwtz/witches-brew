@@ -18,8 +18,7 @@ export default class Intro extends React.Component {
 
   componentDidMount (){
     document.body.className='introBody'
-    // if(!this.mobilePlayer){this.props.router.push('/coven')}
-    // comment line 21 back in for deployment...
+    if(!this.mobilePlayer){this.props.router.push('/coven')}
     setTimeout(() => this.setState({skip: true}), 2000)
     setTimeout(() => this.props.router.push('/coven'), 8000)
 }
