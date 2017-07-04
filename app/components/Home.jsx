@@ -97,12 +97,13 @@ export default class Home extends React.Component {
   }
 
   roomName() {
-    let newRoom = firstTitle[Math.abs(Math.floor(Math.random() * firstTitle.length-1))] + '-' + secondTitle[Math.abs(Math.floor(Math.random() * secondTitle.length-1))] + '-' + Math.floor(Math.random() * 100)
+    let newRoom = firstTitle[Math.floor(Math.random() * firstTitle.length-1)] + '-' + secondTitle[Math.floor(Math.random() * secondTitle.length-1)] + '-' + Math.floor(Math.random() * 100)
     if (this.state.allCovens.includes(newRoom)) this.createNewRoom()
-    else return newRoom
+    else return newRoom //should have been return this.roomName() ? i'm very sorry
   }
 
   componentDidMount() {
+    document.body.className=''
     // let covens = []
     // let query = firebase.database().ref('gamerooms').orderByKey()
     // query.once('value')
@@ -120,9 +121,8 @@ export default class Home extends React.Component {
   render() {
     // let openCovens = this.state.allCovens
     return (
-      <div>
-
-        <img src="/gifs/WitchesBrewLogo.png" />
+      <div className="mobile-container">
+        <img className="logo" src="/gifs/WitchesBrewLogo.png" />
           <div className="row center">
             {/*<h1> The initiation begins... </h1>*/}
 
@@ -135,7 +135,7 @@ export default class Home extends React.Component {
 
             <h1> Establish a new Coven... </h1>
             <img src="/gifs/liveDeliciously.png" onClick={this.createNewRoom} className="live-deliciously" />
-            <p className="center"><Link to='/instructions'>How to play</Link></p>
+            <p className="center bottomText"><Link to='/instructions'>How to play</Link></p>
         </div>
       </div>
     )
