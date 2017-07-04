@@ -7,25 +7,27 @@ import ingredientsCommands from '../assets/commands.json'
 export class Cauldron extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      cauldronImg: '/gifs/cauldron.png'
-    }
+    // this.state = {
+    //   cauldron: 'static'
+    // }
   }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.level !== this.props.level) {
-      this.state.cauldronImg = '/gifs/levelUpCauldron.gif'
-    } else if (newProps.score !== this.props.score) {
-      this.state.cauldronImg = '/gifs/cauldron.gif'
-    } else {
-      this.state.cauldronImg = '/gifs/cauldron.png'
-    }
-  }
+  // componentWillReceiveProps(newProps) {
+  //   if (newProps.level !== this.props.level) {
+  //     this.state.cauldron = 'levelUp'
+  //   // } else if (newProps.score !== this.props.score) {
+  //   //   this.state.cauldron = 'glitter'
+  //   } else {
+  //     this.state.cauldron = 'static'
+  //   }
+  // }
 
   render() {
-    const level = this.props.level
+    let currentCauldron = '/gifs/cauldron.png'
+    // { (this.state.cauldron === 'levelUp') ? (currentCauldron = '/gifs/levelUpCauldron.gif') : null }
+    // { (this.state.cauldron === 'glitter') ? (currentCauldron = '/gifs/cauldron.gif') : null }
     return (
-      <img loop="0" className="cauldron" id="cauldron" src={this.state.cauldronImg} />
+      <img className="cauldron" id="cauldron" src={currentCauldron} />
     )
   }
 }
