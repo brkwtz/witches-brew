@@ -11,6 +11,7 @@ import Timer from './Timer'
 import _ from 'lodash'
 import {browserHistory} from 'react-router'
 import ReactModal from 'react-modal'
+import Clipboard from 'clipboard'
 
 import ingredientsCommands from '../assets/commands.json'
 import {playerJoin, playerReady, startRound, addIngredient, commandExpired} from './reducers'
@@ -26,7 +27,7 @@ export class PlayInterface extends React.Component {
 
     this.handleOpenGameOverModal = this.handleOpenGameOverModal.bind(this)
     this.handleInviteWitch = this.handleInviteWitch.bind(this)
-    this.handleCopyLink = this.handleCopyLink.bind(this)
+    // this.handleCopyLink = this.handleCopyLink.bind(this)
   }
 
   handleOpenGameOverModal() {
@@ -37,10 +38,10 @@ export class PlayInterface extends React.Component {
     this.setState({showUltimateWinModal: true})
   }
 
-  handleCopyLink() {
-    const gameUrl = `https://www.playwitchesbrew.com/play/${this.props.params.title}`
-    window.prompt('Copy to clipboard:', gameUrl)
-  }
+  // handleCopyLink() {
+  //   const gameUrl = `https://www.playwitchesbrew.com/play/${this.props.params.title}`
+  //   window.prompt('Copy to clipboard:', gameUrl)
+  // }
 
   handleInviteWitch(e) {
     const messageBody = `You've been invited to play Witches Brew with ${this.props.params.title}! Click here to join: https://www.playwitchesbrew.com/play/${this.props.params.title}`
@@ -60,6 +61,7 @@ export class PlayInterface extends React.Component {
   }
 
   componentDidMount() {
+    this.copy = new Clipboard('.copy')
     document.body.className='waitingBody'
     firebase.auth().onAuthStateChanged(user => {
       this.setState({user})
@@ -171,7 +173,7 @@ export class PlayInterface extends React.Component {
                     <label>Enter a phone number here </label>
                     <input type="text" name="targetPhone" onChange={this.handleInviteWitch}/>
                   </form>
-                  <p>or <button onClick={this.handleCopyLink}>copy the room link</button></p>
+                  <p>or <button className="copy" data-clipboard-text={`https://www.playwitchesbrew.com/play/${this.props.params.title}`}>copy the room link</button></p>
               {
                 (currentPlayer.ready)
                   ? <div></div>
@@ -191,3 +193,6 @@ export default connect(
   ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin, viewers}) => ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin, viewers}),
   {playerJoin, playerReady, startRound, addIngredient, commandExpired},
 )(PlayInterface)
+
+
+/// 
