@@ -35,9 +35,9 @@ export class Timer extends React.Component {
   timeForLevel() {
     const level = this.props.level
     if (level <= 3) {
-      return 8
+      return 8 + Math.random() * Math.random()* Math.random()
     } else {
-      return 7
+      return 7 + Math.random()* Math.random()* Math.random()
     }
   }
 
