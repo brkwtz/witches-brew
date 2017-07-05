@@ -96,7 +96,9 @@ export class Timer extends React.Component {
     return (
       <div>
       <div id="overlay"></div>
-      <div id="bar" style={{width: `${percent}%`}} />
+      <div id="timerBg">
+        <div id="bar" style={{width: `${percent}%`}} />
+      </div>
       </div>
     )
   }
