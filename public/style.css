@@ -64,13 +64,7 @@ p {
 
 body {
   /*background-color: #e6e6e6;*/
-<<<<<<< HEAD
   background-image: url('gifs/background-spider.png');
-  background-size: 100%;
-}
-
-=======
-  background-image: url('gifs/background-spider.jpg');
   background-size: 100%;
 }
 
@@ -79,7 +73,6 @@ body {
   border: 10px red;
 }
 
->>>>>>> cauldron sparkles
 .command1 {
   color: green
 }
@@ -92,8 +85,6 @@ body {
   color: red;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 .center {
   text-align: center;
   margin: auto;
@@ -121,27 +112,7 @@ body {
   opacity: 0;
   z-index:0;
   border-radius: 5px;
-=======
-#playInterface {
-  height: 100vh;
-  width: 100vw;
 }
-
-  h2 {
-    font-family: 'LadyRadical';
-    color: #B920D3;
-  }
-
-  p {
-    color: #730187;
-  }
-
-  body {
-    /*background-color: #e6e6e6;*/
-    background-image: url('gifs/background-spider.png');
-    background-size: 100%;
->>>>>>> fixed more merge conflicts
-  }
 
 #timerBg {
   position: relative;
@@ -173,6 +144,24 @@ body {
   width: 90%
 }
 
+#ingredients {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.ingredientImg {
+  margin: 4%;
+  width: 100px;
+  height: 100px;
+}
+
+#levelDisplay {
+  position: absolute;
+  top: 2%;
+  left: 4%;
+}
+
 a {
   color: #32003A;
   text-decoration: 'none'
@@ -192,6 +181,24 @@ a:hover{
   opacity: 0;
   pointer-events:none;
 }
+
+@media (max-width: 375px) {
+  /* mobile, iphone 5 -- 320px wide */
+  .ingredientImg {
+    margin: 2%;
+    width: 62px;
+    height: 62px;
+  }
+}
+
+@media (max-width: 430px)
+  and (min-width: 376px) {
+    .ingredientImg {
+      margin: 4%;
+      width: 85px;
+      height: 85px;
+    }
+  }
 
 @media (max-width:700px){
   body {
@@ -242,27 +249,8 @@ a:hover{
     margin-right: auto;
     width: 50%;
   }
+
   .live-deliciously {
     width: 25%;
   }
-=======
-.ingredientImg {
-  display: inline-block;
-  width: 40%;
-}
-
-#playInterface {
-  height: 100vh;
-  width: 100vw;
-}
-
-#ingredients {
-  height: 50vh;
-  background-image: url('brown-bg.png');
-  width: 100vw;
-}
-
-table {
-  width: 100%;
->>>>>>> cauldron sparkles
 }

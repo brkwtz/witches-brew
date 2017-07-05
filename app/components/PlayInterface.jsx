@@ -82,7 +82,7 @@ export class PlayInterface extends React.Component {
       this.handleOpenUltimateWinModal()
     }
 
-    this.levelUp = (newProps.win !== this.props.win) ? (<p><img className="levelUp" src="/gifs/levelUp.gif" loop="0" width="100px"/></p>) : (<div><h4>level {this.props.level}</h4></div>)
+    this.levelUp = (newProps.win !== this.props.win) ? (<p><img className="levelUp" src="/gifs/levelUp.gif" loop="0" width="100px"/></p>) : (<div><h4>Level {this.props.level}</h4></div>)
 
   }
 
@@ -154,6 +154,7 @@ export class PlayInterface extends React.Component {
           (currentPlayer && this.props.gameStarted)
             ? (
               <div id="playInterface">
+                <div id="levelDisplay">{this.levelUp}</div>
                 <Cauldron />
                 <Timer currentPlayer={currentPlayer}/>
                 <Ingredients
