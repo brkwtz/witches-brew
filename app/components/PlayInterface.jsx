@@ -56,6 +56,9 @@ export class PlayInterface extends React.Component {
 
   componentDidMount() {
     this.copy = new Clipboard('.copy')
+    this.copy.on("success", ()=> {
+       document.getElementById('success').textContent = "copied!"
+    });
     document.body.className='waitingBody'
     firebase.auth().onAuthStateChanged(user => {
       this.setState({user})
@@ -167,7 +170,8 @@ export class PlayInterface extends React.Component {
                     <label>Enter a phone number here </label>
                     <input type="text" name="targetPhone" onChange={this.handleInviteWitch}/>
                   </form>
-                  <p>or <button className="copy" data-clipboard-text={`https://www.playwitchesbrew.com/play/${this.props.params.title}`}>copy the room link</button></p>
+                  <p>or <button className="copy" data-clipboard-text={`https://www.playwitchesbrew.com/play/${this.props.params.title}`}>copy the room link</button>
+                  </p><div id="success"> </div>
               {
                 (currentPlayer.ready)
                   ? <div></div>
