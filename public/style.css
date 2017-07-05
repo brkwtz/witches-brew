@@ -53,6 +53,7 @@ h1 {
   width: 60%;
 }
 
+<<<<<<< HEAD
 h2 {
   font-family: 'LadyRadical';
   color: #B920D3;
@@ -92,9 +93,22 @@ body {
   width: 90%
 }
 
+#ingredients {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
 .ingredientImg {
-  display: inline-block;
-  width: 150px;
+  margin: 4%;
+  width: 100px;
+  height: 100px;
+}
+
+#levelDisplay {
+  position: absolute;
+  top: 2%;
+  left: 4%;
 }
 
 #bar {
