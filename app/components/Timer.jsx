@@ -1,8 +1,6 @@
 import React from 'react'
 import firebase from 'APP/fire'
 import {connect} from 'react-redux'
-import { Progress } from 'react-sweet-progress'
-import 'react-sweet-progress/lib/style.css'
 
 import {commandExpired} from './reducers'
 
@@ -35,9 +33,9 @@ export class Timer extends React.Component {
   timeForLevel() {
     const level = this.props.level
     if (level <= 3) {
-      return 8
+      return 8 + Math.random() * Math.random() * Math.random()
     } else {
-      return 7
+      return 7 + Math.random() * Math.random() * Math.random()
     }
   }
 
@@ -87,7 +85,11 @@ export class Timer extends React.Component {
       // if the game has not ended, restart timer
       if (this.props.win === null) {
         this.startTimer()
-        }
+      }
+    }
+
+    else if (!this.props.currentPlayer.currentCommand || this.props.ultimateWin) {
+      this.stopTimer()
     }
   }
 
@@ -96,12 +98,17 @@ export class Timer extends React.Component {
     const totalTime = this.endTime - this.startTime
     let percent = time / totalTime * 100
     return (
-      <div style={{height: '10px', width: `${percent}%`, backgroundColor: '#B920D3', borderRadius: '5px'}} />
+      <div>
+      <div id="overlay"></div>
+      <div id="timerBg">
+        <div id="bar" style={{width: `${percent}%`}} />
+      </div>
+      </div>
     )
   }
 }
 
 export default connect(
-  ({gameStarted, players, ingredients, commands, score, level, win}) => ({gameStarted, players, ingredients, commands, score, level, win}),
+  ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin}) => ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin}),
   {commandExpired},
 )(Timer)

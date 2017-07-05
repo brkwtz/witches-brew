@@ -12,20 +12,17 @@ export class Cauldron extends React.Component {
       cauldronImg: "/gifs/cauldron.png",
       cauldron: ''
     }
-    this.cauldronBubble = this.cauldronBubble.bind(this)
   }
   
-
-  cauldronBubble(){
-    // and more stuff eventually...
-    this.setState({cauldronImg: "/gifs/cauldron.gif"})
-  }
-
   render() {
       
         return (
+          <div>
             <img className="cauldron" id="cauldron" src={this.state.cauldronImg} />
-           
+            <br />
+            <img className="fire" id="fire" src="" />
+            <br />
+          </div>
         )
   }
 }

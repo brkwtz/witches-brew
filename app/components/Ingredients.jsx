@@ -20,7 +20,6 @@ export class Ingredients extends React.Component {
 
   componentDidMount() {
     this.setState({elems: document.querySelectorAll('.ingredientImg')})
-
     const cauldron = document.getElementById('cauldron')
     const position = cauldron.getBoundingClientRect()
     const x = position.left

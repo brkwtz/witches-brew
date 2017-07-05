@@ -142,10 +142,14 @@ export const startRound = () => (dispatch, getState) => {
 }
 
 // ======================= helper functions ===================== //
-function updatePlayerState(newState, state, uid) {
+function updatePlayerState(newState, state, id) {
   const uids = Object.keys(state.players)
   // if all commands are removed from queue, level ends
   if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
+    if (state.level >=10) {
+      newState.players = {...newState.players,
+        [id]: {...newState.players[id], ready: false}}
+    }
     // if score is higher than 70% clear score and move to next level
     console.log('newState is: ', newState)
     console.log('newState.score is: ', newState.score)
@@ -153,7 +157,6 @@ function updatePlayerState(newState, state, uid) {
       return {
         ...newState,
         gameStarted: false,
-        players: state.players,
         ingredientsPerPlayer: (state.ingredientsPerPlayer >= 8) ? 8 :state.ingredientsPerPlayer + 1,
         commands: _.shuffle(state.commands),
         score: 0,
@@ -166,7 +169,7 @@ function updatePlayerState(newState, state, uid) {
       return {
         ...newState,
         gameStarted: true,
-        players: state.players,
+        players: {...newState.players, [id]: {...newState.players[id], ready: false}},
         ingredientsPerPlayer: state.ingredientsPerPlayer,
         commands: [],
         score: state.score,

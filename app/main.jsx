@@ -15,6 +15,7 @@ import Instructions from './components/Instructions'
 import Home from './components/Home.jsx'
 import GameOverContainer from './components/GameOverContainer'
 import Timer from './components/Timer'
+import Intro from './components/Intro'
 
 // Get the auth API from Firebase.
 const auth = firebase.auth()
@@ -32,12 +33,13 @@ const App = ({children}) =>
 render(
   <Router history={browserHistory}>
     <Route path="/" component={App}>
-      <IndexRedirect to="/coven"/>
+      <IndexRedirect to="/intro"/>
       <Route path="/play/" component={GameContainer}>
         <Route path="/play/:title" components={PlayInterface} />
         <Route path="/play/:title/levelup" component={LevelUp} />
         <Route path="/play/:title/gameover" component={GameOverContainer} />
       </Route>
+      <Route path ="/intro" component={Intro}/>
       <Route path="/instructions" component={Instructions}/>
       <Route path ="/coven" component={Home}></Route>
       <Route path="/gameover" component={GameOverContainer} />
