@@ -15,7 +15,6 @@ export class Ingredients extends React.Component {
       cauldronPos: {x: 0, y: 0}
     }
     this.drag = this.drag.bind(this)
-    this.handleDrag = this.handleDrag.bind(this)
   }
 
   componentDidMount() {
@@ -44,7 +43,10 @@ export class Ingredients extends React.Component {
     }
   }
 
-  handleDrag(event) {
+  render() {
+    const ingredients = this.props.currentPlayer.ingredients
+    let ingredientImage
+
     let elems = this.state.elems
     let draggableElems = []
 
@@ -58,11 +60,7 @@ export class Ingredients extends React.Component {
       })
       draggableElems.push(dragElem)
     }
-  }
 
-  render() {
-    const ingredients = this.props.currentPlayer.ingredients
-    let ingredientImage
     return (
       <div>
         <div className="row">
@@ -74,7 +72,7 @@ export class Ingredients extends React.Component {
               ingredientImage = '/gifs/ingredients/' + ingredient.split(' ').join('-') + '.gif'
               return (
                 <span key={idx}>
-                  <img className="ingredientImg" id={ingredient} draggable="true" onDragEnd={this.handleDrag} src={ingredientImage} />
+                  <img className="ingredientImg" id={ingredient} draggable="true" onDragStart={this.drag} src={ingredientImage} />
                 </span>
               )
             })
