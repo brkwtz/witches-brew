@@ -9,7 +9,6 @@ import Cauldron from './Cauldron'
 import Ingredients from './Ingredients'
 import Timer from './Timer'
 import _ from 'lodash'
-import {browserHistory} from 'react-router'
 import ReactModal from 'react-modal'
 
 import ingredientsCommands from '../assets/commands.json'
@@ -111,8 +110,8 @@ export class PlayInterface extends React.Component {
       poofedWitches.push('/gifs/poof' + (i+1) + '.gif')
     }
 
-    const renderWitches = waitingWitches.map((witchPic, indx) => (<img key={indx} id="waiting-witch" src={witchPic}/>))
-    const renderPoofs = poofedWitches.map((witchPic, indx) => (<img key={indx} id="poofed-witch" src={witchPic}/>))
+    const renderWitches = waitingWitches.map((witchPic, indx) => (<img key={indx} id="waiting-witch" className="col-lg-3 col-md-3 col-sm-3 col-xs-3" src={witchPic}/>))
+    const renderPoofs = poofedWitches.map((witchPic, indx) => (<img key={indx} className="col-lg-3 col-md-3 col-sm-6 col-xs-6" src={witchPic}/>))
 
     return (
       <div className="container-fluid center">
@@ -127,7 +126,7 @@ export class PlayInterface extends React.Component {
             <h1>Game Over</h1>
             <h2>maybe burn some sage and try again</h2>
             {renderPoofs}
-            <Link to="/"><h2>Play Again</h2></Link>
+            <Link to="/coven"><h2>Play Again</h2></Link>
           </div>
         </ReactModal>
 
@@ -165,17 +164,21 @@ export class PlayInterface extends React.Component {
             : (
 
             <div>
+              <div className="container-fluid">
               {renderWitches}
+              </div>
+              <div className="row">
                 <h3>Invite a witch to your coven</h3>
                   <form>
                     <label>Enter a phone number here </label>
                     <input type="text" name="targetPhone" onChange={this.handleInviteWitch}/>
                   </form>
                   <p>or <button onClick={this.handleCopyLink}>copy the room link</button></p>
+              </div>
               {
                 (currentPlayer.ready)
                   ? <div></div>
-                  : (<p><img src="/gifs/readyButton.gif" onClick={this.clickToStart} /></p>)
+                  : (<p><img src="/gifs/readyButton.gif" id="ready" onClick={this.clickToStart} /></p>)
               }
             </div>
           )
