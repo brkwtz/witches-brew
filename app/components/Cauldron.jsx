@@ -10,6 +10,7 @@ export class Cauldron extends React.Component {
       cauldron: 'static'
     }
   }
+<<<<<<< HEAD
 
   componentWillReceiveProps(newProps) {
     if (newProps.score !== this.props.score) {
@@ -26,6 +27,19 @@ export class Cauldron extends React.Component {
     return (
       <img className="cauldron" id="cauldron" src={currentCauldron} />
     )
+=======
+  
+  render() {
+      
+        return (
+          <div>
+            <img className="cauldron" id="cauldron" src={this.state.cauldronImg} />
+            <br />
+            <img className="fire" id="fire" src="" />
+            <br />
+          </div>
+        )
+>>>>>>> master
   }
 }
 
