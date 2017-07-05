@@ -195,7 +195,7 @@ export const startRound = () => (dispatch, getState) => {
 }
 
 // ======================= helper functions ===================== //
-function updatePlayerState(newState, state, uid) {
+function updatePlayerState(newState, state, id) {
   const uids = Object.keys(state.players)
   console.log('we are updating player state')
   // if all commands are removed from queue, level ends
@@ -210,7 +210,6 @@ function updatePlayerState(newState, state, uid) {
       console.log('winner winner chicken dinner')
       return {...newState,
         gameStarted: false,
-        players: state.players,
         ingredientsPerPlayer: (state.ingredientsPerPlayer >= 8) ? 8 :state.ingredientsPerPlayer + 1,
         commands: _.shuffle(state.commands),
         score: 0,
@@ -224,7 +223,7 @@ function updatePlayerState(newState, state, uid) {
       return {
         ...newState,
         gameStarted: true,
-        players: state.players,
+        players: {...newState.players, [id]: {...newState.players[id], ready: false}},
         ingredientsPerPlayer: state.ingredientsPerPlayer,
         commands: [],
         score: state.score,
