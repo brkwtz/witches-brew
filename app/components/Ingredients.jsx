@@ -27,39 +27,46 @@ export class Ingredients extends React.Component {
     this.setState({cauldronPos: {x, y}})
   }
 
-  drag(e, pointer, elem) {
-    e.preventDefault()
+    drag(e, pointer, elem) {
+    e.preventDefault();
     let ingX = pointer.pageX
     let ingY = pointer.pageY
     let xOffSet = this.state.cauldronPos.x - ingX
     let yOffSet = this.state.cauldronPos.y - ingY
 
-    if (xOffSet <= 200 && yOffSet <= 200) {
+    if(xOffSet <= 200 && yOffSet <= 200){
+      if(elem.ingredient === 'bellows' || elem.ingredient === 'sand'){
+        document.querySelectorAll('.fire')[0].src = '/gifs/fire.gif'
+      }else{
+        document.querySelectorAll('.fire')[0].src = ''
+      }
       this.props.addIngredient(elem.ingredient)
       elem.position.x = 0
       elem.position.y = 0
     }
   }
 
+
   render() {
-    const ingredients = this.props.currentPlayer.ingredients
-    let ingredientImage
+const ingredients = this.props.currentPlayer.ingredients
+    let isMobile = this.mobilePlayer;
 
     let elems = this.state.elems
-    let draggableElems = []
 
-    for (var i=0, len = elems.length; i < len; i++) {
-      let selectedElem = elems[i]
-      let dragElem = new Draggabilly(selectedElem, {})
+      let draggableElems = []
 
-      dragElem.ingredient = selectedElem.id
-      dragElem.on('pointerUp', (e, pointer) => {
-        window.alert('ingredient added!')
-        this.drag(e, pointer, dragElem)
-      })
-      draggableElems.push(dragElem)
-    }
-
+      for ( var i=0, len = elems.length; i < len; i++ ) {
+        let selectedElem = elems[i];
+        let dragElem = new Draggabilly(selectedElem, {
+          // containment: '.main'
+        })
+        dragElem.ingredient = selectedElem.id
+        dragElem.on('pointerUp', (e, pointer) => {
+          this.drag(e, pointer, dragElem)
+        })
+        draggableElems.push(dragElem)
+      } 
+    let ingredientImage
     return (
       <div>
         <div className="row">
