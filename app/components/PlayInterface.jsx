@@ -60,6 +60,7 @@ export class PlayInterface extends React.Component {
   }
 
   componentDidMount() {
+    document.body.className='waitingBody'
     firebase.auth().onAuthStateChanged(user => {
       this.setState({user})
     })

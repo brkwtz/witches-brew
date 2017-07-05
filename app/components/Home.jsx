@@ -95,15 +95,18 @@ export default class Home extends React.Component {
     else return newRoom
   }
 
+  componentDidMount() {
+    document.body.className=''
+  }
+
   render() {
     return (
-      <div>
-
-        <img src="/gifs/WitchesBrewLogo.png" />
+      <div className="mobile-container">
+        <img className="logo" src="/gifs/WitchesBrewLogo.png" />
           <div className="row center">
             <h1> Establish a new Coven... </h1>
             <img src="/gifs/liveDeliciously.png" onClick={this.createNewRoom} className="live-deliciously" />
-            <p className="center"><Link to='/instructions'>How to play</Link></p>
+            <p className="center bottomText"><Link to='/instructions'>How to play</Link></p>
         </div>
       </div>
     )

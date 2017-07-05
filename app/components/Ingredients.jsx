@@ -39,14 +39,18 @@ export class Ingredients extends React.Component {
   }
   //
   // drag(e, pointer, elem) {
-  //
   //   e.preventDefault();
   //   let ingX = pointer.pageX
   //   let ingY = pointer.pageY
   //   let xOffSet = this.state.cauldronPos.x - ingX
   //   let yOffSet = this.state.cauldronPos.y - ingY
-  //
+  
   //   if (xOffSet <= 200 && yOffSet <= 200){
+  //     if(elem.ingredient === 'bellows' || elem.ingredient === 'coal'){
+  //       document.getElementById('fire').src="gifs/fire.gif"
+  //     }else{
+  //       document.getElementById('fire').src=""
+  //     }
   //     this.props.addIngredient(elem.ingredient)
   //     elem.position.x = 0;
   //     elem.position.y = 0;
