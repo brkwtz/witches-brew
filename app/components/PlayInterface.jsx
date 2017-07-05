@@ -139,8 +139,8 @@ export class PlayInterface extends React.Component {
         >
           <div className="center">
             <h1>You've successfully brewed the potion!</h1>
-            <img className="center wizardPoof" src="/gifs/poofWizard.gif" />
-            <button onClick={this.handlePlayAgain}>Play Again</button>
+            <img className="wizardPoof" src="/gifs/poofWizard.gif" />
+            <Link to="/coven"><h2>Play Again</h2></Link>
           </div>
         </ReactModal>
 
