@@ -10,7 +10,6 @@ export class Cauldron extends React.Component {
       cauldron: 'static'
     }
   }
-<<<<<<< HEAD
 
   componentWillReceiveProps(newProps) {
     if (newProps.score !== this.props.score) {
@@ -24,22 +23,16 @@ export class Cauldron extends React.Component {
     let currentCauldron = '/gifs/cauldron.png'
     { (this.state.cauldron === 'levelUp') ? (currentCauldron = '/gifs/levelUpCauldron.gif') : null }
     { (this.state.cauldron === 'glitter') ? (currentCauldron = '/gifs/cauldron.gif') : null }
+
     return (
-      <img className="cauldron" id="cauldron" src={currentCauldron} />
+      <div>
+        <img className="cauldron" id="cauldron" src={currentCauldron} />
+        <br />
+        <img className="fire" id="fire" src="" />
+        <br />
+      </div>
     )
-=======
-  
-  render() {
-      
-        return (
-          <div>
-            <img className="cauldron" id="cauldron" src={this.state.cauldronImg} />
-            <br />
-            <img className="fire" id="fire" src="" />
-            <br />
-          </div>
-        )
->>>>>>> master
+
   }
 }
 
