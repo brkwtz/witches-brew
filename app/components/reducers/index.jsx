@@ -143,7 +143,7 @@ function updatePlayerState(newState, state, id) {
   const uids = Object.keys(state.players)
   // if all commands are removed from queue, level ends
   if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
-    if (state.level >=2) {
+    if (state.level >=1) {
       newState.players = {...newState.players,
         [id]: {...newState.players[id], ready: false}}
     }
@@ -154,9 +154,9 @@ function updatePlayerState(newState, state, id) {
         ingredientsPerPlayer: (state.ingredientsPerPlayer >= 8) ? 8 :state.ingredientsPerPlayer + 1,
         commands: _.shuffle(state.commands),
         score: 0,
-        level: (state.level >=2) ? 2 : state.level + 1,
+        level: (state.level >=1) ? 1 : state.level + 1,
         win: true,
-        ultimateWin: state.level >= 2
+        ultimateWin: state.level >= 1
       }
       // if score is lower than 70%, lose game by setting win to false
     } else {
