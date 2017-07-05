@@ -54,6 +54,7 @@ export class Ingredients extends React.Component {
 
       dragElem.ingredient = selectedElem.id
       dragElem.on('pointerUp', (e, pointer) => {
+        window.alert('ingredient added!')
         this.drag(e, pointer, dragElem)
       })
       draggableElems.push(dragElem)
