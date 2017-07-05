@@ -39,12 +39,6 @@ h1 {
   color: #32003A;
 }
 
-body {
-  background-color: #e6e6e6;
-  width: 100%;
-  height: 100%;
-}
-
 .Overlay {
   position: fixed;
   top: 0;
@@ -70,13 +64,8 @@ p {
 
 body {
   /*background-color: #e6e6e6;*/
-  background-image: url('gifs/background-spider.jpg');
+  background-image: url('gifs/background-spider.png');
   background-size: 100%;
-}
-
-.live-deliciously {
-  width: 25%;
-  border: 10px red;
 }
 
 .command1 {
@@ -94,7 +83,7 @@ body {
 .center {
   text-align: center;
   margin: auto;
-  paddin: 10px;
+  padding: 10px;
   width: 90%
 }
 
@@ -134,5 +123,86 @@ body {
   to {
     width: 80%;
     opacity: 0
+  }
+}
+
+.center {
+  text-align: center;
+  margin: auto;
+  padding: 10px;
+  width: 90%
+}
+
+a {
+  color: #32003A;
+  text-decoration: 'none'
+}
+
+a:hover{
+  color: #730187;
+  text-decoration: 'none'
+}
+
+.fade {
+  transition: opacity 0.5s;
+  opacity: 1;
+}
+
+.fade.hide {
+  opacity: 0;
+  pointer-events:none;
+}
+
+@media (max-width:700px){
+  body {
+    /*background-color: #e6e6e6;*/
+    background-image: url('gifs/background.png');
+    background-size: 170%;
+    background-position:initial;
+    background-repeat: no-repeat;
+  }
+  .mobile-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .logo {
+    width: 330px;
+    text-align: center;
+  }
+  .introBody {
+    background-image: url('/gifs/backgroundGif.gif');
+    background-color: #000;
+    background-repeat: no-repeat;
+    background-size:1500px 769px;
+  }
+  .waitingBody {
+    background-image: url('/gifs/waiting.png');
+    background-repeat: repeat;
+  }
+  .skip {
+    position:fixed;
+    left:5px;
+    bottom:40px;
+    text-align: center;
+  }
+  .home-button {
+   width: 1%
+  }
+  .live-deliciously {
+    width: 100%
+  }
+}
+
+@media (min-width:700px){
+  .logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+  .live-deliciously {
+    width: 25%;
   }
 }
