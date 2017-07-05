@@ -1,7 +1,6 @@
 import React from 'react'
 import firebase from 'APP/fire'
 import {connect} from 'react-redux'
-import Draggabilly from 'draggabilly'
 import ingredientsCommands from '../assets/commands.json'
 
 export const Cauldron = () => {

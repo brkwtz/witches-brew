@@ -64,10 +64,22 @@ p {
 
 body {
   /*background-color: #e6e6e6;*/
+<<<<<<< HEAD
   background-image: url('gifs/background-spider.png');
   background-size: 100%;
 }
 
+=======
+  background-image: url('gifs/background-spider.jpg');
+  background-size: 100%;
+}
+
+.live-deliciously {
+  width: 25%;
+  border: 10px red;
+}
+
+>>>>>>> cauldron sparkles
 .command1 {
   color: green
 }
@@ -80,6 +92,7 @@ body {
   color: red;
 }
 
+<<<<<<< HEAD
 .center {
   text-align: center;
   margin: auto;
@@ -211,4 +224,24 @@ a:hover{
   .live-deliciously {
     width: 25%;
   }
+=======
+.ingredientImg {
+  display: inline-block;
+  width: 40%;
+}
+
+#playInterface {
+  height: 100vh;
+  width: 100vw;
+}
+
+#ingredients {
+  height: 50vh;
+  background-image: url('brown-bg.png');
+  width: 100vw;
+}
+
+table {
+  width: 100%;
+>>>>>>> cauldron sparkles
 }

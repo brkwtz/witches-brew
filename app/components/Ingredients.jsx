@@ -93,19 +93,25 @@ export class Ingredients extends React.Component {
     return (
       <div>
         <div className="row">
-          <h1 >{this.state.currentCommand}</h1>
+          <h1>{this.state.currentCommand}</h1>
         </div>
-        <div className="row">
-          {
-            ingredients && ingredients.map((ingredient, idx) => {
-              ingredientImage = '/gifs/ingredients/' + ingredient.split(' ').join('-') + '.gif'
-              return (
-                <span key={idx}>
-                  <img className="ingredientImg" id={ingredient} onClick={() => this.props.addIngredient(ingredient)} src={ingredientImage} />
-                </span>
-              )
-            })
-          }
+        <div id="ingredients" className="row">
+        <table>
+          <tbody>
+            <tr>
+            {
+              ingredients && ingredients.map((ingredient, idx) => {
+                ingredientImage = '/gifs/ingredients/' + ingredient.split(' ').join('-') + '.gif'
+                return (
+                      <td key={idx}>
+                        <img className="ingredientImg" id={ingredient} onClick={() => this.props.addIngredient(ingredient)} src={ingredientImage} />
+                    </td>
+                )
+              })
+            }
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     )
