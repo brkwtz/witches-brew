@@ -9,7 +9,6 @@ import Cauldron from './Cauldron'
 import Ingredients from './Ingredients'
 import Timer from './Timer'
 import _ from 'lodash'
-import {browserHistory} from 'react-router'
 import ReactModal from 'react-modal'
 import Clipboard from 'clipboard'
 
@@ -56,9 +55,9 @@ export class PlayInterface extends React.Component {
 
   componentDidMount() {
     this.copy = new Clipboard('.copy')
-    this.copy.on("success", ()=> {
-       document.getElementById('success').textContent = "copied!"
-    });
+    this.copy.on('success', () => {
+      document.getElementById('success').textContent = 'copied!'
+    })
     document.body.className='waitingBody'
     firebase.auth().onAuthStateChanged(user => {
       this.setState({user})
@@ -100,7 +99,7 @@ export class PlayInterface extends React.Component {
       return <h1>This coven is full. Reload to try joining again.</h1>
     }
 
-    const covenName = this.props.params.title.split('-').map((name, i) => {if(i<(this.props.params.title.split('-').length-1)) return (name.charAt(0).toUpperCase() + name.slice(1))}).join(' ')
+    const covenName = this.props.params.title.split('-').map((name, i) => { if (i<(this.props.params.title.split('-').length-1)) return (name.charAt(0).toUpperCase() + name.slice(1)) }).join(' ')
     const witchNum = Object.keys(this.props.players).length
     let waitingWitches = []
 
