@@ -25,9 +25,10 @@
 }
 
 .instruction {
-  /*background-color: rosybrown;*/
-  background-image: url('/gifs/scroll.png');
-  background-size: 70%, 70%;
+  width: 60vh;
+}
+.backButton {
+  width: 90px;
 }
 
 .wizardPoof {
@@ -157,7 +158,13 @@ a:hover{
   }
   .live-deliciously {
     width: 100%
-  } 
+  }
+  .instruction {
+    width: 70vh;
+  }
+  .backButton {
+    width: 20vh;
+  }
 }
 
 @media (min-width:700px){
