@@ -94,7 +94,6 @@ export default function reducer(state = initialState, action) {
           newState.commands = state.commands.slice(1)
         } else {
           // if no more command in queue, set the currentCommand to null for the player whose command is completed
-          // console.log('there are no more commands, update player state')
           newState.players = {...state.players,
             [uid]: {...state.players[uid], currentCommand: null}}
           newState = updatePlayerState(newState, state, uid)
@@ -149,8 +148,6 @@ function updatePlayerState(newState, state, id) {
         [id]: {...newState.players[id], ready: false}}
     }
     // if score is higher than 70% clear score and move to next level
-    console.log('newState is: ', newState)
-    console.log('newState.score is: ', newState.score)
     if (newState.score / (uids.length * state.ingredientsPerPlayer) >= 0.7) {
       return {
         ...newState,
