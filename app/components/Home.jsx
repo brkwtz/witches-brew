@@ -79,16 +79,9 @@ export default class Home extends React.Component {
     this.state = {
       allCovens: []
     }
-    // this.goToRoom = this.goToRoom.bind(this)
     this.createNewRoom = this.createNewRoom.bind(this)
     this.roomName = this.roomName.bind(this)
   }
-
-  // goToRoom(e) {
-  //   let roomName = e.target.value
-  //   let go = '/play/' + roomName
-  //   this.props.router.push(go)
-  // }
 
   createNewRoom() {
     let newCoven = this.roomName()
@@ -97,42 +90,17 @@ export default class Home extends React.Component {
   }
 
   roomName() {
-    let newRoom = firstTitle[Math.floor(Math.random() * firstTitle.length-1)] + '-' + secondTitle[Math.floor(Math.random() * secondTitle.length-1)] + '-' + Math.floor(Math.random() * 100)
+    let newRoom = firstTitle[Math.abs(Math.floor(Math.random() * firstTitle.length-1))] + '-' + secondTitle[Math.abs(Math.floor(Math.random() * secondTitle.length-1))] + '-' + Math.floor(Math.random() * 100)
     if (this.state.allCovens.includes(newRoom)) this.createNewRoom()
     else return newRoom
   }
 
-  componentDidMount() {
-    // let covens = []
-    // let query = firebase.database().ref('gamerooms').orderByKey()
-    // query.once('value')
-    //   .then(snapshot => {
-    //     snapshot.forEach(childSnapshot => {
-    //       let coven = childSnapshot.key
-    //       covens.push(coven)
-    //     })
-    //   })
-    //   .then(() => {
-    //     this.setState({allCovens: covens})
-    //   })
-  }
-
   render() {
-    // let openCovens = this.state.allCovens
     return (
       <div>
 
         <img src="/gifs/WitchesBrewLogo.png" />
           <div className="row center">
-            {/*<h1> The initiation begins... </h1>*/}
-
-            {/*<select onChange={this.goToRoom}>*/}
-            {/*<option defaultValue>Join a Coven</option>*/}
-              {/*{this.state.allCovens && this.state.allCovens.map((coven, index) => {*/}
-                {/*return (<option value={coven} key={index}>{coven.split('-').join(' ')}</option>)*/}
-              {/*})}*/}
-            {/*</select>*/}
-
             <h1> Establish a new Coven... </h1>
             <img src="/gifs/liveDeliciously.png" onClick={this.createNewRoom} className="live-deliciously" />
             <p className="center"><Link to='/instructions'>How to play</Link></p>

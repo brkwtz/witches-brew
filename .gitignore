@@ -1,5 +1,6 @@
 # Ignore all node_modules
 node_modules/*
+functions/node_modules/*
 
 # ...except the symlink to ourselves.
 !node_modules/APP
@@ -20,3 +21,6 @@ witches_brew.env.js
 # Systems Files
 .idea/*
 .DS_Store
+
+# Emacs savefiles
+*~

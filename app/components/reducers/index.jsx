@@ -6,6 +6,7 @@ const db = firebase.database()
 
 // =====actions=====//
 const PLAYER_JOIN = 'PLAYER_JOIN'
+const PLAYER_LEAVE = 'PLAYER_LEAVE'
 const PLAYER_READY = 'PLAYER_READY'
 const GAME_START = 'GAME_START'
 const ADD_INGREDIENT = 'ADD_INGREDIENT'
@@ -13,6 +14,8 @@ const COMMAND_EXPIRED = 'COMMAND_EXPIRED'
 
 // === action creators =======//
 export const playerJoin = (player) => ({type: PLAYER_JOIN, player})
+
+export const playerLeave = (uid) => ({type: PLAYER_LEAVE, uid})
 
 export const playerReady = (uid) => ({type: PLAYER_READY, uid})
 
@@ -24,6 +27,7 @@ export const commandExpired = (uid) => ({type: COMMAND_EXPIRED, uid})
 
 // ======reducers ======//
 const initialState = {
+  viewers: {},
   gameStarted: false,
   players: {},
   ingredientsPerPlayer: 4,
@@ -41,13 +45,12 @@ export default function reducer(state = initialState, action) {
   // reducer
   switch (action.type) {
   case PLAYER_JOIN:
-
     if (action.player.uid in state.players) {
       return state
     }
 
-    if (state.gameStarted || Object.keys(state.players).length >=4) {
-      return state
+    if (state.gameStarted || Object.keys(state.players).length >= 4) {
+      return {...state, viewers: {...state.viewers, [action.player.uid]: true}}
     }
 
     newState.players = {...state.players, [action.player.uid]: action.player}
@@ -55,6 +58,13 @@ export default function reducer(state = initialState, action) {
       return {...newState.players[uid], master: index === 0}
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
     break
+
+  case PLAYER_LEAVE:
+    const players = {...state.players}
+    const viewers = {...state.viewers}
+    delete players[action.player.uid]
+    delete viewers[action.player.uid]
+    return {...state, players, viewers, gameStarted: false}
 
   case PLAYER_READY:
     return {...state, players: {...state.players, [action.uid]: {...state.players[action.uid], ready: true}}}
@@ -86,11 +96,10 @@ export default function reducer(state = initialState, action) {
           // if no more command in queue, set the currentCommand to null for the player whose command is completed
           newState.players = {...state.players,
             [uid]: {...state.players[uid], currentCommand: null}}
-          newState = updatePlayerState(newState, state)
+          newState = updatePlayerState(newState, state, uid)
         }
       }
     })
-
     break
 
 // just for if the timer runs out
@@ -110,8 +119,7 @@ export default function reducer(state = initialState, action) {
 
   default:
     return state
-  } // end of switch
-
+  }
   return newState
 }
 
@@ -131,13 +139,13 @@ export const startRound = () => (dispatch, getState) => {
 }
 
 // ======================= helper functions ===================== //
-function updatePlayerState(newState, state) {
+function updatePlayerState(newState, state, uid) {
   const uids = Object.keys(state.players)
   // if all commands are removed from queue, level ends
   if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
     // if score is higher than 70% clear score and move to next level
     if (newState.score / (uids.length * state.ingredientsPerPlayer) >= 0.7) {
-      return {
+      return {...newState,
         gameStarted: false,
         players: state.players,
         ingredientsPerPlayer: (state.ingredientsPerPlayer >= 8) ? 8 :state.ingredientsPerPlayer + 1,
@@ -150,6 +158,7 @@ function updatePlayerState(newState, state) {
       // if score is lower than 70%, lose game by setting win to false
     } else {
       return {
+        ...newState,
         gameStarted: true,
         players: state.players,
         ingredientsPerPlayer: state.ingredientsPerPlayer,
@@ -160,5 +169,7 @@ function updatePlayerState(newState, state) {
         ultimateWin: false
       }
     }
+  } else {
+    return newState
   }
 }

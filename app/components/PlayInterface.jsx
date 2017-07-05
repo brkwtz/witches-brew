@@ -1,6 +1,7 @@
 'use strict'
 
 import React from 'react'
+import {Link} from 'react-router'
 import firebase from 'APP/fire'
 import {connect} from 'react-redux'
 
@@ -22,10 +23,10 @@ export class PlayInterface extends React.Component {
       showGameOverModal: false,
       showUltimateWinModal: false
     }
-    
+
     this.handleOpenGameOverModal = this.handleOpenGameOverModal.bind(this)
-    this.handlePlayAgain = this.handlePlayAgain.bind(this)
-    this.handleQuit = this.handleQuit.bind(this)
+    this.handleInviteWitch = this.handleInviteWitch.bind(this)
+    this.handleCopyLink = this.handleCopyLink.bind(this)
   }
 
   handleOpenGameOverModal() {
@@ -36,39 +37,32 @@ export class PlayInterface extends React.Component {
     this.setState({showUltimateWinModal: true})
   }
 
-  handleQuit() {
-    // close modal
-    this.setState({showGameOverModal: false})
-    // delete gameroom from database
-    firebase.database().ref('gamerooms').child(this.props.params.title).remove()
-    // redirect to /coven
-    .then(() => browserHistory.push('/'))
+  handleCopyLink() {
+    const gameUrl = `https://www.playwitchesbrew.com/play/${this.props.params.title}`
+    window.prompt('Copy to clipboard:', gameUrl)
   }
 
-  handlePlayAgain() {
-    // close modal
-    this.setState({showGameOverModal: false})
-    this.setState({showUltimateWinModal: false})
-    // delete gameroom from database
-    firebase.database().ref('gamerooms').child(this.props.params.title).remove()
-    // redirect to /play/gameroom
-    .then(() => browserHistory.push(`/play/${this.props.params.title}`))
+  handleInviteWitch(e) {
+    const messageBody = `You've been invited to play Witches Brew with ${this.props.params.title}! Click here to join: https://www.playwitchesbrew.com/play/${this.props.params.title}`
+    const targetPhoneRaw = e.target.value
+    let targetPhone = targetPhoneRaw.replace(/\D/g, '')
+    if (targetPhone[0] === '1') {
+      targetPhone = targetPhone.slice(1)
+    }
+    if (targetPhone.length === 10) {
+      targetPhone = '+1' + targetPhone
+      firebase.database().ref('sms').push().set({
+        messageBody,
+        targetPhone
+      })
+      .then(window.alert(`An invitation has been sent to ${targetPhoneRaw}!`))
+    }
   }
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
-      this.setState({user}, this.joinGame)
+      this.setState({user})
     })
-    this.joinGame()
-  }
-
-  joinGame = () => {
-    const user = this.state.user
-    if (!user) return
-    if (!this.props.players[user.uid]) {
-      let player = {uid: user.uid, ingredients: [], currentCommand: ''}
-      this.props.playerJoin(player)
-    }
   }
 
   componentWillReceiveProps(newProps) {
@@ -97,8 +91,13 @@ export class PlayInterface extends React.Component {
   render() {
     if (!this.state.user) return null
     const currentPlayer = this.props.players[this.state.user.uid]
+    const currentViewer = this.props.viewers[this.state.user.uid]
+    if (!currentPlayer && !currentViewer) {
+      return <h1>Joining Coven...</h1>
+    }
+
     if (!currentPlayer) {
-      return <h1>This coven is full...</h1>
+      return <h1>This coven is full. Reload to try joining again.</h1>
     }
 
     const covenName = this.props.params.title.split('-').map((name, i) => {if(i<(this.props.params.title.split('-').length-1)) return (name.charAt(0).toUpperCase() + name.slice(1))}).join(' ')
@@ -127,8 +126,7 @@ export class PlayInterface extends React.Component {
             <h1>Game Over</h1>
             <h2>maybe burn some sage and try again</h2>
             {renderPoofs}
-            <button onClick={this.handlePlayAgain}>Play Again</button>
-            <button onClick={this.handleQuit}>Quit</button>
+            <Link to="/"><h2>Play Again</h2></Link>
           </div>
         </ReactModal>
 
@@ -140,10 +138,9 @@ export class PlayInterface extends React.Component {
           overlayClassName="Overlay"
         >
           <div className="center">
-            <h1>You've successfully brewed all the potion</h1>
+            <h1>You've successfully brewed the potion!</h1>
             <img className="center wizardPoof" src="/gifs/poofWizard.gif" />
             <button onClick={this.handlePlayAgain}>Play Again</button>
-            <button onClick={this.handleQuit}>Quit</button>
           </div>
         </ReactModal>
 
@@ -168,7 +165,12 @@ export class PlayInterface extends React.Component {
 
             <div>
               {renderWitches}
-
+                <h3>Invite a witch to your coven</h3>
+                  <form>
+                    <label>Enter a phone number here </label>
+                    <input type="text" name="targetPhone" onChange={this.handleInviteWitch}/>
+                  </form>
+                  <p>or <button onClick={this.handleCopyLink}>copy the room link</button></p>
               {
                 (currentPlayer.ready)
                   ? <div></div>
@@ -185,6 +187,6 @@ export class PlayInterface extends React.Component {
 }
 
 export default connect(
-  ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin}) => ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin}),
+  ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin, viewers}) => ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin, viewers}),
   {playerJoin, playerReady, startRound, addIngredient, commandExpired},
 )(PlayInterface)
