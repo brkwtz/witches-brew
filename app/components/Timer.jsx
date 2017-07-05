@@ -26,12 +26,6 @@ export class Timer extends React.Component {
     this.stopTimer()
   }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.win !== null) {
-      this.stopTimer()
-    }
-  }
-
   timeForLevel() {
     const level = this.props.level
     if (level <= 3) {
@@ -78,7 +72,6 @@ export class Timer extends React.Component {
         this.startTimer()
       }
     }
-
     // Player did correct command, and there are more commands to do
     else if (this.props.currentPlayer.currentCommand && this.props.currentPlayer.currentCommand !== this.currCommand) {
       // when the command changes, reset the local "currCommand", reset the timer
@@ -87,7 +80,15 @@ export class Timer extends React.Component {
       // if the game has not ended, restart timer
       if (this.props.win === null) {
         this.startTimer()
-        }
+      }
+    }
+
+    if (this.props.currentPlayer.waiting) {
+      this.stopTimer()
+    }
+
+    if (this.props.win !== null) {
+      this.stopTimer()
     }
   }
 
