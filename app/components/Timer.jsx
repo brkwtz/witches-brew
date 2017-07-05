@@ -87,7 +87,11 @@ export class Timer extends React.Component {
       // if the game has not ended, restart timer
       if (this.props.win === null) {
         this.startTimer()
-        }
+      }
+    }
+
+    else if (!this.props.currentPlayer.currentCommand || this.props.ultimateWin) {
+      this.stopTimer()
     }
   }
 
@@ -102,6 +106,6 @@ export class Timer extends React.Component {
 }
 
 export default connect(
-  ({gameStarted, players, ingredients, commands, score, level, win}) => ({gameStarted, players, ingredients, commands, score, level, win}),
+  ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin}) => ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin}),
   {commandExpired},
 )(Timer)
