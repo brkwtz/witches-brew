@@ -27,7 +27,6 @@ export class PlayInterface extends React.Component {
 
     this.handleOpenGameOverModal = this.handleOpenGameOverModal.bind(this)
     this.handleInviteWitch = this.handleInviteWitch.bind(this)
-    // this.handleCopyLink = this.handleCopyLink.bind(this)
   }
 
   handleOpenGameOverModal() {
@@ -37,11 +36,6 @@ export class PlayInterface extends React.Component {
   handleOpenUltimateWinModal() {
     this.setState({showUltimateWinModal: true})
   }
-
-  // handleCopyLink() {
-  //   const gameUrl = `https://www.playwitchesbrew.com/play/${this.props.params.title}`
-  //   window.prompt('Copy to clipboard:', gameUrl)
-  // }
 
   handleInviteWitch(e) {
     const messageBody = `You've been invited to play Witches Brew with ${this.props.params.title}! Click here to join: https://www.playwitchesbrew.com/play/${this.props.params.title}`
@@ -193,6 +187,3 @@ export default connect(
   ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin, viewers}) => ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin, viewers}),
   {playerJoin, playerReady, startRound, addIngredient, commandExpired},
 )(PlayInterface)
-
-
-/// 
