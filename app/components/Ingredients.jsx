@@ -28,6 +28,7 @@ export class Ingredients extends React.Component {
   }
 
     drag(e, pointer, elem) {
+  
     e.preventDefault();
     let ingX = pointer.pageX
     let ingY = pointer.pageY
@@ -35,6 +36,7 @@ export class Ingredients extends React.Component {
     let yOffSet = this.state.cauldronPos.y - ingY
 
     if(xOffSet <= 200 && yOffSet <= 200){
+      
       if(elem.ingredient === 'bellows' || elem.ingredient === 'sand'){
         document.querySelectorAll('.fire')[0].src = '/gifs/fire.gif'
       }else{
@@ -46,9 +48,8 @@ export class Ingredients extends React.Component {
     }
   }
 
-
   render() {
-const ingredients = this.props.currentPlayer.ingredients
+    const ingredients = this.props.currentPlayer.ingredients
     let isMobile = this.mobilePlayer;
 
     let elems = this.state.elems
