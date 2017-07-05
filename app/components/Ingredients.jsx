@@ -44,7 +44,7 @@ export class Ingredients extends React.Component {
   //   let ingY = pointer.pageY
   //   let xOffSet = this.state.cauldronPos.x - ingX
   //   let yOffSet = this.state.cauldronPos.y - ingY
-  
+
   //   if (xOffSet <= 200 && yOffSet <= 200){
   //     if(elem.ingredient === 'bellows' || elem.ingredient === 'coal'){
   //       document.getElementById('fire').src="gifs/fire.gif"
@@ -96,22 +96,14 @@ export class Ingredients extends React.Component {
           <h1>{this.state.currentCommand}</h1>
         </div>
         <div id="ingredients" className="row">
-        <table>
-          <tbody>
-            <tr>
             {
               ingredients && ingredients.map((ingredient, idx) => {
                 ingredientImage = '/gifs/ingredients/' + ingredient.split(' ').join('-') + '.gif'
                 return (
-                      <td key={idx}>
-                        <img className="ingredientImg" id={ingredient} onClick={() => this.props.addIngredient(ingredient)} src={ingredientImage} />
-                    </td>
+                        <img className="ingredientImg" key={idx} id={ingredient} onClick={() => this.props.addIngredient(ingredient)} src={ingredientImage} />
                 )
               })
             }
-            </tr>
-            </tbody>
-          </table>
         </div>
       </div>
     )
