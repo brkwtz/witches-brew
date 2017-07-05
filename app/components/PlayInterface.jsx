@@ -9,8 +9,8 @@ import Cauldron from './Cauldron'
 import Ingredients from './Ingredients'
 import Timer from './Timer'
 import _ from 'lodash'
-import {browserHistory} from 'react-router'
 import ReactModal from 'react-modal'
+import Clipboard from 'clipboard'
 
 import ingredientsCommands from '../assets/commands.json'
 import {playerJoin, playerReady, startRound, addIngredient, commandExpired} from './reducers'
@@ -26,7 +26,6 @@ export class PlayInterface extends React.Component {
 
     this.handleOpenGameOverModal = this.handleOpenGameOverModal.bind(this)
     this.handleInviteWitch = this.handleInviteWitch.bind(this)
-    this.handleCopyLink = this.handleCopyLink.bind(this)
   }
 
   handleOpenGameOverModal() {
@@ -35,11 +34,6 @@ export class PlayInterface extends React.Component {
 
   handleOpenUltimateWinModal() {
     this.setState({showUltimateWinModal: true})
-  }
-
-  handleCopyLink() {
-    const gameUrl = `https://www.playwitchesbrew.com/play/${this.props.params.title}`
-    window.prompt('Copy to clipboard:', gameUrl)
   }
 
   handleInviteWitch(e) {
@@ -60,6 +54,10 @@ export class PlayInterface extends React.Component {
   }
 
   componentDidMount() {
+    this.copy = new Clipboard('.copy')
+    this.copy.on('success', () => {
+      document.getElementById('success').textContent = 'copied!'
+    })
     document.body.className='waitingBody'
     firebase.auth().onAuthStateChanged(user => {
       this.setState({user})
@@ -82,7 +80,8 @@ export class PlayInterface extends React.Component {
       this.handleOpenUltimateWinModal()
     }
 
-    this.levelUp = (newProps.win !== this.props.win) ? (<p><img className="levelUp" src="/gifs/levelUp.gif" loop="0" width="100px"/></p>) : (<div><h4>level {this.props.level}</h4></div>)
+    this.levelUp = (newProps.win !== this.props.win) ? (<p><img className="levelUp" src="/gifs/levelUp.gif" loop="0" width="100px"/></p>) : (<div><h4>Level {this.props.level}</h4></div>)
+
   }
 
   clickToStart = () => {
@@ -101,7 +100,7 @@ export class PlayInterface extends React.Component {
       return <h1>This coven is full. Reload to try joining again.</h1>
     }
 
-    const covenName = this.props.params.title.split('-').map((name, i) => {if(i<(this.props.params.title.split('-').length-1)) return (name.charAt(0).toUpperCase() + name.slice(1))}).join(' ')
+    const covenName = this.props.params.title.split('-').map((name, i) => { if (i<(this.props.params.title.split('-').length-1)) return (name.charAt(0).toUpperCase() + name.slice(1)) }).join(' ')
     const witchNum = Object.keys(this.props.players).length
     let waitingWitches = []
 
@@ -146,17 +145,16 @@ export class PlayInterface extends React.Component {
         </ReactModal>
 
         <div className="row">
-          <h1 >Welcome to the coven of {covenName}!</h1>
-          {this.levelUp}
-          <Cauldron />
+          {(this.props.gameStarted) ? null : (<h1>Welcome to the coven of {covenName}!</h1>)}
         </div>
         <div>
         {
-
           (currentPlayer && this.props.gameStarted)
             ? (
-              <div>
-               <Timer currentPlayer={currentPlayer}/>
+              <div id="playInterface">
+                <div id="levelDisplay">{this.levelUp}</div>
+                <Cauldron />
+                <Timer currentPlayer={currentPlayer}/>
                 <Ingredients
                   IngredientsCommands={ingredientsCommands}
                   currentPlayer={currentPlayer}/>
@@ -171,7 +169,8 @@ export class PlayInterface extends React.Component {
                     <label>Enter a phone number here </label>
                     <input type="text" name="targetPhone" onChange={this.handleInviteWitch}/>
                   </form>
-                  <p>or <button onClick={this.handleCopyLink}>copy the room link</button></p>
+                  <p>or <button className="copy" data-clipboard-text={`https://www.playwitchesbrew.com/play/${this.props.params.title}`}>copy the room link</button>
+                  </p><div id="success"> </div>
               {
                 (currentPlayer.ready)
                   ? <div></div>

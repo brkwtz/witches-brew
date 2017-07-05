@@ -59,43 +59,125 @@ h1 {
   background-color: #32003A;
 }
 
-  h2 {
-    font-family: 'LadyRadical';
-    color: #B920D3;
-  }
+h2 {
+  font-family: 'LadyRadical';
+  color: #B920D3;
+}
 
-  p {
-    color: #730187;
-  }
-  
-  body {
-    /*background-color: #e6e6e6;*/
-    background-image: url('gifs/background-spider.png');
-    background-size: 100%;
-  }
+p {
+  color: #730187;
+}
 
-  .command1 {
-    color: green
-  }
+body {
+  /*background-color: #e6e6e6;*/
+  background-image: url('gifs/background-spider.png');
+  background-size: 100%;
+}
 
-  .command1 {
-    color: darkorange;
-  }
+.live-deliciously {
+  width: 25%;
+  border: 10px red;
+}
 
-  .command1 {
-    color: red;
-  }
+.command1 {
+  color: green
+}
 
-  .center {
-    text-align: center;
-    margin: auto;
-    padding: 10px;
-    width: 90%
-  }
+.command1 {
+  color: darkorange;
+}
+
+.command1 {
+  color: red;
+}
+
+.center {
+  text-align: center;
+  margin: auto;
+  padding: 10px;
+  width: 90%
+}
+
+#ingredients {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
 
 .ingredientImg {
-  display: inline-block;
-  width: 150px;
+  margin: 4%;
+  width: 100px;
+  height: 100px;
+}
+
+#levelDisplay {
+  position: absolute;
+  top: 2%;
+  left: 4%;
+}
+
+#bar {
+  height: 10px;
+  background-color: #B920D3;
+  border-radius: 5px;
+}
+
+#overlay {
+  position:absolute;
+  height: 10px;
+  background: #fff;
+  animation: active-anim 2s cubic-bezier(0.25, 1, 0.6, 1) infinite;
+  content: "";
+  opacity: 0;
+  z-index:0;
+  border-radius: 5px;
+}
+
+#timerBg {
+  position: relative;
+  height: 10px;
+  background-color: #e2e2e2;
+  border-radius: 5px;
+  z-index: -1;
+}
+
+@keyframes active-anim {
+  0% {
+    width: 0;
+    opacity: .1
+  }
+  20% {
+    width: 0;
+    opacity: .5
+  }
+  to {
+    width: 80%;
+    opacity: 0
+  }
+}
+.center {
+  text-align: center;
+  margin: auto;
+  padding: 10px;
+  width: 90%
+}
+
+#ingredients {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.ingredientImg {
+  margin: 4%;
+  width: 100px;
+  height: 100px;
+}
+
+#levelDisplay {
+  position: absolute;
+  top: 2%;
+  left: 4%;
 }
 
 a {
@@ -117,6 +199,24 @@ a:hover{
   opacity: 0;
   pointer-events:none;
 }
+
+@media (max-width: 375px) {
+  /* mobile, iphone 5 -- 320px wide */
+  .ingredientImg {
+    margin: 2%;
+    width: 62px;
+    height: 62px;
+  }
+}
+
+@media (max-width: 430px)
+  and (min-width: 376px) {
+    .ingredientImg {
+      margin: 4%;
+      width: 85px;
+      height: 85px;
+    }
+  }
 
 @media (max-width:700px){
   body {
@@ -141,11 +241,11 @@ a:hover{
     background-color: #000;
     background-repeat: no-repeat;
     background-size:1500px 769px;
-  } 
+  }
   .waitingBody {
     background-image: url('/gifs/waiting.png');
     background-repeat: repeat;
-  } 
+  }
   .skip {
     position:fixed;
     left:5px;
@@ -158,12 +258,14 @@ a:hover{
   .live-deliciously {
     width: 100%
   }
+
   .scroll {
     width: 100%;
   }
   .backButton {
     width: 35%;
   }
+
 }
 
 @media (min-width:700px){
@@ -173,7 +275,8 @@ a:hover{
     margin-right: auto;
     width: 50%;
   }
+
   .live-deliciously {
     width: 25%;
-  } 
+  }
 }
