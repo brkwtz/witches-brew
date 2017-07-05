@@ -3,9 +3,9 @@ import { Link } from 'react-router'
 
 const Instructions = props => {
   return (
-    <div className="center">
-      <img className="instruction center" src="/gifs/scroll.gif" />
-      <p><Link to='/coven'><img src="/gifs/backButton.gif"/></Link></p>
+    <div className="instruction">
+      <p ><img className="scroll" src="/gifs/scroll.gif" /></p>
+      <p><Link to='/coven'><img className="backButton" src="/gifs/backButton.gif"/></Link></p>
     </div>
   )
 }

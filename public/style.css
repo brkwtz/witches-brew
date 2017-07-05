@@ -25,10 +25,14 @@
 }
 
 .instruction {
-  width: 60vh;
+  margin: auto;
+  text-align: center;
+}
+.scroll {
+  width: 50%;
 }
 .backButton {
-  width: 90px;
+  width: 150px;
 }
 
 .wizardPoof {
@@ -53,11 +57,6 @@ h1 {
   right: 0;
   bottom: 0;
   background-color: #32003A;
-}
-
-.center {
-  margin: auto;
-  width: 60%;
 }
 
   h2 {
@@ -101,12 +100,12 @@ h1 {
 
 a {
   color: #32003A;
-  text-decoration: 'none'
+  text-decoration: none
 }
 
 a:hover{
   color: #730187;
-  text-decoration: 'none'
+  text-decoration: none
 }
 
 .fade {
@@ -159,11 +158,11 @@ a:hover{
   .live-deliciously {
     width: 100%
   }
-  .instruction {
-    width: 70vh;
+  .scroll {
+    width: 100%;
   }
   .backButton {
-    width: 20vh;
+    width: 35%;
   }
 }
 
