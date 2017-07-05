@@ -21,7 +21,7 @@ export class Cauldron extends React.Component {
             <img className="cauldron" id="cauldron" src={this.state.cauldronImg} />
             <br />
             <img className="fire" id="fire" src="" />
-            <br />
+            <br /><br />
           </div>
         )
   }

@@ -37,7 +37,14 @@ export class Ingredients extends React.Component {
     const cauldronWidth = this.state.cauldronPos.x + 200
     const cauldronHeight = this.state.cauldronPos.y + 200
 
+    const fire = document.getElementById('fire')
+
     if ((ingX >= cauldronX && ingX <= cauldronWidth) && (ingY >= cauldronY && ingY <= cauldronHeight)) {
+      if(elem.ingredient === 'bellows' || elem.ingredient === 'coal' || elem.ingredient === 'sand'){
+        fire.src = "/gifs/fire.gif"
+      }else{
+        fire.src = ""
+      }
       this.props.addIngredient(elem.ingredient)
       elem.position.x = 0
       elem.position.y = 0
