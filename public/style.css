@@ -197,7 +197,7 @@ a:hover{
   } 
 }
 
-@media (orientation: landscape) {
+@media (max-width:700px) and (orientation: landscape) {
   body {
     -webkit-transform: rotate(-90deg);
     -moz-transform: rotate(-90deg);
