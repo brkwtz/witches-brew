@@ -1,9 +1,7 @@
 import React from 'react'
 import firebase from 'APP/fire'
 import {connect} from 'react-redux'
-import Draggabilly from 'draggabilly'
 import ingredientsCommands from '../assets/commands.json'
-import {addIngredient} from './reducers'
 
 export class Cauldron extends React.Component {
   constructor(props) {
@@ -27,9 +25,6 @@ export class Cauldron extends React.Component {
   }
 }
 
-
 export default connect(
-  ({ingredients}) => ({ingredients}),
-  { addIngredient},
+  ({level, score}) => ({level, score}),
 )(Cauldron)
-
