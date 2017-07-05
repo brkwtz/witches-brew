@@ -59,46 +59,54 @@ body {
   width: 60%;
 }
 
-  h2 {
-    font-family: 'LadyRadical';
-    color: #B920D3;
-  }
+h2 {
+  font-family: 'LadyRadical';
+  color: #B920D3;
+}
 
-  p {
-    color: #730187;
-  }
-  
-  body {
-    /*background-color: #e6e6e6;*/
-    background-image: url('gifs/background-spider.jpg');
-    background-size: 100%;
-  }
+p {
+  color: #730187;
+}
 
-  .live-deliciously {
-    width: 25%;
-    border: 10px red;
-  }
+body {
+  /*background-color: #e6e6e6;*/
+  background-image: url('gifs/background-spider.jpg');
+  background-size: 100%;
+}
 
-  .command1 {
-    color: green
-  }
+.live-deliciously {
+  width: 25%;
+  border: 10px red;
+}
 
-  .command1 {
-    color: darkorange;
-  }
+.command1 {
+  color: green
+}
 
-  .command1 {
-    color: red;
-  }
+.command1 {
+  color: darkorange;
+}
 
-  .center {
-    text-align: center;
-    margin: auto;
-    paddin: 10px;
-    width: 90%
-  }
+.command1 {
+  color: red;
+}
 
-  .ingredientImg {
-    display: inline-block;
-    width: 150px;
-  }
+.ingredientImg {
+  display: inline-block;
+  width: 40%;
+}
+
+#playInterface {
+  height: 100vh;
+  width: 100vw;
+}
+
+#ingredients {
+  height: 50vh;
+  background-image: url('brown-bg.png');
+  width: 100vw;
+}
+
+table {
+  width: 100%;
+}

@@ -80,6 +80,9 @@ export class PlayInterface extends React.Component {
     if (newProps.ultimateWin === true) {
       this.handleOpenUltimateWinModal()
     }
+
+    this.levelUp = (newProps.win !== this.props.win) ? (<p><img className="levelUp" src="/gifs/levelUp.gif" loop="0" width="100px"/></p>) : (<div><h4>level {this.props.level}</h4></div>)
+
   }
 
   clickToStart = () => {
@@ -144,15 +147,14 @@ export class PlayInterface extends React.Component {
 
         <div className="row">
           {(this.props.gameStarted) ? null : (<h1>Welcome to the coven of {covenName}!</h1>)}
-          <Cauldron />
         </div>
         <div>
         {
-
           (currentPlayer && this.props.gameStarted)
             ? (
-              <div>
-               <Timer currentPlayer={currentPlayer}/>
+              <div id="playInterface">
+                <Cauldron />
+                <Timer currentPlayer={currentPlayer}/>
                 <Ingredients
                   IngredientsCommands={ingredientsCommands}
                   currentPlayer={currentPlayer}/>
