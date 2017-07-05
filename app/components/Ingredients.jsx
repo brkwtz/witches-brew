@@ -29,14 +29,12 @@ export class Ingredients extends React.Component {
 
   drag(e, pointer, elem) {
     e.preventDefault()
-    const ingX = pointer.pageX
-    const ingY = pointer.pageY
-    const cauldronX = this.state.cauldronPos.x
-    const cauldronY = this.state.cauldronPos.y
-    const cauldronWidth = this.state.cauldronPos.x + 200
-    const cauldronHeight = this.state.cauldronPos.y + 200
+    let ingX = pointer.pageX
+    let ingY = pointer.pageY
+    let xOffSet = this.state.cauldronPos.x - ingX
+    let yOffSet = this.state.cauldronPos.y - ingY
 
-    if ((ingX >= cauldronX && ingX <= cauldronWidth) && (ingY >= cauldronY && ingY <= cauldronHeight)) {
+    if (xOffSet <= 200 && yOffSet <= 200) {
       this.props.addIngredient(elem.ingredient)
       elem.position.x = 0
       elem.position.y = 0
