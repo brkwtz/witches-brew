@@ -38,26 +38,26 @@ export class Ingredients extends React.Component {
     let ingY = pointer.pageY
     let xOffSet = this.state.cauldronPos.x - ingX
     let yOffSet = this.state.cauldronPos.y - ingY
-    let commArr = this.props.players[firebase.auth().currentUser.uid].currentCommand
-    if(!commArr){commArr = []}
+    // let commArr = this.props.players[firebase.auth().currentUser.uid].currentCommand
+    // if(!commArr){commArr = []}
 
-    if(!this.allComms.includes(commArr)){
-      this.allComms.push(commArr)
-    }
+    // if(!this.allComms.includes(commArr)){
+    //   this.allComms.push(commArr)
+    // }
     
-    Object.keys(this.props.players).forEach(uid=> {
-      let yours = (uid === firebase.auth().currentUser.uid)
-      if(!this.otherComms.includes(this.props.players[uid].currentCommand && !yours)){
-        this.otherComms.push(this.props.players[uid].currentCommand)
-      }
-    })
+    // Object.keys(this.props.players).forEach(uid=> {
+    //   let yours = (uid === firebase.auth().currentUser.uid)
+    //   if(!this.otherComms.includes(this.props.players[uid].currentCommand && !yours)){
+    //     this.otherComms.push(this.props.players[uid].currentCommand)
+    //   }
+    // })
     
-    let notYours = [];
-    this.otherComms.forEach(comm => {
-      if(!this.allComms.includes(comm)){
-        notYours.push(comm)
-      }
-    })
+    // let notYours = [];
+    // this.otherComms.forEach(comm => {
+    //   if(!this.allComms.includes(comm)){
+    //     notYours.push(comm)
+    //   }
+    // })
 
     if (xOffSet <= 200 && yOffSet <= 200) {
       if (elem.ingredient === 'bellows' || elem.ingredient === 'sand') {
@@ -70,35 +70,35 @@ export class Ingredients extends React.Component {
       elem.position.x = 0
       elem.position.y = 0
 
-      let theEl = elem.ingredient.split(' ')[0]
-      if(theEl === 'druty'){theEl = 'druzy'} // lol 
+      // let theEl = elem.ingredient.split(' ')[0]
+      // if(theEl === 'druty'){theEl = 'druzy'} // lol 
 
-      let otherPlayerHasCommand;
+      // let otherPlayerHasCommand;
 
-      notYours.forEach(el => {
-        if(el.split(' ').includes(theEl)){
-          return otherPlayerHasCommand = true;
-        }
-      })
+      // notYours.forEach(el => {
+      //   if(el.split(' ').includes(theEl)){
+      //     return otherPlayerHasCommand = true;
+      //   }
+      // })
 
-      if(elem.ingredient !== 'sand' && otherPlayerHasCommand){
-        document.getElementById('added').textContent = 'added for other witch!'
-        setTimeout(() => { document.getElementById('added').textContent = ''
-        }, 2000)
-      }
+      // if(elem.ingredient !== 'sand' && otherPlayerHasCommand){
+      //   document.getElementById('added').textContent = 'added for other witch!'
+      //   setTimeout(() => { document.getElementById('added').textContent = ''
+      //   }, 2000)
+      // }
 
 
 
-      if(elem.ingredient !== 'sand' && this.allComms[this.allComms.length-1].split(' ').includes(theEl)){
-        document.getElementById('added').textContent = 'added!'
-        setTimeout(() => { document.getElementById('added').textContent = ''
-        }, 2000)
-      }
-      if(elem.ingredient === 'spoon'){
-        document.getElementById('added').textContent = 'stirring!'
-        setTimeout(() => { document.getElementById('added').textContent = ''
-        }, 2000)
-      }
+      // if(elem.ingredient !== 'sand' && this.allComms[this.allComms.length-1].split(' ').includes(theEl)){
+      //   document.getElementById('added').textContent = 'added!'
+      //   setTimeout(() => { document.getElementById('added').textContent = ''
+      //   }, 2000)
+      // }
+      // if(elem.ingredient === 'spoon'){
+      //   document.getElementById('added').textContent = 'stirring!'
+      //   setTimeout(() => { document.getElementById('added').textContent = ''
+      //   }, 2000)
+      // }
       
     }else{
       elem.position.x = 0
