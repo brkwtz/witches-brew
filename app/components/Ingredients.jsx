@@ -47,7 +47,7 @@ export class Ingredients extends React.Component {
     
 
     Object.keys(this.props.players).forEach(uid=> {
-      if(!this.otherComms.includes(this.props.players[uid].currentCommand)){
+      if(!this.otherComms.includes(this.props.players[uid].currentCommand && !this.allComms.includes(this.props.players[uid].currentCommand))){
         this.otherComms.push(this.props.players[uid].currentCommand)
       }
     })
@@ -63,11 +63,24 @@ export class Ingredients extends React.Component {
       elem.position.x = 0
       elem.position.y = 0
 
-      //otherComms[0].split(' ').includes(elem.ingredient
-      // || or the one before
       let theEl = elem.ingredient.split(' ')[0]
       if(theEl === 'druty'){theEl = 'druzy'} // lol 
-      console.log(theEl, 'is being added')
+
+      let otherPlayerHasCommand;
+
+      this.otherComms.forEach(el => {
+        if(el.split(' ').includes(theEl)){
+          return otherPlayerHasCommand = true;
+        }
+      })
+
+      if(elem.ingredient !== 'sand' && otherPlayerHasCommand){
+        document.getElementById('added').textContent = 'added for other witch!'
+        setTimeout(() => { document.getElementById('added').textContent = ''
+        }, 2000)
+      }
+
+
 
       if(elem.ingredient !== 'sand' && this.allComms[this.allComms.length-1].split(' ').includes(theEl) || this.allComms[this.allComms.length-2] && this.allComms[this.allComms.length-2].split(' ').includes(elem.ingredient)){
         document.getElementById('added').textContent = 'added!'
