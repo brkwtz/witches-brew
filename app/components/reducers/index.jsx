@@ -210,7 +210,6 @@ function updatePlayerState(newState, state, id) {
       return {
         ...newState,
         gameStarted: true,
-        players: {...newState.players, [id]: {...newState.players[id], ready: false}},
         ingredientsPerPlayer: state.ingredientsPerPlayer,
         commands: [],
         score: state.score,
