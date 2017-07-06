@@ -111,7 +111,7 @@ export class PlayInterface extends React.Component {
     }
 
     const renderWitches = waitingWitches.map((witchPic, indx) => (<img key={indx} id="waiting-witch" src={witchPic}/>))
-    const renderPoofs = poofedWitches.map((witchPic, indx) => (<img key={indx} id="poofed-witch" src={witchPic}/>))
+    const renderPoofs = poofedWitches.map((witchPic, indx) => (<img key={indx} className="col-lg-3 col-md-3 col-sm-6 col-xs-6" src={witchPic}/>))
 
     return (
       <div className="container-fluid center">
@@ -126,7 +126,7 @@ export class PlayInterface extends React.Component {
             <h1>Game Over</h1>
             <h2>maybe burn some sage and try again</h2>
             {renderPoofs}
-            <Link to="/"><h2>Play Again</h2></Link>
+            <Link to="/coven"><h2>Play Again</h2></Link>
           </div>
         </ReactModal>
 
@@ -140,7 +140,7 @@ export class PlayInterface extends React.Component {
           <div className="center">
             <h1>You've successfully brewed the potion!</h1>
             <img className="wizardPoof" src="/gifs/poofWizard.gif" />
-            <Link to="/"><h2>Play Again</h2></Link>
+            <Link to="/coven"><h2>Play Again</h2></Link>
           </div>
         </ReactModal>
 
@@ -159,11 +159,16 @@ export class PlayInterface extends React.Component {
                   IngredientsCommands={ingredientsCommands}
                   currentPlayer={currentPlayer}/>
               </div>
-          )
+            )
             : (
 
             <div>
-              {renderWitches}
+              <div className="container-fluid">
+                <div className="row">
+                  {renderWitches}
+                </div>
+              </div>
+              <div className="row">
                 <h3>Invite a witch to your coven</h3>
                   <form>
                     <label>Enter a phone number here </label>
@@ -174,10 +179,11 @@ export class PlayInterface extends React.Component {
               {
                 (currentPlayer.ready)
                   ? <div></div>
-                  : (<p><img src="/gifs/readyButton.gif" onClick={this.clickToStart} /></p>)
+                  : (<p><img src="/gifs/readyButton.gif" id="ready" onClick={this.clickToStart} /></p>)
               }
             </div>
-          )
+            </div>
+            )
 
         }
         </div>

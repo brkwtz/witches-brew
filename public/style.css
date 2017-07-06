@@ -50,6 +50,15 @@ h1 {
   color: #32003A;
 }
 
+h2 {
+  font-family: 'LadyRadical';
+  color: #B920D3;
+}
+
+p {
+  color: #730187;
+}
+
 .Overlay {
   position: fixed;
   top: 0;
@@ -57,6 +66,20 @@ h1 {
   right: 0;
   bottom: 0;
   background-color: #32003A;
+}
+
+body {
+  /*background-color: #e6e6e6;*/
+  background-image: url('gifs/background-spider.png');
+  background-size: 100%;
+}
+
+#ready {
+  width: 250px;
+}
+
+.command1 {
+  color: green
 }
 
 .center {
@@ -94,11 +117,11 @@ p {
   color: #BC7FD3;
 }
 
-
-body {
-  /*background-color: #e6e6e6;*/
-  background-image: url('gifs/background-spider.png');
-  background-size: 100%;
+.center {
+  text-align: center;
+  margin: auto;
+  padding: 5px;
+  width: 90%;
 }
 
 .live-deliciously {
@@ -246,6 +269,12 @@ a:hover{
   }
 
 @media (max-width:700px){
+  h1 {
+    font-size: 1.5em;
+  }
+  h3 {
+    font-size: 1em;
+  }
   body {
     /*background-color: #e6e6e6;*/
     background-image: url('gifs/background.png');
@@ -273,6 +302,11 @@ a:hover{
     background-image: url('/gifs/waiting.png');
     background-repeat: repeat;
   }
+
+  #ready {
+    width: 150px;
+  }
+
   .skip {
     position:fixed;
     left:5px;
@@ -284,6 +318,23 @@ a:hover{
   }
   .live-deliciously {
     width: 100%
+  }
+
+  .wizardPoof {
+    width: 17%;
+    text-align: center;
+  }
+
+  #cauldron {
+    height: 160px
+  }
+
+  #poofed-witch {
+    height: 70px;
+  }
+
+  #waiting-witch {
+    height: 60px;
   }
 
   .scroll {

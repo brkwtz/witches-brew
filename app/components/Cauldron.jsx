@@ -7,13 +7,12 @@ export class Cauldron extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      cauldronImg: "/gifs/cauldron.png",
+      cauldronImg: '/gifs/cauldron.png',
       cauldron: ''
     }
   }
-  
-  render() {
-      
+
+  render() {    
         return (
           <div>
             <img className="cauldron" id="cauldron" src={this.state.cauldronImg} />
