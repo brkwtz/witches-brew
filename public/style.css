@@ -59,14 +59,41 @@ h1 {
   background-color: #32003A;
 }
 
+.center {
+  margin: auto;
+  width: 60%;
+}
+
 h2 {
   font-family: 'LadyRadical';
   color: #B920D3;
 }
 
 p {
+  font-family: 'LadyRadical';
   color: #730187;
 }
+
+.new1 {
+  font-family: 'LadyRadical';
+  color: #32003A;
+}
+
+.new2 {
+  font-family: 'LadyRadical';
+  color: #750187;
+}
+
+.new3 {
+  font-family: 'LadyRadical';
+  color: #CA6DD3;
+}
+
+.new4 {
+  font-family: 'LadyRadical';
+  color: #BC7FD3;
+}
+
 
 body {
   /*background-color: #e6e6e6;*/
