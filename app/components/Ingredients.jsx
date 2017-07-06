@@ -65,11 +65,17 @@ export class Ingredients extends React.Component {
 
       //otherComms[0].split(' ').includes(elem.ingredient
       // || or the one before
-      console.log(this.allComms[this.allComms.length-1].split(' ').includes(elem.ingredient.split(' ')[0]))
-      console.log(this.allComms[this.allComms.length-1].split(' '), elem.ingredient[0].split(' ')[0])
-      if(this.allComms[this.allComms.length-1].split(' ').includes(elem.ingredient) || this.allComms[this.allComms.length-2] && this.allComms[this.allComms.length-2].split(' ').includes(elem.ingredient)){
+      let theEl = elem.ingredient.split(' ')[0]
+      if(theEl === 'druty'){theEl = 'druzy'} // lol 
+      console.log(theEl, 'is being added')
+
+      if(elem.ingredient !== 'sand' && this.allComms[this.allComms.length-1].split(' ').includes(theEl) || this.allComms[this.allComms.length-2] && this.allComms[this.allComms.length-2].split(' ').includes(elem.ingredient)){
         document.getElementById('added').textContent = 'added!'
-        console.log('added text!')
+        setTimeout(() => { document.getElementById('added').textContent = ''
+        }, 2000)
+      }
+      if(elem.ingredient === 'spoon'){
+        document.getElementById('added').textContent = 'stirring!'
         setTimeout(() => { document.getElementById('added').textContent = ''
         }, 2000)
       }
