@@ -26,13 +26,6 @@ export class Timer extends React.Component {
     this.stopTimer()
   }
 
-  // componentWillReceiveProps(newProps) {
-  //   if (newProps.win !== null) {
-  //     console.log('winning')
-  //     this.stopTimer()
-  //   }
-  // }
-
   timeForLevel() {
     const level = this.props.level
     if (level <= 3) {
@@ -73,12 +66,9 @@ export class Timer extends React.Component {
 
     // if currentTime reaches endTime and is running
     if (currentTime > this.endTime && this.running) {
-      console.log('timer stop: command expired')
       this.stopTimer() // stop the original timer
-      console.log('timer start: post-command expired')
       this.props.commandExpired(this.props.currentPlayer.uid)
       if (this.props.win === null) { // start a new timer
-        console.log('timer start: no win')
         this.startTimer()
       }
     }
@@ -87,24 +77,16 @@ export class Timer extends React.Component {
     else if (this.props.currentPlayer.currentCommand && this.props.currentPlayer.currentCommand !== this.currCommand) {
       // when the command changes, reset the local "currCommand", reset the timer
       this.currCommand = this.props.currentPlayer.currentCommand
-      console.log('timer stop: add ingredient')
       this.stopTimer() // stop the timer
       // if the game has not ended, restart timer
       if (this.props.win === null) {
-        console.log('timer start: add ingredient')
         this.startTimer()
       }
     }
 
-    // else if (!this.props.currentPlayer.currentCommand || this.props.ultimateWin) {
     else if (this.props.ultimateWin) {
-      console.log('timer stop: current command over or ultimate win')
       this.stopTimer()
     }
-
-    // if (this.props.currentPlayer.waiting) {
-    //   this.stopTimer()
-    // }
   }
 
   render() {

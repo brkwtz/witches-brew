@@ -139,7 +139,7 @@ export default function reducer(state = initialState, action) {
       newState.commands = state.commands.slice(1)
 
 
-    // if currentCommand === null for just one player && the state DOES NOT have more commands
+    // if currentCommand === null for just one player && the state DOES NOT have  morecommands
     } else if (!state.commands.length && state.players[action.uid].currentCommand) {
       // turn off the timer for this player//possibly some kind of waiting message
       newState.players[action.uid].currentCommand = null
