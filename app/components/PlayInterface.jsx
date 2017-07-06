@@ -159,7 +159,7 @@ export class PlayInterface extends React.Component {
                   IngredientsCommands={ingredientsCommands}
                   currentPlayer={currentPlayer}/>
               </div>
-          )
+            )
             : (
 
             <div>
@@ -182,7 +182,8 @@ export class PlayInterface extends React.Component {
                   : (<p><img src="/gifs/readyButton.gif" id="ready" onClick={this.clickToStart} /></p>)
               }
             </div>
-          )
+            </div>
+            )
 
         }
         </div>
