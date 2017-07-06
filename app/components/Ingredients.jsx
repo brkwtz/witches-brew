@@ -13,12 +13,12 @@ export class Ingredients extends React.Component {
     this.state = {
       elems: [],
       cauldronPos: {x: 0, y: 0},
-      commandClass: 'new1',
-      currCommand: '',
-      colorIndex: 0
+      commandClass: 'new4',
+      currCommand: ''
     }
     this.drag = this.drag.bind(this)
-    this.commandColor = this.commandColor.bind(this)
+    this.otherComms = []
+    this.allComms = []
   }
 
   componentDidMount() {
@@ -27,25 +27,10 @@ export class Ingredients extends React.Component {
     const position = cauldron.getBoundingClientRect()
     const x = position.left
     const y = position.top
+    
 
     this.setState({cauldronPos: {x, y}, currCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand})
-  }
-
-  componentWillReceiveProps(newProps) {
-    this.commandColor()
-  }
-
-  commandColor() {
-    if (this.state.colorIndex > 4) {
-      this.setState({colorIndex: 1})
-    } else {
-      this.setState({colorIndex: this.state.colorIndex + 1})
-    }
-    let newCommandClass = 'new' + this.state.colorIndex
-    if (this.props.players[firebase.auth().currentUser.uid].currentCommand !== this.state.currCommand) {
-      this.setState({currCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand, commandClass: newCommandClass})
-    }
-  }
+}
 
   drag(e, pointer, elem) {
     e.preventDefault()
@@ -53,6 +38,26 @@ export class Ingredients extends React.Component {
     let ingY = pointer.pageY
     let xOffSet = this.state.cauldronPos.x - ingX
     let yOffSet = this.state.cauldronPos.y - ingY
+    // let commArr = this.props.players[firebase.auth().currentUser.uid].currentCommand
+    // if(!commArr){commArr = []}
+
+    // if(!this.allComms.includes(commArr)){
+    //   this.allComms.push(commArr)
+    // }
+    
+    // Object.keys(this.props.players).forEach(uid=> {
+    //   let yours = (uid === firebase.auth().currentUser.uid)
+    //   if(!this.otherComms.includes(this.props.players[uid].currentCommand && !yours)){
+    //     this.otherComms.push(this.props.players[uid].currentCommand)
+    //   }
+    // })
+    
+    // let notYours = [];
+    // this.otherComms.forEach(comm => {
+    //   if(!this.allComms.includes(comm)){
+    //     notYours.push(comm)
+    //   }
+    // })
 
     if (xOffSet <= 200 && yOffSet <= 200) {
       if (elem.ingredient === 'bellows' || elem.ingredient === 'sand') {
@@ -60,7 +65,42 @@ export class Ingredients extends React.Component {
       } else {
         document.querySelectorAll('.fire')[0].src = ''
       }
+
       this.props.addIngredient(elem.ingredient)
+      elem.position.x = 0
+      elem.position.y = 0
+
+      // let theEl = elem.ingredient.split(' ')[0]
+      // if(theEl === 'druty'){theEl = 'druzy'} // lol 
+
+      // let otherPlayerHasCommand;
+
+      // notYours.forEach(el => {
+      //   if(el.split(' ').includes(theEl)){
+      //     return otherPlayerHasCommand = true;
+      //   }
+      // })
+
+      // if(elem.ingredient !== 'sand' && otherPlayerHasCommand){
+      //   document.getElementById('added').textContent = 'added for other witch!'
+      //   setTimeout(() => { document.getElementById('added').textContent = ''
+      //   }, 2000)
+      // }
+
+
+
+      // if(elem.ingredient !== 'sand' && this.allComms[this.allComms.length-1].split(' ').includes(theEl)){
+      //   document.getElementById('added').textContent = 'added!'
+      //   setTimeout(() => { document.getElementById('added').textContent = ''
+      //   }, 2000)
+      // }
+      // if(elem.ingredient === 'spoon'){
+      //   document.getElementById('added').textContent = 'stirring!'
+      //   setTimeout(() => { document.getElementById('added').textContent = ''
+      //   }, 2000)
+      // }
+      
+    }else{
       elem.position.x = 0
       elem.position.y = 0
     }
@@ -88,7 +128,8 @@ export class Ingredients extends React.Component {
     return (
       <div>
         <div className="row">
-          <h1 className={this.state.commandClass}>{this.props.players[firebase.auth().currentUser.uid].currentCommand}</h1>
+          <h1>{this.props.players[firebase.auth().currentUser.uid].currentCommand || 'waiting for other witches to finish!'}</h1>
+          <h2 id="added"></h2>
         </div>
         <div className="row">
           {

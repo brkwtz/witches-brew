@@ -49,6 +49,7 @@ p {
     width: 80%;
     opacity: 0
   }
+
 }
 
 #bar {
@@ -236,7 +237,7 @@ p {
   #poofed-witch {
     height: 70px;
   }
-
+  
   #ready {
     width: 150px;
   }

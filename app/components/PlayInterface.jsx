@@ -14,6 +14,8 @@ import Clipboard from 'clipboard'
 
 import ingredientsCommands from '../assets/commands.json'
 import {playerJoin, playerReady, startRound, addIngredient, commandExpired} from './reducers'
+const qr = require('qr-image')
+
 
 export class PlayInterface extends React.Component {
   constructor() {
@@ -54,6 +56,11 @@ export class PlayInterface extends React.Component {
   }
 
   componentDidMount() {
+    let url = 'https://www.playwitchesbrew.com/play/' + this.props.params.title
+    let qr_svg = qr.image(text, [ec_level | parse_url]) 
+    qr_svg.pipe(require('fs').createWriteStream(url));
+    let svg_string = qr.imageSync(url, { type: 'svg' });
+
     this.copy = new Clipboard('.copy')
     this.copy.on('success', () => {
       document.getElementById('success').textContent = 'copied!'
