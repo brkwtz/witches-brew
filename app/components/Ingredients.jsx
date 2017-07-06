@@ -27,7 +27,7 @@ export class Ingredients extends React.Component {
     const position = cauldron.getBoundingClientRect()
     const x = position.left
     const y = position.top
-    
+
 
     this.setState({cauldronPos: {x, y}, currCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand})
 }
@@ -44,14 +44,14 @@ export class Ingredients extends React.Component {
     // if(!this.allComms.includes(commArr)){
     //   this.allComms.push(commArr)
     // }
-    
+
     // Object.keys(this.props.players).forEach(uid=> {
     //   let yours = (uid === firebase.auth().currentUser.uid)
     //   if(!this.otherComms.includes(this.props.players[uid].currentCommand && !yours)){
     //     this.otherComms.push(this.props.players[uid].currentCommand)
     //   }
     // })
-    
+
     // let notYours = [];
     // this.otherComms.forEach(comm => {
     //   if(!this.allComms.includes(comm)){
@@ -63,7 +63,7 @@ export class Ingredients extends React.Component {
       if (elem.ingredient === 'bellows' || elem.ingredient === 'sand') {
         document.querySelectorAll('.fire')[0].src = '/gifs/fire.gif'
       } else {
-        document.querySelectorAll('.fire')[0].src = ''
+        document.querySelectorAll('.fire')[0].src = '/gifs/blank.gif'
       }
 
       this.props.addIngredient(elem.ingredient)
@@ -71,7 +71,7 @@ export class Ingredients extends React.Component {
       elem.position.y = 0
 
       // let theEl = elem.ingredient.split(' ')[0]
-      // if(theEl === 'druty'){theEl = 'druzy'} // lol 
+      // if(theEl === 'druty'){theEl = 'druzy'} // lol
 
       // let otherPlayerHasCommand;
 
@@ -99,7 +99,7 @@ export class Ingredients extends React.Component {
       //   setTimeout(() => { document.getElementById('added').textContent = ''
       //   }, 2000)
       // }
-      
+
     }else{
       elem.position.x = 0
       elem.position.y = 0
