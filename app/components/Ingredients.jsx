@@ -45,10 +45,17 @@ export class Ingredients extends React.Component {
       this.allComms.push(commArr)
     }
     
-
     Object.keys(this.props.players).forEach(uid=> {
-      if(!this.otherComms.includes(this.props.players[uid].currentCommand && !this.allComms.includes(this.props.players[uid].currentCommand))){
+      let yours = (uid === firebase.auth().currentUser.uid)
+      if(!this.otherComms.includes(this.props.players[uid].currentCommand && !yours)){
         this.otherComms.push(this.props.players[uid].currentCommand)
+      }
+    })
+    
+    let notYours = [];
+    this.otherComms.forEach(comm => {
+      if(!this.allComms.includes(comm)){
+        notYours.push(comm)
       }
     })
 
@@ -68,21 +75,21 @@ export class Ingredients extends React.Component {
 
       let otherPlayerHasCommand;
 
-      this.otherComms.forEach(el => {
+      notYours.forEach(el => {
         if(el.split(' ').includes(theEl)){
           return otherPlayerHasCommand = true;
         }
       })
 
       if(elem.ingredient !== 'sand' && otherPlayerHasCommand){
-        document.getElementById('added').textContent = 'added!'
+        document.getElementById('added').textContent = 'added for other witch!'
         setTimeout(() => { document.getElementById('added').textContent = ''
         }, 2000)
       }
 
 
 
-      if(elem.ingredient !== 'sand' && this.allComms[this.allComms.length-1].split(' ').includes(theEl) || this.allComms[this.allComms.length-2] && this.allComms[this.allComms.length-2].split(' ').includes(elem.ingredient)){
+      if(elem.ingredient !== 'sand' && this.allComms[this.allComms.length-1].split(' ').includes(theEl)){
         document.getElementById('added').textContent = 'added!'
         setTimeout(() => { document.getElementById('added').textContent = ''
         }, 2000)
