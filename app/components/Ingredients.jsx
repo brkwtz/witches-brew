@@ -11,89 +11,84 @@ export class Ingredients extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand,
-      win: this.props.win,
-      levelEnd: this.props.levelEnd,
       elems: [],
       cauldronPos: {x: 0, y: 0},
+      commandClass: 'new1',
+      currCommand: '',
+      colorIndex: 0
     }
-    // this.md = new MobileDetect(window.navigator.userAgent)
-    // this.drag = this.drag.bind(this)
+    this.drag = this.drag.bind(this)
+    this.commandColor = this.commandColor.bind(this)
   }
 
   componentDidMount() {
     this.setState({elems: document.querySelectorAll('.ingredientImg')})
+    const cauldron = document.getElementById('cauldron')
+    const position = cauldron.getBoundingClientRect()
+    const x = position.left
+    const y = position.top
 
-    // let cauldron = document.getElementById('cauldron')
-    // let position = cauldron.getBoundingClientRect()
-    // let x = position.left
-    // let y = position.top
-    //
-    // this.setState({cauldronPos: {x, y}})
+    this.setState({cauldronPos: {x, y}, currCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand})
   }
 
   componentWillReceiveProps(newProps) {
-    this.setState({currentCommand: newProps.players[firebase.auth().currentUser.uid].currentCommand})
-    this.setState({win: newProps.win})
-    this.setState({levelEnd: newProps.levelEnd})
+    this.commandColor()
   }
-  //
-  // drag(e, pointer, elem) {
-  //   e.preventDefault();
-  //   let ingX = pointer.pageX
-  //   let ingY = pointer.pageY
-  //   let xOffSet = this.state.cauldronPos.x - ingX
-  //   let yOffSet = this.state.cauldronPos.y - ingY
-  
-  //   if (xOffSet <= 200 && yOffSet <= 200){
-  //     if(elem.ingredient === 'bellows' || elem.ingredient === 'coal'){
-  //       document.getElementById('fire').src="gifs/fire.gif"
-  //     }else{
-  //       document.getElementById('fire').src=""
-  //     }
-  //     this.props.addIngredient(elem.ingredient)
-  //     elem.position.x = 0;
-  //     elem.position.y = 0;
-  //   }
-  // }
-  //
-  // get mobilePlayer() {
-  //   let detect = this.md.ua
-  //   let playingOnA = detect.slice((detect.indexOf('(') + 1), detect.indexOf(';'))
-  //   if (playingOnA === 'iPhone' || playingOnA === 'Android') {
-  //     return true
-  //   } else {
-  //     return false
-  //   }
-  // }
+
+  commandColor() {
+    if (this.state.colorIndex > 4) {
+      this.setState({colorIndex: 1})
+    } else {
+      this.setState({colorIndex: this.state.colorIndex + 1})
+    }
+    let newCommandClass = 'new' + this.state.colorIndex
+    if (this.props.players[firebase.auth().currentUser.uid].currentCommand !== this.state.currCommand) {
+      this.setState({currCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand, commandClass: newCommandClass})
+    }
+  }
+
+  drag(e, pointer, elem) {
+    e.preventDefault()
+    let ingX = pointer.pageX
+    let ingY = pointer.pageY
+    let xOffSet = this.state.cauldronPos.x - ingX
+    let yOffSet = this.state.cauldronPos.y - ingY
+
+    if (xOffSet <= 200 && yOffSet <= 200) {
+      if (elem.ingredient === 'bellows' || elem.ingredient === 'sand') {
+        document.querySelectorAll('.fire')[0].src = '/gifs/fire.gif'
+      } else {
+        document.querySelectorAll('.fire')[0].src = ''
+      }
+      this.props.addIngredient(elem.ingredient)
+      elem.position.x = 0
+      elem.position.y = 0
+    }
+  }
 
   render() {
     const ingredients = this.props.currentPlayer.ingredients
-    //
-    // draggable="true" onDragStart={this.drag}
-    // let isMobile = this.mobilePlayer;
-    //
-    // let elems = this.state.elems
-    //
-    // let draggableElems = []
-    //
-    // for (var i=0, len = elems.length; i < len; i++) {
-    //   let selectedElem = elems[i]
-    //   let dragElem = new Draggabilly(selectedElem, {
-    //     // containment: '.main'
-    //   })
-    //
-    //   dragElem.ingredient = selectedElem.id
-    //   dragElem.on('pointerUp', (e, pointer) => {
-    //     this.drag(e, pointer, dragElem)
-    //   })
-    //   draggableElems.push(dragElem)
-    // }
+    let isMobile = this.mobilePlayer
+    let elems = this.state.elems
+    let draggableElems = []
+
+    for (var i=0, len = elems.length; i < len; i++) {
+      let selectedElem = elems[i]
+      let dragElem = new Draggabilly(selectedElem, {
+        // containment: '.main'
+      })
+      dragElem.ingredient = selectedElem.id
+      dragElem.on('pointerUp', (e, pointer) => {
+        this.drag(e, pointer, dragElem)
+      })
+      draggableElems.push(dragElem)
+    }
+
     let ingredientImage
     return (
       <div>
         <div className="row">
-          <h1 >{this.state.currentCommand}</h1>
+          <h1 className={this.state.commandClass}>{this.props.players[firebase.auth().currentUser.uid].currentCommand}</h1>
         </div>
         <div className="row">
           {
@@ -101,7 +96,7 @@ export class Ingredients extends React.Component {
               ingredientImage = '/gifs/ingredients/' + ingredient.split(' ').join('-') + '.gif'
               return (
                 <span key={idx}>
-                  <img className="ingredientImg" id={ingredient} onClick={() => this.props.addIngredient(ingredient)} src={ingredientImage} />
+                  <img className="ingredientImg" id={ingredient} draggable="true" onDragStart={this.drag} src={ingredientImage} />
                 </span>
               )
             })
