@@ -2,7 +2,7 @@ import React from 'react'
 import firebase from 'APP/fire'
 import {connect} from 'react-redux'
 
-import {commandExpired} from './reducers'
+import {commandExpired, startRound} from './reducers'
 
 export class Timer extends React.Component {
   constructor(props) {
@@ -23,6 +23,13 @@ export class Timer extends React.Component {
   componentWillUnmount() {
     this.stopTimer()
   }
+
+  // componentWillReceiveProps(newProps) {
+  //   if (newProps.win !== null) {
+  //     console.log('winning')
+  //     this.stopTimer()
+  //   }
+  // }
 
   timeForLevel() {
     const level = this.props.level
@@ -70,6 +77,7 @@ export class Timer extends React.Component {
         this.startTimer()
       }
     }
+
     // Player did correct command, and there are more commands to do
     else if (this.props.currentPlayer.currentCommand && this.props.currentPlayer.currentCommand !== this.currCommand) {
       // when the command changes, reset the local "currCommand", reset the timer
@@ -79,13 +87,15 @@ export class Timer extends React.Component {
       if (this.props.win === null) {
         this.startTimer()
       }
-    } else if (!this.props.currentPlayer.currentCommand || this.props.ultimateWin) {
+    }
+
+    else if (!this.props.currentPlayer.currentCommand || this.props.ultimateWin) {
       this.stopTimer()
     }
 
-    if (this.props.currentPlayer.waiting) {
-      this.stopTimer()
-    }
+    // if (this.props.currentPlayer.waiting) {
+    //   this.stopTimer()
+    // }
   }
 
   render() {
@@ -105,5 +115,5 @@ export class Timer extends React.Component {
 
 export default connect(
   ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin}) => ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin}),
-  {commandExpired},
+  {commandExpired, startRound},
 )(Timer)

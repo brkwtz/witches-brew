@@ -120,56 +120,46 @@ export default function reducer(state = initialState, action) {
     })
     break
 
-// // just for if the timer runs out
-//   case COMMAND_EXPIRED:
-//     uids.forEach(uid => {
-//       // if there's still command in the queue, fetch the next command to player whose command is completed
-//       if (state.commands.length > 0) {
-//         newState.players = {...state.players,
-//           [uid]: {...state.players[action.uid], currentCommand: state.commands[0]}}
-//         newState.commands = state.commands.slice(1)
-//       } else {
-//         // if no more command in queue, set the currentCommand to null for the player whose command is completed
-//         newState.players[uid].currentCommand = null
-//         newState = updatePlayerState(newState, state, uid)
-//       }
-//     })
-//     break
-
   case COMMAND_EXPIRED:
     const allCommandsNull = uids.every(uid => {
       return state.players[uid].currentCommand === null
     })
+
     // no commands left, all null
     if (!state.commands.length && allCommandsNull) {
-      console.log('no commands, all null')
-      console.log('STATE', newState)
       // check score and return won, lost or next level
+      // state.players[action.uid].waiting = true
       return updatePlayerState(newState, state)
+
     // if currentCommand === null for just one player && the state has more commands
     } else if (state.commands.length > 0 && state.players[action.uid].currentCommand === null) {
-      console.log('>= 1 commands, current null')
       // seed new command to the player who doesn't have any
       newState.players = {...state.players,
           [action.uid]: {...state.players[action.uid], currentCommand: state.commands[0]}}
       newState.commands = state.commands.slice(1)
+
+
     // if currentCommand === null for just one player && the state DOES NOT have more commands
     } else if (!state.commands.length && state.players[action.uid].currentCommand) {
-      console.log('no commands, current not null')
       // turn off the timer for this player//possibly some kind of waiting message
       newState.players[action.uid].currentCommand = null
       newState.players[action.uid].waiting = true
       return updatePlayerState(newState, state)
+
+    // state has no commands, and the player doesn't have a command
     } else if (!state.commands.length && state.players[action.uid].currentCommand === null) {
-      console.log('no commands, current null')
       // turn off the timer for this player//possibly some kind of waiting message
       newState.players[action.uid].waiting = true
       return updatePlayerState(newState, state)
-    } else {
-      console.log('ELSE!?!??')
+
+    //state has commands and player has a command
+    } else if(state.commands.length && state.players[action.uid].currentCommand) {
+      newState.players = {...state.players,
+          [action.uid]: {...state.players[action.uid], currentCommand: state.commands[0]}}
       newState.commands = state.commands.slice(1)
       return updatePlayerState(newState, state)
     }
+
     break
 
   default:
@@ -197,17 +187,14 @@ export const startRound = () => (dispatch, getState) => {
 // ======================= helper functions ===================== //
 function updatePlayerState(newState, state, id) {
   const uids = Object.keys(state.players)
-  console.log('we are updating player state')
+
   // if all commands are removed from queue, level ends
   const allCommandsNull = uids.every(uid => {
-      return state.players[uid].currentCommand === null
+      return newState.players[uid].currentCommand === null
     })
-  console.log('allCommandsNull?', allCommandsNull)
   if (allCommandsNull) {
-    console.log('all commands removed from queue')
     // if score is higher than 70% clear score and move to next level
     if (newState.score / (uids.length * state.ingredientsPerPlayer) >= 0.7) {
-      console.log('winner winner chicken dinner')
       return {...newState,
         gameStarted: false,
         ingredientsPerPlayer: (state.ingredientsPerPlayer >= 8) ? 8 :state.ingredientsPerPlayer + 1,
@@ -217,9 +204,9 @@ function updatePlayerState(newState, state, id) {
         win: true,
         ultimateWin: state.level >= 10
       }
+
       // if score is lower than 70%, lose game by setting win to false
     } else {
-      console.log('loser loser kill urself failure')
       return {
         ...newState,
         gameStarted: true,

@@ -34,8 +34,8 @@ export class Ingredients extends React.Component {
     const ingY = pointer.pageY
     const cauldronX = this.state.cauldronPos.x
     const cauldronY = this.state.cauldronPos.y
-    const cauldronWidth = this.state.cauldronPos.x + 200
-    const cauldronHeight = this.state.cauldronPos.y + 200
+    const cauldronWidth = this.state.cauldronPos.x + 300
+    const cauldronHeight = this.state.cauldronPos.y + 300
 
     if ((ingX >= cauldronX && ingX <= cauldronWidth) && (ingY >= cauldronY && ingY <= cauldronHeight)) {
       this.props.addIngredient(elem.ingredient)
