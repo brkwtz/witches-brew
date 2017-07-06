@@ -24,6 +24,17 @@
   bottom: 40px;
 }
 
+.instruction {
+  margin: auto;
+  text-align: center;
+}
+.scroll {
+  width: 50%;
+}
+.backButton {
+  width: 150px;
+}
+
 .wizardPoof {
   width: 37%;
   text-align: center;
@@ -171,7 +182,6 @@ body {
     opacity: 0
   }
 }
-
 .center {
   text-align: center;
   margin: auto;
@@ -275,6 +285,14 @@ a:hover{
   .live-deliciously {
     width: 100%
   }
+
+  .scroll {
+    width: 100%;
+  }
+  .backButton {
+    width: 35%;
+  }
+
 }
 
 @media (min-width:700px){

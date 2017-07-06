@@ -9,7 +9,9 @@ const MobileDetect = require('mobile-detect')
 export default class Intro extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {skip: false}
+    this.state = {
+      skip: false
+    }
     this.md = new MobileDetect(window.navigator.userAgent)
   }
 
@@ -38,7 +40,7 @@ export default class Intro extends React.Component {
         </div>
         <div className="skip">
           {this.state.skip ?
-            <h1><Link  to='/coven'>skip intro</Link></h1>
+            <h1><Link to='/coven'>skip intro</Link></h1>
             : <h1></h1>
           }
         </div>
