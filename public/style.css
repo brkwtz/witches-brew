@@ -1,3 +1,28 @@
+@font-face {
+  font-family: 'LadyRadical';
+  src: url('./fonts/LadyRadical.ttf');
+}
+
+body {
+  background-image: url('gifs/background-spider.png');
+  background-size: 100%;
+}
+
+h1 {
+  font-family: 'LadyRadical';
+  color: #32003A;
+}
+
+h2 {
+  font-family: 'LadyRadical';
+  color: #B920D3;
+}
+
+p {
+  font-family: 'LadyRadical';
+  color: #730187;
+}
+
 #cauldron, #poofed-witch, #waiting-witch {
   height: 200px
 }
@@ -6,12 +31,9 @@
   width: 25%;
   float: left;
   margin: 0 auto;
-  position: relative; }
-
-@font-face {
-  font-family: 'LadyRadical';
-  src: url('./fonts/LadyRadical.ttf');
+  position: relative;
 }
+
 
 .Modal {
   font-family: 'LadyRadical';
@@ -45,19 +67,6 @@
   max-width: 50%;
 }
 
-h1 {
-  font-family: 'LadyRadical';
-  color: #32003A;
-}
-
-h2 {
-  font-family: 'LadyRadical';
-  color: #B920D3;
-}
-
-p {
-  color: #730187;
-}
 
 .Overlay {
   position: fixed;
@@ -68,11 +77,6 @@ p {
   background-color: #32003A;
 }
 
-body {
-  /*background-color: #e6e6e6;*/
-  background-image: url('gifs/background-spider.png');
-  background-size: 100%;
-}
 
 #ready {
   width: 250px;
@@ -80,21 +84,6 @@ body {
 
 .command1 {
   color: green
-}
-
-.center {
-  margin: auto;
-  width: 60%;
-}
-
-h2 {
-  font-family: 'LadyRadical';
-  color: #B920D3;
-}
-
-p {
-  font-family: 'LadyRadical';
-  color: #730187;
 }
 
 .new1 {
