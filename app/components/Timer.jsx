@@ -26,13 +26,6 @@ export class Timer extends React.Component {
     this.stopTimer()
   }
 
-  // componentWillReceiveProps(newProps) {
-  //   if (newProps.win !== null) {
-  //     console.log('winning')
-  //     this.stopTimer()
-  //   }
-  // }
-
   timeForLevel() {
     const level = this.props.level
     if (level <= 3) {
@@ -77,10 +70,6 @@ export class Timer extends React.Component {
       this.stopTimer() // stop the original timer
       console.log('timer start: post-command expired')
       this.props.commandExpired(this.props.currentPlayer.uid)
-      if (this.props.win === null) { // start a new timer
-        console.log('timer start: no win')
-        this.startTimer()
-      }
     }
 
     // Player did correct command, and there are more commands to do
@@ -98,7 +87,7 @@ export class Timer extends React.Component {
 
     // else if (!this.props.currentPlayer.currentCommand || this.props.ultimateWin) {
     else if (this.props.ultimateWin) {
-      console.log('timer stop: current command over or ultimate win')
+      console.log('timer stop: ultimate win')
       this.stopTimer()
     }
 

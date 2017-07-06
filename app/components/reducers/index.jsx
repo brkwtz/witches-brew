@@ -202,7 +202,7 @@ function updatePlayerState(newState, state, id) {
         score: 0,
         level: (state.level >=10) ? 10 : state.level + 1,
         win: true,
-        ultimateWin: state.level >= 10
+        ultimateWin: state.level >= 2
       }
 
       // if score is lower than 70%, lose game by setting win to false
