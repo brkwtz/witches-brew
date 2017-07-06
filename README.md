@@ -1,16 +1,15 @@
-# Hi, I'm 🔥🔥Witches' Brew🔥🔥
+# This is 🔥🔥Witches' Brew🔥🔥
 
-I'm a party game for bad witches.
-
-You can gather a 2-4 friends and have fun!
+It's an 8-bit party game for 2-4 bad witches.
 
 ## How to play
 
 You can play Witches' Brew on desktop or mobile.
 * Go to http://playwitchesbrew.com
 * Click 'live deliciously' to establish a new coven.
-* Invite your friends to join your coven by sending them the URL link, or just enter their phone number in the invitation form in the waiting room, an invitation link will be sent to your friends via sms.
-* Follow the commands given by wizard, Work together to add ingredients to the cauldron by dragging. Finish the potion to cast a spell onto the evil wizard before time runs out!
+* Invite 1-3 other players to the game by clicking 'Copy Link' or sending them an SMS.
+* When you see a command on your screen, follow it by dragging the correct ingredient into the cauldron. If you don't have the tools to follow a command, ask for help from one of your co-witches.
+* Finish the potion to cast a spell on the evil wizard before time runs out!
 
 ## Configuration on local machine
 
