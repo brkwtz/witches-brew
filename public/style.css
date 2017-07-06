@@ -1,48 +1,24 @@
-#cauldron, #poofed-witch, #waiting-witch {
-  height: 200px
-}
-
-.col-sm-3 {
-  width: 25%;
-  float: left;
-  margin: 0 auto;
-  position: relative; }
+/* CSS file organized in alphabetical order,
+elements -> ids -> classes -> media queries */
 
 @font-face {
   font-family: 'LadyRadical';
   src: url('./fonts/LadyRadical.ttf');
 }
 
-.Modal {
-  font-family: 'LadyRadical';
-  color: #B920D3;
-  background-color: #730187;
-  position: absolute;
-  top: 40px;
-  left: 40px;
-  right: 40px;
-  bottom: 40px;
+a {
+  color: #32003A;
+  text-decoration: none
 }
 
-.instruction {
-  margin: auto;
-  text-align: center;
-}
-.scroll {
-  width: 50%;
-}
-.backButton {
-  width: 150px;
+a:hover{
+  color: #730187;
+  text-decoration: none
 }
 
-.wizardPoof {
-  width: 37%;
-  text-align: center;
-}
-
-.levelUp {
-  width: 100px;
-  max-width: 50%;
+body {
+  background-image: url('gifs/background-spider.png');
+  background-size: 100%;
 }
 
 h1 {
@@ -56,45 +32,128 @@ h2 {
 }
 
 p {
+  font-family: 'LadyRadical';
   color: #730187;
 }
 
-.Overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #32003A;
+@keyframes active-anim {
+  0% {
+    width: 0;
+    opacity: .1
+  }
+  20% {
+    width: 0;
+    opacity: .5
+  }
+  to {
+    width: 80%;
+    opacity: 0
+  }
 }
 
-body {
-  /*background-color: #e6e6e6;*/
-  background-image: url('gifs/background-spider.png');
-  background-size: 100%;
+#bar {
+  height: 10px;
+  background-color: #B920D3;
+  border-radius: 5px;
+}
+
+#cauldron, #poofed-witch, #waiting-witch {
+  height: 200px
+}
+
+#ingredients {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+#levelDisplay {
+  position: absolute;
+  top: 2%;
+  left: 4%;
+}
+
+#overlay {
+  position:absolute;
+  height: 10px;
+  background: #fff;
+  animation: active-anim 2s cubic-bezier(0.25, 1, 0.6, 1) infinite;
+  content: "";
+  opacity: 0;
+  z-index:0;
+  border-radius: 5px;
 }
 
 #ready {
   width: 250px;
 }
 
-.command1 {
-  color: green
+#timerBg {
+  position: relative;
+  height: 10px;
+  background-color: #e2e2e2;
+  border-radius: 5px;
+  z-index: -1;
+}
+
+.backButton {
+  width: 150px;
 }
 
 .center {
+  text-align: center;
   margin: auto;
-  width: 60%;
+  padding: 5px;
+  width: 90%;
 }
 
-h2 {
+.col-sm-3 {
+  width: 25%;
+  float: left;
+  margin: 0 auto;
+  position: relative;
+}
+
+.fade {
+  transition: opacity 0.5s;
+  opacity: 1;
+}
+
+.fade.hide {
+  opacity: 0;
+  pointer-events:none;
+}
+
+.ingredientImg {
+  margin: 4%;
+  width: 100px;
+  height: 100px;
+}
+
+.instruction {
+  margin: auto;
+  text-align: center;
+}
+
+.levelUp {
+  width: 100px;
+  max-width: 50%;
+}
+
+.live-deliciously {
+  width: 25%;
+  border: 10px red;
+}
+
+.Modal {
   font-family: 'LadyRadical';
   color: #B920D3;
-}
-
-p {
-  font-family: 'LadyRadical';
-  color: #730187;
+  background-color: #730187;
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  right: 40px;
+  bottom: 40px;
 }
 
 .new1 {
@@ -117,141 +176,26 @@ p {
   color: #BC7FD3;
 }
 
-.center {
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #32003A;
+}
+
+.scroll {
+  width: 50%;
+}
+
+.wizardPoof {
+  width: 37%;
   text-align: center;
-  margin: auto;
-  padding: 5px;
-  width: 90%;
-}
-
-.live-deliciously {
-  width: 25%;
-  border: 10px red;
-}
-
-.command1 {
-  color: green
-}
-
-.command1 {
-  color: darkorange;
-}
-
-.command1 {
-  color: red;
-}
-
-.center {
-  text-align: center;
-  margin: auto;
-  padding: 10px;
-  width: 90%
-}
-
-#ingredients {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-
-.ingredientImg {
-  margin: 4%;
-  width: 100px;
-  height: 100px;
-}
-
-#levelDisplay {
-  position: absolute;
-  top: 2%;
-  left: 4%;
-}
-
-#bar {
-  height: 10px;
-  background-color: #B920D3;
-  border-radius: 5px;
-}
-
-#overlay {
-  position:absolute;
-  height: 10px;
-  background: #fff;
-  animation: active-anim 2s cubic-bezier(0.25, 1, 0.6, 1) infinite;
-  content: "";
-  opacity: 0;
-  z-index:0;
-  border-radius: 5px;
-}
-
-#timerBg {
-  position: relative;
-  height: 10px;
-  background-color: #e2e2e2;
-  border-radius: 5px;
-  z-index: -1;
-}
-
-@keyframes active-anim {
-  0% {
-    width: 0;
-    opacity: .1
-  }
-  20% {
-    width: 0;
-    opacity: .5
-  }
-  to {
-    width: 80%;
-    opacity: 0
-  }
-}
-.center {
-  text-align: center;
-  margin: auto;
-  padding: 10px;
-  width: 90%
-}
-
-#ingredients {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-
-.ingredientImg {
-  margin: 4%;
-  width: 100px;
-  height: 100px;
-}
-
-#levelDisplay {
-  position: absolute;
-  top: 2%;
-  left: 4%;
-}
-
-a {
-  color: #32003A;
-  text-decoration: none
-}
-
-a:hover{
-  color: #730187;
-  text-decoration: none
-}
-
-.fade {
-  transition: opacity 0.5s;
-  opacity: 1;
-}
-
-.fade.hide {
-  opacity: 0;
-  pointer-events:none;
 }
 
 @media (max-width: 375px) {
-  /* mobile, iphone 5 -- 320px wide */
+  /* mobile, ex: iphone 5 -- 320px wide */
   .ingredientImg {
     margin: 2%;
     width: 62px;
@@ -261,6 +205,7 @@ a:hover{
 
 @media (max-width: 430px)
   and (min-width: 376px) {
+    /* mobile, ex: iphone 6/6plus -- 320px wide */
     .ingredientImg {
       margin: 4%;
       width: 85px;
@@ -269,60 +214,19 @@ a:hover{
   }
 
 @media (max-width:700px){
-  h1 {
-    font-size: 1.5em;
-  }
-  h3 {
-    font-size: 1em;
-  }
   body {
-    /*background-color: #e6e6e6;*/
     background-image: url('gifs/background.png');
     background-size: 170%;
     background-position:initial;
     background-repeat: no-repeat;
   }
-  .mobile-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  .logo {
-    width: 330px;
-    text-align: center;
-  }
-  .introBody {
-    background-image: url('/gifs/backgroundGif.gif');
-    background-color: #000;
-    background-repeat: no-repeat;
-    background-size:1500px 769px;
-  }
-  .waitingBody {
-    background-image: url('/gifs/waiting.png');
-    background-repeat: repeat;
+
+  h1 {
+    font-size: 1.5em;
   }
 
-  #ready {
-    width: 150px;
-  }
-
-  .skip {
-    position:fixed;
-    left:5px;
-    bottom:40px;
-    text-align: center;
-  }
-  .home-button {
-   width: 1%
-  }
-  .live-deliciously {
-    width: 100%
-  }
-
-  .wizardPoof {
-    width: 17%;
-    text-align: center;
+  h3 {
+    font-size: 1em;
   }
 
   #cauldron {
@@ -333,28 +237,76 @@ a:hover{
     height: 70px;
   }
 
+  #ready {
+    width: 150px;
+  }
+
   #waiting-witch {
     height: 60px;
+  }
+
+  .backButton {
+    width: 35%;
+  }
+
+  .home-button {
+   width: 1%
+  }
+
+  .introBody {
+    background-image: url('/gifs/backgroundGif.gif');
+    background-color: #000;
+    background-repeat: no-repeat;
+    background-size:1500px 769px;
+  }
+
+  .live-deliciously {
+    width: 100%
+  }
+
+  .logo {
+    width: 330px;
+    text-align: center;
+  }
+
+  .mobile-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .scroll {
     width: 100%;
   }
-  .backButton {
-    width: 35%;
+
+  .skip {
+    position:fixed;
+    left:5px;
+    bottom:40px;
+    text-align: center;
   }
 
+  .waitingBody {
+    background-image: url('/gifs/waiting.png');
+    background-repeat: repeat;
+  }
+
+  .wizardPoof {
+    width: 17%;
+    text-align: center;
+  }
 }
 
 @media (min-width:700px){
+  .live-deliciously {
+    width: 25%;
+  }
+
   .logo {
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 50%;
-  }
-
-  .live-deliciously {
-    width: 25%;
   }
 }
