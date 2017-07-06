@@ -306,7 +306,7 @@ a:hover{
   #ready {
     width: 150px;
   }
-  
+
   .skip {
     position:fixed;
     left:5px;
@@ -336,10 +336,6 @@ a:hover{
   #waiting-witch {
     height: 60px;
   }
-  .ingredientImg {
-    display: inline-block;
-    width: 80px;
-  }
 
   .scroll {
     width: 100%;
@@ -360,5 +356,5 @@ a:hover{
 
   .live-deliciously {
     width: 25%;
-  } 
+  }
 }
