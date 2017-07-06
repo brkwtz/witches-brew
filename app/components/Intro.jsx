@@ -36,10 +36,6 @@ export default class Intro extends React.Component {
         </div>
         <div className="skip">
             <h1><Link to='/coven'>skip intro</Link></h1>
-              <audio class="audio" autoPlay>
-                <source src="/music/song1.mp3" type="audio/mpeg"/ >
-                Your browser does not support the audio element.
-              </audio>
           </div>
       </div>
     )

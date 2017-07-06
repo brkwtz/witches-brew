@@ -14,11 +14,11 @@ export class Ingredients extends React.Component {
       elems: [],
       cauldronPos: {x: 0, y: 0},
       commandClass: 'new4',
-      currCommand: '',
-      colorIndex: 0
+      currCommand: ''
     }
     this.drag = this.drag.bind(this)
-    this.commandColor = this.commandColor.bind(this)
+    this.otherComms = []
+    this.allComms = []
   }
 
   componentDidMount() {
@@ -27,25 +27,10 @@ export class Ingredients extends React.Component {
     const position = cauldron.getBoundingClientRect()
     const x = position.left
     const y = position.top
+    
 
     this.setState({cauldronPos: {x, y}, currCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand})
-  }
-
-  componentWillReceiveProps(newProps) {
-    this.commandColor()
-  }
-
-  commandColor() {
-    if (this.state.colorIndex > 4) {
-      this.setState({colorIndex: 1})
-    } else {
-      this.setState({colorIndex: this.state.colorIndex + 1})
-    }
-    let newCommandClass = 'new' + this.state.colorIndex
-    if (this.props.players[firebase.auth().currentUser.uid].currentCommand !== this.state.currCommand) {
-      this.setState({currCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand, commandClass: newCommandClass})
-    }
-  }
+}
 
   drag(e, pointer, elem) {
     e.preventDefault()
@@ -53,6 +38,19 @@ export class Ingredients extends React.Component {
     let ingY = pointer.pageY
     let xOffSet = this.state.cauldronPos.x - ingX
     let yOffSet = this.state.cauldronPos.y - ingY
+    let commArr = this.props.players[firebase.auth().currentUser.uid].currentCommand
+    if(!commArr){commArr = []}
+
+    if(!this.allComms.includes(commArr)){
+      this.allComms.push(commArr)
+    }
+    
+
+    Object.keys(this.props.players).forEach(uid=> {
+      if(!this.otherComms.includes(this.props.players[uid].currentCommand)){
+        this.otherComms.push(this.props.players[uid].currentCommand)
+      }
+    })
 
     if (xOffSet <= 200 && yOffSet <= 200) {
       if (elem.ingredient === 'bellows' || elem.ingredient === 'sand') {
@@ -60,7 +58,23 @@ export class Ingredients extends React.Component {
       } else {
         document.querySelectorAll('.fire')[0].src = ''
       }
+
       this.props.addIngredient(elem.ingredient)
+      elem.position.x = 0
+      elem.position.y = 0
+
+      //otherComms[0].split(' ').includes(elem.ingredient
+      // || or the one before
+      console.log(this.allComms[this.allComms.length-1].split(' ').includes(elem.ingredient.split(' ')[0]))
+      console.log(this.allComms[this.allComms.length-1].split(' '), elem.ingredient[0].split(' ')[0])
+      if(this.allComms[this.allComms.length-1].split(' ').includes(elem.ingredient) || this.allComms[this.allComms.length-2] && this.allComms[this.allComms.length-2].split(' ').includes(elem.ingredient)){
+        document.getElementById('added').textContent = 'added!'
+        console.log('added text!')
+        setTimeout(() => { document.getElementById('added').textContent = ''
+        }, 2000)
+      }
+      
+    }else{
       elem.position.x = 0
       elem.position.y = 0
     }
@@ -88,7 +102,8 @@ export class Ingredients extends React.Component {
     return (
       <div>
         <div className="row">
-          <h1 className={this.state.commandClass}>{this.props.players[firebase.auth().currentUser.uid].currentCommand}</h1>
+          <h1>{this.props.players[firebase.auth().currentUser.uid].currentCommand || 'waiting for other witches to finish!'}</h1>
+          <h2 id="added"></h2>
         </div>
         <div className="row">
           {
