@@ -12,9 +12,13 @@ export class Ingredients extends React.Component {
     super(props)
     this.state = {
       elems: [],
-      cauldronPos: {x: 0, y: 0}
+      cauldronPos: {x: 0, y: 0},
+      commandClass: 'new1',
+      currCommand: '',
+      colorIndex: 0
     }
     this.drag = this.drag.bind(this)
+    this.commandColor = this.commandColor.bind(this)
   }
 
   componentDidMount() {
@@ -24,10 +28,28 @@ export class Ingredients extends React.Component {
     const x = position.left
     const y = position.top
 
-    this.setState({cauldronPos: {x, y}})
+    this.setState({cauldronPos: {x, y}, currCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand})
   }
 
-    drag(e, pointer, elem) {
+  componentWillReceiveProps(newProps){
+    this.commandColor()
+  }
+
+  commandColor() {
+    if(this.state.colorIndex > 4){
+      this.setState({colorIndex: 1})
+    }else{
+      this.setState({colorIndex: this.state.colorIndex + 1})
+    }
+    console.log('running command color')
+    let newCommandClass = 'new' + this.state.colorIndex
+    console.log('new command class is:', newCommandClass)
+    if(this.props.players[firebase.auth().currentUser.uid].currentCommand !== this.state.currCommand){
+      this.setState({currCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand, commandClass: newCommandClass})
+    }
+  }
+
+  drag(e, pointer, elem) {
   
     e.preventDefault();
     let ingX = pointer.pageX
@@ -71,7 +93,7 @@ export class Ingredients extends React.Component {
     return (
       <div>
         <div className="row">
-          <h1 >{this.props.players[firebase.auth().currentUser.uid].currentCommand}</h1>
+          <h1 className={this.state.commandClass}>{this.props.players[firebase.auth().currentUser.uid].currentCommand}</h1>
         </div>
         <div className="row">
           {
