@@ -31,37 +31,33 @@ export class Ingredients extends React.Component {
     this.setState({cauldronPos: {x, y}, currCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand})
   }
 
-  componentWillReceiveProps(newProps){
+  componentWillReceiveProps(newProps) {
     this.commandColor()
   }
 
   commandColor() {
-    if(this.state.colorIndex > 4){
+    if (this.state.colorIndex > 4) {
       this.setState({colorIndex: 1})
-    }else{
+    } else {
       this.setState({colorIndex: this.state.colorIndex + 1})
     }
-    console.log('running command color')
     let newCommandClass = 'new' + this.state.colorIndex
-    console.log('new command class is:', newCommandClass)
-    if(this.props.players[firebase.auth().currentUser.uid].currentCommand !== this.state.currCommand){
+    if (this.props.players[firebase.auth().currentUser.uid].currentCommand !== this.state.currCommand) {
       this.setState({currCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand, commandClass: newCommandClass})
     }
   }
 
   drag(e, pointer, elem) {
-  
-    e.preventDefault();
+    e.preventDefault()
     let ingX = pointer.pageX
     let ingY = pointer.pageY
     let xOffSet = this.state.cauldronPos.x - ingX
     let yOffSet = this.state.cauldronPos.y - ingY
 
-    if(xOffSet <= 200 && yOffSet <= 200){
-      
-      if(elem.ingredient === 'bellows' || elem.ingredient === 'sand'){
+    if (xOffSet <= 200 && yOffSet <= 200) {
+      if (elem.ingredient === 'bellows' || elem.ingredient === 'sand') {
         document.querySelectorAll('.fire')[0].src = '/gifs/fire.gif'
-      }else{
+      } else {
         document.querySelectorAll('.fire')[0].src = ''
       }
       this.props.addIngredient(elem.ingredient)
@@ -72,23 +68,22 @@ export class Ingredients extends React.Component {
 
   render() {
     const ingredients = this.props.currentPlayer.ingredients
-    let isMobile = this.mobilePlayer;
-
+    let isMobile = this.mobilePlayer
     let elems = this.state.elems
+    let draggableElems = []
 
-      let draggableElems = []
+    for (var i=0, len = elems.length; i < len; i++) {
+      let selectedElem = elems[i]
+      let dragElem = new Draggabilly(selectedElem, {
+        // containment: '.main'
+      })
+      dragElem.ingredient = selectedElem.id
+      dragElem.on('pointerUp', (e, pointer) => {
+        this.drag(e, pointer, dragElem)
+      })
+      draggableElems.push(dragElem)
+    }
 
-      for ( var i=0, len = elems.length; i < len; i++ ) {
-        let selectedElem = elems[i];
-        let dragElem = new Draggabilly(selectedElem, {
-          // containment: '.main'
-        })
-        dragElem.ingredient = selectedElem.id
-        dragElem.on('pointerUp', (e, pointer) => {
-          this.drag(e, pointer, dragElem)
-        })
-        draggableElems.push(dragElem)
-      } 
     let ingredientImage
     return (
       <div>
