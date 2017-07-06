@@ -9,17 +9,13 @@ const MobileDetect = require('mobile-detect')
 export default class Intro extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      skip: false
-    }
     this.md = new MobileDetect(window.navigator.userAgent)
   }
 
   componentDidMount() {
     document.body.className='introBody'
     if (!this.mobilePlayer) { this.props.router.push('/coven') }
-    setTimeout(() => this.setState({skip: true}), 2000)
-    setTimeout(() => this.props.router.push('/coven'), 8000)
+    setTimeout(() => this.props.router.push('/coven'), 45000)
   }
 
   get mobilePlayer() {
@@ -39,11 +35,12 @@ export default class Intro extends React.Component {
           <img className="logo" src="/gifs/WitchesBrewLogo.png" />
         </div>
         <div className="skip">
-          {this.state.skip ?
             <h1><Link to='/coven'>skip intro</Link></h1>
-            : <h1></h1>
-          }
-        </div>
+              <audio class="audio" autoPlay>
+                <source src="/music/song1.mp3" type="audio/mpeg"/ >
+                Your browser does not support the audio element.
+              </audio>
+          </div>
       </div>
     )
   }

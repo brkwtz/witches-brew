@@ -13,7 +13,7 @@ export class Ingredients extends React.Component {
     this.state = {
       elems: [],
       cauldronPos: {x: 0, y: 0},
-      commandClass: 'new1',
+      commandClass: 'new4',
       currCommand: '',
       colorIndex: 0
     }

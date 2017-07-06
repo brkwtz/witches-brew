@@ -114,7 +114,7 @@ p {
 
 .new4 {
   font-family: 'LadyRadical';
-  color: #BC7FD3;
+  color: #B920D3;
 }
 
 .center {
@@ -302,7 +302,7 @@ a:hover{
     background-image: url('/gifs/waiting.png');
     background-repeat: repeat;
   }
-
+  
   #ready {
     width: 150px;
   }
