@@ -75,7 +75,7 @@ export class Ingredients extends React.Component {
       })
 
       if(elem.ingredient !== 'sand' && otherPlayerHasCommand){
-        document.getElementById('added').textContent = 'added for other witch!'
+        document.getElementById('added').textContent = 'added!'
         setTimeout(() => { document.getElementById('added').textContent = ''
         }, 2000)
       }
