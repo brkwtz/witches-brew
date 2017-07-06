@@ -38,6 +38,18 @@ const initialState = {
   ultimateWin: false
 }
 
+// Make one player (arbitrarily, the first in sorted order)
+// master.
+const withMaster = players =>
+  Object.keys(players)
+        .sort()
+        .map((uid, index) => ({
+          ...players[uid], master: index === 0
+        }))
+        .reduce(toObjectByUid, {})
+
+const toObjectByUid = (players, player) => Object.assign({}, players, {[player.uid]: player})
+
 export default function reducer(state = initialState, action) {
   let newState = Object.assign({}, state)
   const uids = Object.keys(state.players)
@@ -49,14 +61,18 @@ export default function reducer(state = initialState, action) {
       return state
     }
 
+    // game is full
     if (state.gameStarted || Object.keys(state.players).length >= 4) {
       return {...state, viewers: {...state.viewers, [action.player.uid]: true}}
     }
 
-    newState.players = {...state.players, [action.player.uid]: action.player}
-    newState.players = Object.keys(newState.players).sort().map((uid, index) => {
-      return {...newState.players[uid], master: index === 0}
-    }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
+    return {
+      ...state,
+      players: withMaster({
+        ...state.players,
+        [action.player.uid]: action.player
+      })
+    }
     break
 
   case PLAYER_LEAVE:
@@ -77,7 +93,9 @@ export default function reducer(state = initialState, action) {
       const num = action.ingredients.length / uids.length
       return {...state.players[uid],
         ingredients: action.ingredients.slice(index*num, (index+1)*num),
-        currentCommand: action.commands.shift()}
+        currentCommand: action.commands.shift(),
+        waiting: false
+      }
     }).reduce((players, player) => Object.assign({}, players, {[player.uid]: player}), {})
     break
 
@@ -102,24 +120,52 @@ export default function reducer(state = initialState, action) {
     })
     break
 
-// just for if the timer runs out
   case COMMAND_EXPIRED:
-    // if there's still command in the queue, fetch the next command to player whose command is completed
-    if (state.commands.length > 0) {
+    const allCommandsNull = uids.every(uid => {
+      return state.players[uid].currentCommand === null
+    })
+
+    // no commands left, all null
+    if (!state.commands.length && allCommandsNull) {
+      // check score and return won, lost or next level
+      // state.players[action.uid].waiting = true
+      return updatePlayerState(newState, state)
+
+    // if currentCommand === null for just one player && the state has more commands
+    } else if (state.commands.length > 0 && state.players[action.uid].currentCommand === null) {
+      // seed new command to the player who doesn't have any
       newState.players = {...state.players,
-        [action.uid]: {...state.players[action.uid], currentCommand: state.commands[0]}}
+          [action.uid]: {...state.players[action.uid], currentCommand: state.commands[0]}}
       newState.commands = state.commands.slice(1)
-    } else {
-      // if no more command in queue, set the currentCommand to null for the player whose command is completed
+
+
+    // if currentCommand === null for just one player && the state DOES NOT have  morecommands
+    } else if (!state.commands.length && state.players[action.uid].currentCommand) {
+      // turn off the timer for this player//possibly some kind of waiting message
+      newState.players[action.uid].currentCommand = null
+      newState.players[action.uid].waiting = true
+      return updatePlayerState(newState, state)
+
+    // state has no commands, and the player doesn't have a command
+    } else if (!state.commands.length && state.players[action.uid].currentCommand === null) {
+      // turn off the timer for this player//possibly some kind of waiting message
+      newState.players[action.uid].waiting = true
+      return updatePlayerState(newState, state)
+
+    //state has commands and player has a command
+    } else if(state.commands.length && state.players[action.uid].currentCommand) {
       newState.players = {...state.players,
-        [action.uid]: {...state.players[action.uid], currentCommand: null}}
-      newState = updatePlayerState(newState, state)
+          [action.uid]: {...state.players[action.uid], currentCommand: state.commands[0]}}
+      newState.commands = state.commands.slice(1)
+      return updatePlayerState(newState, state)
     }
+
     break
 
   default:
     return state
   }
+
   return newState
 }
 
@@ -141,16 +187,15 @@ export const startRound = () => (dispatch, getState) => {
 // ======================= helper functions ===================== //
 function updatePlayerState(newState, state, id) {
   const uids = Object.keys(state.players)
+
   // if all commands are removed from queue, level ends
-  if (Object.keys(newState.players).every(uid => !newState.players[uid].currentCommand)) {
-    if (state.level >=10) {
-      newState.players = {...newState.players,
-        [id]: {...newState.players[id], ready: false}}
-    }
+  const allCommandsNull = uids.every(uid => {
+      return newState.players[uid].currentCommand === null
+    })
+  if (allCommandsNull) {
     // if score is higher than 70% clear score and move to next level
     if (newState.score / (uids.length * state.ingredientsPerPlayer) >= 0.7) {
-      return {
-        ...newState,
+      return {...newState,
         gameStarted: false,
         ingredientsPerPlayer: (state.ingredientsPerPlayer >= 8) ? 8 :state.ingredientsPerPlayer + 1,
         commands: _.shuffle(state.commands),
@@ -159,6 +204,7 @@ function updatePlayerState(newState, state, id) {
         win: true,
         ultimateWin: state.level >= 10
       }
+
       // if score is lower than 70%, lose game by setting win to false
     } else {
       return {
