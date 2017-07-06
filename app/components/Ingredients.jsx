@@ -28,9 +28,8 @@ export class Ingredients extends React.Component {
     const x = position.left
     const y = position.top
 
-
     this.setState({cauldronPos: {x, y}, currCommand: this.props.players[firebase.auth().currentUser.uid].currentCommand})
-}
+  }
 
   drag(e, pointer, elem) {
     e.preventDefault()
@@ -62,7 +61,7 @@ export class Ingredients extends React.Component {
     if (xOffSet <= 200 && yOffSet <= 200) {
       if (elem.ingredient === 'bellows' || elem.ingredient === 'sand') {
         document.querySelectorAll('.fire')[0].src = '/gifs/fire.gif'
-      } else {
+      } else if (document.querySelectorAll('.fire')[0]) {
         document.querySelectorAll('.fire')[0].src = '/gifs/blank.gif'
       }
 
@@ -87,8 +86,6 @@ export class Ingredients extends React.Component {
       //   }, 2000)
       // }
 
-
-
       // if(elem.ingredient !== 'sand' && this.allComms[this.allComms.length-1].split(' ').includes(theEl)){
       //   document.getElementById('added').textContent = 'added!'
       //   setTimeout(() => { document.getElementById('added').textContent = ''
@@ -99,8 +96,7 @@ export class Ingredients extends React.Component {
       //   setTimeout(() => { document.getElementById('added').textContent = ''
       //   }, 2000)
       // }
-
-    }else{
+    } else {
       elem.position.x = 0
       elem.position.y = 0
     }
