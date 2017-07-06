@@ -100,7 +100,7 @@ export class PlayInterface extends React.Component {
       return <h1>This coven is full. Reload to try joining again.</h1>
     }
 
-    const covenName = this.props.params.title.split('-').map((name, i) => {if(i<(this.props.params.title.split('-').length-1)) return (name.charAt(0).toUpperCase() + name.slice(1))}).join(' ')
+    const covenName = this.props.params.title.split('-').map((name, i) => { if (i<(this.props.params.title.split('-').length-1)) return (name.charAt(0).toUpperCase() + name.slice(1)) }).join(' ')
     const witchNum = Object.keys(this.props.players).length
     let waitingWitches = []
 
@@ -110,7 +110,7 @@ export class PlayInterface extends React.Component {
       poofedWitches.push('/gifs/poof' + (i+1) + '.gif')
     }
 
-    const renderWitches = waitingWitches.map((witchPic, indx) => (<img key={indx} id="waiting-witch" className="col-lg-3 col-md-3 col-sm-3 col-xs-3" src={witchPic}/>))
+    const renderWitches = waitingWitches.map((witchPic, indx) => (<img key={indx} id="waiting-witch" src={witchPic}/>))
     const renderPoofs = poofedWitches.map((witchPic, indx) => (<img key={indx} className="col-lg-3 col-md-3 col-sm-6 col-xs-6" src={witchPic}/>))
 
     return (
@@ -165,7 +165,9 @@ export class PlayInterface extends React.Component {
 
             <div>
               <div className="container-fluid">
-              {renderWitches}
+                <div className="row">
+                  {renderWitches}
+                </div>
               </div>
               <div className="row">
                 <h3>Invite a witch to your coven</h3>

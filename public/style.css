@@ -39,6 +39,15 @@ h1 {
   color: #32003A;
 }
 
+h2 {
+  font-family: 'LadyRadical';
+  color: #B920D3;
+}
+
+p {
+  color: #730187;
+}
+
 .Overlay {
   position: fixed;
   top: 0;
@@ -48,20 +57,6 @@ h1 {
   background-color: #32003A;
 }
 
-.center {
-  margin: auto;
-  width: 60%;
-}
-
-  h2 {
-    font-family: 'LadyRadical';
-    color: #B920D3;
-  }
-
-  p {
-    color: #730187;
-  }
-  
   body {
     /*background-color: #e6e6e6;*/
     background-image: url('gifs/background-spider.png');
@@ -87,7 +82,7 @@ h1 {
   .center {
     text-align: center;
     margin: auto;
-    padding: 10px;
+    padding: 5px;
     width: 90%
   }
 
@@ -175,8 +170,12 @@ a:hover{
     height: 160px
   }
 
-  #poofed-witch, #waiting-witch {
+  #poofed-witch {
     height: 70px;
+  }
+
+  #waiting-witch {
+    height: 60px;
   }
   .ingredientImg {
     display: inline-block;
@@ -195,14 +194,4 @@ a:hover{
   .live-deliciously {
     width: 25%;
   } 
-}
-
-@media (max-width:700px) and (orientation: landscape) {
-  body {
-    -webkit-transform: rotate(-90deg);
-    -moz-transform: rotate(-90deg);
-    -o-transform: rotate(-90deg);
-    -ms-transform: rotate(-90deg);
-    transform: rotate(-90deg);
-  }
 }
