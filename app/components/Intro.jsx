@@ -14,7 +14,7 @@ export default class Intro extends React.Component {
 
   componentDidMount() {
     document.body.className='introBody'
-    if (!this.mobilePlayer) { this.props.router.push('/coven') }
+    // if (!this.mobilePlayer) { this.props.router.push('/coven') }
     setTimeout(() => this.props.router.push('/coven'), 45000)
   }
 
@@ -35,7 +35,6 @@ export default class Intro extends React.Component {
           <img className="logo" src="/gifs/WitchesBrewLogo.png" />
         </div>
         <div className="skip">
-            <h1><Link to='/coven'>skip intro</Link></h1>
           </div>
       </div>
     )
