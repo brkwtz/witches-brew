@@ -117,10 +117,7 @@ class Auth extends React.Component {
 
 export default ({params: {title}, children}) =>
   <div className="container-fluid">
-    {/* Here, we're passing in a Firebase reference to
-     /whiteboards/$whiteboardTitle. This is where the whiteboard is
-     stored in Firebase. Each whiteboard is an array of actions that
-     users have dispatched into the whiteboard. */}
+    {/* Passing in Firebase reference to gamerooms. Each gameroom holds all game actions.*/}
     <Auth auth={firebase.auth()}>
       <GameContainer fireRef={db.ref('gamerooms').child(title)}>
         {children}

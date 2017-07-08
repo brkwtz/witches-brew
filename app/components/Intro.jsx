@@ -14,28 +14,19 @@ export default class Intro extends React.Component {
 
   componentDidMount() {
     document.body.className='introBody'
-    // if (!this.mobilePlayer) { this.props.router.push('/coven') }
     setTimeout(() => this.props.router.push('/coven'), 45000)
-  }
-
-  get mobilePlayer() {
-    let detect = this.md.ua
-    let playingOnA = detect.slice((detect.indexOf('(') + 1), detect.indexOf(';'))
-    if (playingOnA === 'iPhone' || playingOnA === 'Android') {
-      return true
-    } else {
-      return false
-    }
   }
 
   render() {
     return (
       <div>
         <div className="mobile-container">
-          <img className="logo" src="/gifs/WitchesBrewLogo.png" />
+          <img className="introLogo" src="/gifs/WitchesBrewLogo.png" />
         </div>
-        <div className="skip">
-          </div>
+        <div className="skip"><Link to="/coven"><h1>skip intro</h1></Link></div>
+        <audio autoPlay>
+          <source src="/music/intro.mp3" type="audio/mpeg" />
+        </audio>
       </div>
     )
   }

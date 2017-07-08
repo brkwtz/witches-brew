@@ -105,8 +105,8 @@ export class PlayInterface extends React.Component {
     const covenName = this.props.params.title.split('-').map((name, i) => { if (i<(this.props.params.title.split('-').length-1)) return (name.charAt(0).toUpperCase() + name.slice(1)) }).join(' ')
     const witchNum = Object.keys(this.props.players).length
     let waitingWitches = []
-
     let poofedWitches = []
+
     for (let i = 0; i < witchNum; i++) {
       waitingWitches.push('/gifs/witch' + (i+1) + '.gif')
       poofedWitches.push('/gifs/poof' + (i+1) + '.gif')
@@ -173,16 +173,19 @@ export class PlayInterface extends React.Component {
               <div className="row">
                 <h3>Invite a witch to your coven</h3>
                   <form>
-                    <label>Enter a phone number here </label>
+                    <label><h3>Enter a phone number here</h3> </label>
                     <input type="text" name="targetPhone" onChange={this.handleInviteWitch}/>
                   </form>
                   <p>or <button className="copy" data-clipboard-text={`https://www.playwitchesbrew.com/play/${this.props.params.title}`}>copy the room link</button>
-                  </p><div id="success"> </div>
+                  </p><p><div id="success"></div></p>
               {
                 (currentPlayer.ready)
                   ? <div></div>
                   : (<p><img src="/gifs/readyButton.gif" id="ready" onClick={this.clickToStart} /></p>)
               }
+                <audio autoPlay loop>
+                  <source src="/music/game.mp3" type="audio/mpeg" />
+                </audio>
             </div>
             </div>
             )
