@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import Cauldron from './Cauldron'
 import Ingredients from './Ingredients'
 
+
 let firstTitle = [
   'owl',
   'lunar',

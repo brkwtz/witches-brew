@@ -11,6 +11,7 @@ import LevelUp from './components/LevelUp'
 import Instructions from './components/Instructions'
 import Home from './components/Home.jsx'
 import Intro from './components/Intro'
+import EasyTransition from 'react-easy-transition'
 
 // Get the auth API from Firebase.
 const auth = firebase.auth()
@@ -22,7 +23,14 @@ auth.onAuthStateChanged(user => user || auth.signInAnonymously())
 const App = ({children}) =>
   <div>
     {/* Render our children (whatever the router gives us) */}
+    <EasyTransition
+    path={location.pathname}
+    initialStyle={{opacity: 0}}
+    transition="opacity 0.3s ease-in"
+    finalStyle={{opacity: 1}}
+>
     {children}
+    </EasyTransition>
   </div>
 
 render(
@@ -36,7 +44,6 @@ render(
       <Route path ="/intro" component={Intro}/>
       <Route path="/instructions" component={Instructions}/>
       <Route path ="/coven" component={Home}></Route>
-
     </Route>
     <Route path='*' component={NotFound}/>
   </Router>,

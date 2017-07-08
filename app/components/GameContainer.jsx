@@ -35,6 +35,7 @@ export class GameContainer extends React.Component {
     presenceRef.set(true)
     presenceRef.onDisconnect().remove()
     const actionsRef = ref.child('actions')
+    
 
     const store = createStore(
       reducer,
@@ -90,9 +91,11 @@ export class GameContainer extends React.Component {
     if (!store) return null
     if (!ready) return loading
     return (
-      <Provider store={store}>
-        {this.props.children}
+
+      <Provider store={store}> 
+          {this.props.children}
       </Provider>
+
     )
   }
 }

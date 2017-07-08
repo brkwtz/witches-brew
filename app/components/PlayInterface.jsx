@@ -21,7 +21,8 @@ export class PlayInterface extends React.Component {
     this.state = {
       user: null,
       showGameOverModal: false,
-      showUltimateWinModal: false
+      showUltimateWinModal: false,
+      copied: ""
     }
 
     this.handleOpenGameOverModal = this.handleOpenGameOverModal.bind(this)
@@ -58,7 +59,7 @@ export class PlayInterface extends React.Component {
 
     this.copy = new Clipboard('.copy')
     this.copy.on('success', () => {
-      document.getElementById('success').textContent = 'copied!'
+      this.setState({copied: 'copied!'})
     })
     document.body.className='waitingBody'
     firebase.auth().onAuthStateChanged(user => {
@@ -177,7 +178,7 @@ export class PlayInterface extends React.Component {
                     <input type="text" name="targetPhone" onChange={this.handleInviteWitch}/>
                   </form>
                   <p>or <button className="copy" data-clipboard-text={`https://www.playwitchesbrew.com/play/${this.props.params.title}`}>copy the room link</button>
-                  </p><p><div id="success"></div></p>
+                  </p><p>{this.state.copied}</p>
               {
                 (currentPlayer.ready)
                   ? <div></div>
@@ -200,4 +201,4 @@ export class PlayInterface extends React.Component {
 export default connect(
   ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin, viewers}) => ({gameStarted, players, ingredients, commands, score, level, win, ultimateWin, viewers}),
   {playerJoin, playerReady, startRound, addIngredient, commandExpired},
-)(PlayInterface)
+null, {withRef: true})(PlayInterface)

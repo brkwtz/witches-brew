@@ -23,7 +23,7 @@ export default class Intro extends React.Component {
         <div className="mobile-container">
           <img className="introLogo" src="/gifs/WitchesBrewLogo.png" />
         </div>
-        <div className="skip"><Link to="/coven"><h1>skip intro</h1></Link></div>
+        <div className="skip"><Link to="/coven"><h2>skip intro</h2></Link></div>
         <audio autoPlay>
           <source src="/music/intro.mp3" type="audio/mpeg" />
         </audio>
