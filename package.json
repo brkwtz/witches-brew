@@ -67,6 +67,7 @@
     "pretty-error": "^2.0.2",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
+    "react-easy-transition": "^1.2.4",
     "react-modal": "^2.2.0",
     "react-redux": "^4.4.5",
     "react-router": "^3.0.0",

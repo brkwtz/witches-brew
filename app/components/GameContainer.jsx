@@ -35,6 +35,7 @@ export class GameContainer extends React.Component {
     presenceRef.set(true)
     presenceRef.onDisconnect().remove()
     const actionsRef = ref.child('actions')
+    
 
     const store = createStore(
       reducer,
@@ -90,9 +91,11 @@ export class GameContainer extends React.Component {
     if (!store) return null
     if (!ready) return loading
     return (
-      <Provider store={store}>
-        {this.props.children}
+
+      <Provider store={store}> 
+          {this.props.children}
       </Provider>
+
     )
   }
 }
@@ -117,10 +120,7 @@ class Auth extends React.Component {
 
 export default ({params: {title}, children}) =>
   <div className="container-fluid">
-    {/* Here, we're passing in a Firebase reference to
-     /whiteboards/$whiteboardTitle. This is where the whiteboard is
-     stored in Firebase. Each whiteboard is an array of actions that
-     users have dispatched into the whiteboard. */}
+    {/* Passing in Firebase reference to gamerooms. Each gameroom holds all game actions.*/}
     <Auth auth={firebase.auth()}>
       <GameContainer fireRef={db.ref('gamerooms').child(title)}>
         {children}

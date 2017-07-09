@@ -31,6 +31,16 @@ h2 {
   color: #B920D3;
 }
 
+h3 {
+  font-family: 'LadyRadical';
+  color: #32003A;
+}
+
+h4 {
+  font-family: 'LadyRadical';
+  color: #32003A;
+}
+
 p {
   font-family: 'LadyRadical';
   color: #730187;
@@ -157,26 +167,6 @@ p {
   bottom: 40px;
 }
 
-.new1 {
-  font-family: 'LadyRadical';
-  color: #32003A;
-}
-
-.new2 {
-  font-family: 'LadyRadical';
-  color: #750187;
-}
-
-.new3 {
-  font-family: 'LadyRadical';
-  color: #CA6DD3;
-}
-
-.new4 {
-  font-family: 'LadyRadical';
-  color: #BC7FD3;
-}
-
 .Overlay {
   position: fixed;
   top: 0;
@@ -188,6 +178,13 @@ p {
 
 .scroll {
   width: 50%;
+}
+
+.skip {
+  position:fixed;
+  left:5px;
+  bottom:40px;
+  text-align: center;
 }
 
 .wizardPoof {
@@ -270,6 +267,11 @@ p {
     text-align: center;
   }
 
+  .introLogo {
+    width: 330px;
+    text-align: center;
+  }
+
   .mobile-container {
     position: absolute;
     top: 50%;
@@ -279,13 +281,6 @@ p {
 
   .scroll {
     width: 100%;
-  }
-
-  .skip {
-    position:fixed;
-    left:5px;
-    bottom:40px;
-    text-align: center;
   }
 
   .waitingBody {
@@ -300,14 +295,29 @@ p {
 }
 
 @media (min-width:700px){
+
+  .introBody {
+    background-image: url('/gifs/webbackground.gif');
+    background-color: #000;
+    background-size:100%;
+    background-repeat: no-repeat;
+  }
+
   .live-deliciously {
     width: 25%;
   }
-
   .logo {
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 50%;
+  }
+  .introLogo {
+   width: 800px;
+   position: absolute;
+   left: 50%;
+   top: 50%; 
+   margin-left: -400px;
+   margin-top: -300px;
   }
 }
